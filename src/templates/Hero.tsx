@@ -5,12 +5,11 @@ import { Button } from '../button/Button';
 import { HeroOneButton } from '../hero/HeroOneButton';
 import { Section } from '../layout/Section';
 import { Navbar } from '../navigation/Navbar';
-import { Logo } from './Logo';
 
 const Hero = () => (
   <Background color="bg-gray-100">
-    <Section yPadding="py-6">
-      <Navbar logo={<Logo xl />}>
+    <Section>
+      <Navbar>
         <li>
           <Link href="/about">
             <a>About | Roadmap</a>
