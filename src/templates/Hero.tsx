@@ -4,24 +4,39 @@ import { Background } from '../background/Background';
 import { Button } from '../button/Button';
 import { HeroOneButton } from '../hero/HeroOneButton';
 import { Section } from '../layout/Section';
-import { NavbarTwoColumns } from '../navigation/NavbarTwoColumns';
+import { Navbar } from '../navigation/Navbar';
 import { Logo } from './Logo';
 
 const Hero = () => (
   <Background color="bg-gray-100">
     <Section yPadding="py-6">
-      <NavbarTwoColumns logo={<Logo xl />}>
+      <Navbar logo={<Logo xl />}>
         <li>
-          <Link href="https://github.com/ixartz/Next-JS-Landing-Page-Starter-Template">
-            <a>GitHub</a>
+          <Link href="/about">
+            <a>About | Roadmap</a>
           </Link>
         </li>
         <li>
           <Link href="/">
-            <a>Sign in</a>
+            <a>Shop | Merch</a>
           </Link>
         </li>
-      </NavbarTwoColumns>
+        <li>
+          <Link href="/">
+            <a>Mint</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="https://gallery.daturians.com">
+            <a>Gallery</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/">
+            <a>Greenhouse</a>
+          </Link>
+        </li>
+      </Navbar>
     </Section>
 
     <Section yPadding="pt-20 pb-32">
