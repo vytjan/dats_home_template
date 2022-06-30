@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 
 import { Section } from '../layout/Section';
+import { About } from './About';
 import { Calendar } from './Calendar';
 import { Events } from './Events';
 import { FloraWeek } from './FloraWeek';
@@ -86,6 +87,7 @@ const Body = () => {
         size={mediumProps.size}
         link={mediumProps.link}
       ></MediumWidget>
+      <About></About>
     </Section>
   );
 };

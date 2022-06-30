@@ -27,9 +27,35 @@ const MediumWidget = (props: IMediumWidgetProps) => {
       <p>{props.description}</p>
       <Link href={props.link}>
         <a>
-          <Button xl>Read story</Button>
+          <Button regular={true} hero={false}>
+            Read story
+          </Button>
         </a>
       </Link>
+      <div className="left-arrow-medium">
+        <Link href={props.link}>
+          <a>
+            <img
+              src={`${router.basePath}${props.image}`}
+              alt={props.imageAlt}
+              width={25}
+              height={25}
+            />
+          </a>
+        </Link>
+      </div>
+      <div className="right-arrow-medium">
+        <Link href={props.link}>
+          <a>
+            <img
+              src={`${router.basePath}${props.image}`}
+              alt={props.imageAlt}
+              width={25}
+              height={25}
+            />
+          </a>
+        </Link>
+      </div>
     </div>
   );
 };

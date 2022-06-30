@@ -10,13 +10,65 @@
     display: flex;
     justify-content: center;
   }
-  .navbar > li {
-    padding: theme('spacing.6');
-    margin: 6;
-    box-shadow: theme('boxShadow.xl');
-  }
   .head-title-container {
     display: flex;
     justify-content: center;
   }
+  /* Gray Scale */
+  .hover figure img {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+  }
+  .hover figure:hover img {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+  }
+
+  .hover figure div {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+  }
+  .hover figure:hover div {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+  }
+
+  /* Regular button */
+  .btn {
+    @apply inline-block rounded-md text-center;
+  }
+
+  .btn-base {
+    @apply text-lg font-semibold py-2 px-4;
+  }
+
+  .btn-xl {
+    @apply font-extrabold text-xl py-4 px-6;
+  }
+
+  .btn-primary {
+    @apply text-white bg-primary-500;
+  }
+
+  .btn-regular:hover {
+    @apply bg-primary-600;
+  }
+
+  /* Hero button classes */
+  .hero-button-parent {
+    display: flex;
+  }
+
+  .btn-hero {
+    width: 100%;
+  }
+
+  .hero-li {
+    display:flex;
+  }
+
 }
