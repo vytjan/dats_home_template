@@ -1,13 +1,20 @@
 import { Section } from '../layout/Section';
 import { About } from './About';
+import { Additional } from './Additional';
 import { Attributes } from './Attributes';
 import { Calendar } from './Calendar';
+import { ContactForm } from './ContactForm';
 import { Events } from './Events';
+import { FaqCont } from './Faq';
 import { FloraVsTech } from './FloraVsTech';
 import { FloraWeek } from './FloraWeek';
+import { FooterArt } from './FooterArt';
+import { HallOfFame } from './HallOfFame';
 import { InstaEmbed } from './InstaEmbed';
 import { MediumWidget } from './MediumWidget';
+import { Profiles } from './Profiles';
 import { Roadmap } from './Roadmap';
+import { SeenOn } from './SeenOn';
 import { Stats } from './Stats';
 import { Update } from './Update';
 
@@ -116,6 +123,28 @@ const Body = () => {
     title: `Flora VS Tech`,
   };
 
+  const addProps = {
+    urlUkraine: `https://opensea.io/collection/daturians4ukraine`,
+    urlCafe: `https://opensea.io/collection/daturians-cafe`,
+    urlGreenhouse: `https://opensea.io/collection/daturians-greenhouse`,
+    imageUkraine: `/assets/images/ukraine.png`,
+    imageUkraineAlt: `Ukraine`,
+    imageCafe: `/assets/images/cafe.png`,
+    imageCafeAlt: `Cafe`,
+    imageGreenhouse: `/assets/images/greenhouse.png`,
+    imageGreenhouseAlt: `Greenhouse`,
+    description: `Daturian Collections on
+    OpenSea created to support
+    Ukraine, create friendships
+    with other projects and to
+    create something special
+    just for YOU!`,
+  };
+
+  const hofProps = {
+    description: `Some hall of fame description`,
+  };
+
   return (
     <Section>
       <FloraWeek
@@ -175,6 +204,24 @@ const Body = () => {
         size={floraVsTechProps.size}
         title={floraVsTechProps.title}
       ></FloraVsTech>
+      <Additional
+        urlUkraine={addProps.urlUkraine}
+        urlGreenhouse={addProps.urlGreenhouse}
+        urlCafe={addProps.urlCafe}
+        imageUkraine={addProps.imageUkraine}
+        imageUkraineAlt={addProps.imageUkraineAlt}
+        imageCafe={addProps.imageCafe}
+        imageCafeAlt={addProps.imageCafeAlt}
+        imageGreenhouse={addProps.imageGreenhouse}
+        imageGreenhouseAlt={addProps.imageGreenhouseAlt}
+        description={addProps.description}
+      ></Additional>
+      <HallOfFame description={hofProps.description}></HallOfFame>
+      <FaqCont></FaqCont>
+      <Profiles></Profiles>
+      <SeenOn></SeenOn>
+      <ContactForm></ContactForm>
+      <FooterArt></FooterArt>
     </Section>
   );
 };

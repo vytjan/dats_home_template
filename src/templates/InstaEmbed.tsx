@@ -10,7 +10,7 @@ type IInstaProps = {
 const InstaEmbed = (props: IInstaProps) => {
   return (
     <div className="InstaEmbed">
-      <InstagramEmbed url={props.url} width={props.width} />
+      <InstagramEmbed url={props.url} width={props.width} debug={true} />
     </div>
   );
 };
