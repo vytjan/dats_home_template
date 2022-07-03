@@ -145,6 +145,13 @@ const Body = () => {
     description: `Some hall of fame description`,
   };
 
+  const contactProps = {
+    description: `Have something to say to us? A
+    proposal? A new recipe for a killer
+    cake?`,
+    linkUrl: `daturians.com`,
+  };
+
   return (
     <Section>
       <FloraWeek
@@ -220,7 +227,10 @@ const Body = () => {
       <FaqCont></FaqCont>
       <Profiles></Profiles>
       <SeenOn></SeenOn>
-      <ContactForm></ContactForm>
+      <ContactForm
+        description={contactProps.description}
+        linkUrl={contactProps.linkUrl}
+      ></ContactForm>
       <FooterArt></FooterArt>
     </Section>
   );
