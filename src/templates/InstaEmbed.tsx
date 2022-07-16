@@ -20,7 +20,7 @@ const InstaEmbed = (props: IInstaProps) => {
   }
 
   return (
-    <div className="InstaEmbed">
+    <div className="InstaEmbed flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-2">
       <InstagramEmbed url={props.url} width={props.width} />
     </div>
   );

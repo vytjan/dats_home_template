@@ -6,7 +6,7 @@ const Calendar = () => {
   const weekday = date.toLocaleDateString(locale, { weekday: 'long' });
 
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md">
+    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-1">
       <h1>{day}</h1>
       <h2>
         <p>of {month},</p>

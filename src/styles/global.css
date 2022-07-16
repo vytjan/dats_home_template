@@ -4,6 +4,58 @@
 
 @tailwind utilities;
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@700&display=swap" rel="stylesheet">
+
+html { 
+  font-family: 'Trispace', sans-serif;
+}
+body {
+  font-size: 12px;
+}
+h1 {
+  font-family: 'Baloo Da 2', cursive;
+  font-size:  20px;
+  font-weight: 700;
+}
+nav {
+  width:  100%;
+}
+.hero_img {
+  width: 250px !important;
+}
+.hero-li {
+  text-align: center;
+}
+.btn-hero {
+  width: 190px !important;
+}
+.btn {
+  background-color: #D8DFFC;
+  font-size: 14px;
+  color: #4247CD;
+  font-weight: 700;
+}
+.logo img {
+  width:  100px;
+}
+.footer-whitepaper {
+  display:  flex;
+  width:  100%;
+  float: left;
+}
+ .footer ul {
+  margin-top: 0;
+  font-size: 16px;
+  color: #D8DFFC;
+  font-weight:  700;
+ }
+ .footer-copyright {
+  font-family: 'Trispace', sans-serif;
+  font-size: 12px;
+  color: #D8DFFC;
+ }
 
 @layer components {
   .navbar-container {
@@ -13,6 +65,9 @@
   .head-title-container {
     display: flex;
     justify-content: center;
+  }
+   .head-title-container h1 {
+      color: #D8DFFC !important;
   }
   /* Gray Scale */
   .hover figure img {
@@ -25,16 +80,11 @@
     -webkit-filter: grayscale(0);
     filter: grayscale(0);
   }
-
-  .hover figure div {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
+  .hover figure:hover div {
     -webkit-transition: .3s ease-in-out;
     transition: .3s ease-in-out;
-  }
-  .hover figure:hover div {
-    -webkit-filter: grayscale(0);
-    filter: grayscale(0);
+    background-color: #4247CD;
+    color: #fff;
   }
 
   /* Regular button */

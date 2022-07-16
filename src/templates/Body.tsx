@@ -17,11 +17,20 @@ import { Roadmap } from './Roadmap';
 import { SeenOn } from './SeenOn';
 import { Stats } from './Stats';
 import { Update } from './Update';
+import { Logo } from './Logo';
+import { Box } from './Box';
+import { Navbar } from '../navigation/Navbar';
 
 const Body = () => {
   // const router = useRouter();
 
   // console.log(router.basePath);
+
+  const logoProps = {
+    image: `/assets/images/color_full.png`,
+    imageAlt: `Logo`,
+    size: 100,
+  };
 
   const floraProps = {
     description: `Asimina triloba, the American papaw,
@@ -154,13 +163,16 @@ const Body = () => {
 
   return (
     <Section>
-      <FloraWeek
-        description={floraProps.description}
-        image={floraProps.image}
-        imageAlt={floraProps.imageAlt}
-        size={floraProps.size}
-        title={floraProps.title}
-      ></FloraWeek>
+        <Logo
+          image={logoProps.image}
+        ></Logo>
+        <FloraWeek
+          description={floraProps.description}
+          image={floraProps.image}
+          imageAlt={floraProps.imageAlt}
+          size={floraProps.size}
+          title={floraProps.title}
+        ></FloraWeek>
       <Calendar></Calendar>
       <Update
         title={updateProps.title}
@@ -168,14 +180,6 @@ const Body = () => {
         imageAlt={updateProps.imageAlt}
         size={updateProps.size}
       ></Update>
-      <Events
-        description={eventsProps.description}
-        location={eventsProps.location}
-        date={eventsProps.date}
-        image={eventsProps.image}
-        imageAlt={eventsProps.imageAlt}
-        size={eventsProps.size}
-      ></Events>
       <MediumWidget
         title={mediumProps.title}
         description={mediumProps.description}
@@ -184,6 +188,14 @@ const Body = () => {
         size={mediumProps.size}
         link={mediumProps.link}
       ></MediumWidget>
+      <Events
+        description={eventsProps.description}
+        location={eventsProps.location}
+        date={eventsProps.date}
+        image={eventsProps.image}
+        imageAlt={eventsProps.imageAlt}
+        size={eventsProps.size}
+      ></Events>
       <About></About>
       <InstaEmbed url={instaProps.url} width={instaProps.width}></InstaEmbed>
       <Roadmap
@@ -225,6 +237,7 @@ const Body = () => {
       ></Additional>
       <HallOfFame description={hofProps.description}></HallOfFame>
       <FaqCont></FaqCont>
+      <Box></Box>
       <Profiles></Profiles>
       <SeenOn></SeenOn>
       <ContactForm

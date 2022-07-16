@@ -1,12 +1,6 @@
 import { useRouter } from 'next/router';
 
-type ILogoProps = {
-  image: string;
-  imageAlt: string;
-  xl?: boolean;
-};
-
-const Logo = (props: ILogoProps) => {
+const Box = (props: IBoxProps) => {
   const router = useRouter();
 
   const size = props.xl ? '44' : '32';
@@ -15,7 +9,7 @@ const Logo = (props: ILogoProps) => {
   //   : 'font-semibold text-xl';
 
   return (
-    <span className={`text-center flex sm:text-left sm:items-center sm:justify-between p-4 rounded-md col-span-1 logo`}>
+    <span className={`text-center flex p-4 sm:text-left sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-2`}>
       <img
         src={`${router.basePath}${props.image}`}
         alt={props.imageAlt}
@@ -26,4 +20,4 @@ const Logo = (props: ILogoProps) => {
   );
 };
 
-export { Logo };
+export { Box };
