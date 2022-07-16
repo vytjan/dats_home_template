@@ -18,7 +18,7 @@ const Additional = (props: IAdditionalProps) => {
   // const router = useRouter();
 
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md">
+    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-5">
       <div>
         <h2>Additional</h2>
         <p>{props.description}</p>

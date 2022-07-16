@@ -5,12 +5,13 @@ import { Footer } from './Footer';
 import { HeadTitle } from './HeadTitle';
 import { Hero } from './Hero';
 
-const Base = () => (
-  <div className="antialiased text-gray-600">
+const Home = () => (
+  <div className="antialiased">
     <Meta title={AppConfig.title} description={AppConfig.description} />
-    <Body />
+    <HeadTitle />
+    <Hero />
     <Footer />
   </div>
 );
 
-export { Base };
+export { Home };

@@ -6,16 +6,18 @@ import { Section } from '../layout/Section';
 import { Navbar } from '../navigation/Navbar';
 
 const Hero = () => (
-  <Background color="bg-blue-100">
+  <Background className="hero-page" color="#F1F4F9">
     <Section>
-      <Navbar>
+      <div className="text-center flex p-4 sm:text-left sm:items-center sm:justify-center sm:p-4 rounded-md col-span-5
+      ">
+      <Navbar className="hero-li col-span-5">
         <li className="hero-li">
           <Link href="/about">
             <a>
               <div className="hover column">
                 <div>
                   <figure>
-                    <img
+                    <img className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
                       src="/assets/images/hero_1.png"
                       height="100%"
                       width="100%"
@@ -30,20 +32,20 @@ const Hero = () => (
             </a>
           </Link>
         </li>
-        <li>
+        <li className="hero-li">
           <Link href="/about">
             <a>
               <div className="hover column">
                 <div>
                   <figure>
-                    <img
+                    <img className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
                       src="/assets/images/hero_2.png"
                       height="100%"
                       width="100%"
                       alt="hero2"
                     />
                     <Button regular={false} hero={true}>
-                      Shop | Merch
+                      Merch
                     </Button>
                   </figure>
                 </div>
@@ -51,13 +53,13 @@ const Hero = () => (
             </a>
           </Link>
         </li>
-        <li>
+        <li className="hero-li">
           <Link href="/">
             <a>
               <div className="hover column">
                 <div>
                   <figure>
-                    <img
+                    <img className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
                       src="/assets/images/hero_3.png"
                       height="100%"
                       width="100%"
@@ -72,13 +74,13 @@ const Hero = () => (
             </a>
           </Link>
         </li>
-        <li>
+        <li className="hero-li">
           <Link href="https://gallery.daturians.com">
             <a>
               <div className="hover column">
                 <div>
                   <figure>
-                    <img
+                    <img className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
                       src="/assets/images/hero_4.png"
                       height="100%"
                       width="100%"
@@ -93,20 +95,20 @@ const Hero = () => (
             </a>
           </Link>
         </li>
-        <li>
+        <li className="hero-li">
           <Link href="/">
             <a>
               <div className="hover column">
                 <div>
                   <figure>
-                    <img
+                    <img className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
                       src="/assets/images/hero_5.png"
                       height="100%"
                       width="100%"
                       alt="hero5"
                     />
                     <Button regular={false} hero={true}>
-                      Greenhouse
+                      Seed Barrel
                     </Button>
                   </figure>
                 </div>
@@ -115,6 +117,7 @@ const Hero = () => (
           </Link>
         </li>
       </Navbar>
+      </div>
     </Section>
   </Background>
 );

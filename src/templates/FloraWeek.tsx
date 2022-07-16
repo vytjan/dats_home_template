@@ -11,10 +11,10 @@ type IFloraProps = {
 const FloraWeek = (props: IFloraProps) => {
   const router = useRouter();
 
-  console.log(router.basePath);
+  //console.log(router.basePath);
 
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md">
+    <div className="text-center flex p-4 sm:text-left sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-2">
       <h2>{props.title}</h2>
       <p>{props.description}</p>
       <img

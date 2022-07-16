@@ -1,5 +1,5 @@
-import { Base } from '../templates/Base';
+import { Home } from '../templates/Home';
 
-const Index = () => <Base />;
+const Index = () => <Home />;
 
 export default Index;

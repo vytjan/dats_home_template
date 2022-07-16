@@ -3,13 +3,13 @@ import { Logo } from './Logo';
 
 const HeadTitle = () => (
   <div className="head-title-container flex items-center">
-    <h1 className="">Where flora</h1>
+    <h1 className="head-title-first">Where flora</h1>
     <Logo
-      image="/assets/images/logo2.svg"
-      imageAlt="Kiwis are not only fruits"
+      image="/assets/images/logo.svg"
+      imageAlt="Daturians logo"
       xl={true}
     />
-    <h1 className="last">meets tech</h1>
+    <h1 className="head-title-last">meets tech</h1>
   </div>
 );
 
