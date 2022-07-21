@@ -16,15 +16,17 @@ const MediumWidget = (props: IMediumWidgetProps) => {
   const router = useRouter();
 
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-3">
-      <h1>{props.title}</h1>
+    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md col-span-3">
       <img
         src={`${router.basePath}${props.image}`}
         alt={props.imageAlt}
         width={props.size}
         height={props.size}
       />
-      <p>{props.description}</p>
+      <div>
+        <h1>{props.title}</h1>
+        <p>{props.description}</p>
+      </div>
       <Link href={props.link}>
         <a>
           <Button regular={true} hero={false}>
@@ -57,6 +59,7 @@ const MediumWidget = (props: IMediumWidgetProps) => {
         </Link>
       </div>
     </div>
+    
   );
 };
 

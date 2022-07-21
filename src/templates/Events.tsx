@@ -13,19 +13,22 @@ const Events = (props: IEventsProps) => {
   const router = useRouter();
 
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-2">
-      <h1>Events</h1>
-      <div>
+    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md col-span-2">
+      <div className="events-left">
+        <h1>Events</h1>
+        <p>{props.description}</p>
+      </div>
+      <div className="events-right">
         <img
           src={`${router.basePath}${props.image}`}
           alt={props.imageAlt}
           width={props.size}
           height={props.size}
         />
-        <p>{props.date}</p>
+        <p className="events-right-date">{props.date}</p>
+        <p><br/></p>
+        <p>{props.location}</p>
       </div>
-      <p>{props.description}</p>
-      <p>{props.location}</p>
     </div>
   );
 };
