@@ -33,11 +33,8 @@ const Body = () => {
   };
 
   const floraProps = {
-    description: `Asimina triloba, the American papaw,
-    paw paw among many regional names,
-    is a small deciduous tree native to
-    the eastern United States.`,
-    image: `/assets/images/daturimanz.jpg`,
+    description: `Aloe vera is made up of 99.5% water, but the 0.5% solid portions are known to have the most active nutrients.`,
+    image: `/assets/images/floraweek/aloe_vera.png`,
     imageAlt: `Kiwis`,
     size: 44,
     title: `FLORA of the week`,
@@ -47,21 +44,15 @@ const Body = () => {
     image: `/assets/images/daturimanz.jpg`,
     imageAlt: `Kiwis`,
     size: 44,
-    title: `Daturians update day`,
+    title: `Update day`,
   };
 
   const eventsProps = {
-    description: `Join hundreds of developers
-    for a 3-day hackathon and
-    workshop series to build
-    the Web3 world.`,
+    description: `Blockchain Futurist conference 2022`,
     image: `/assets/images/daturimanz.jpg`,
     imageAlt: `Kiwis`,
-    date: `August 8-10, 2022`,
-    location: `Located at
-    Blockchain Futurist
-    Conference in a Mega
-    Hacker Dome!`,
+    date: `August 8-10`,
+    location: `Toronto, Canada`,
     size: 25,
   };
 
@@ -163,6 +154,8 @@ const Body = () => {
 
   return (
     <Section>
+    <div className="flex-col">
+      <div className="left-content grid grid-cols-3 gap-5 max-auto px-3">
         <Logo
           image={logoProps.image}
         ></Logo>
@@ -173,14 +166,7 @@ const Body = () => {
           size={floraProps.size}
           title={floraProps.title}
         ></FloraWeek>
-      <Calendar></Calendar>
-      <Update
-        title={updateProps.title}
-        image={updateProps.image}
-        imageAlt={updateProps.imageAlt}
-        size={updateProps.size}
-      ></Update>
-      <MediumWidget
+        <MediumWidget
         title={mediumProps.title}
         description={mediumProps.description}
         image={mediumProps.image}
@@ -188,6 +174,21 @@ const Body = () => {
         size={mediumProps.size}
         link={mediumProps.link}
       ></MediumWidget>
+      <About></About>
+      <Roadmap
+        image={roadmapProps.image}
+        imageAlt={roadmapProps.imageAlt}
+        size={roadmapProps.size}
+      ></Roadmap>
+    </div>
+    <div className="right-content grid grid-cols-2 gap-5 max-auto px-3">
+      <Calendar></Calendar>
+      <Update
+        title={updateProps.title}
+        image={updateProps.image}
+        imageAlt={updateProps.imageAlt}
+        size={updateProps.size}
+      ></Update>
       <Events
         description={eventsProps.description}
         location={eventsProps.location}
@@ -196,13 +197,7 @@ const Body = () => {
         imageAlt={eventsProps.imageAlt}
         size={eventsProps.size}
       ></Events>
-      <About></About>
       <InstaEmbed url={instaProps.url} width={instaProps.width}></InstaEmbed>
-      <Roadmap
-        image={roadmapProps.image}
-        imageAlt={roadmapProps.imageAlt}
-        size={roadmapProps.size}
-      ></Roadmap>
       <Attributes
         description1={attributesProps.description1}
         description2={attributesProps.description2}
@@ -216,6 +211,9 @@ const Body = () => {
         width={statsProps.width}
         title={statsProps.title}
       ></Stats>
+    </div>
+    </div>
+    <div className="bottom-content grid grid-cols-4 gap-5 max-auto px-3">
       <FloraVsTech
         description={floraVsTechProps.description}
         image={floraVsTechProps.image}
@@ -244,6 +242,7 @@ const Body = () => {
         description={contactProps.description}
         linkUrl={contactProps.linkUrl}
       ></ContactForm>
+      </div>
       <FooterArt></FooterArt>
     </Section>
   );

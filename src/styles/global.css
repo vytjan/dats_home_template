@@ -12,15 +12,29 @@ html {
   font-family: 'Trispace', sans-serif;
 }
 body {
-  font-size: 12px;
+  font-size: 14px;
+  font-family: 'Trispace', sans-serif;
 }
 h1 {
   font-family: 'Baloo Da 2', cursive;
-  font-size:  20px;
+  color: #4247CD;
+  font-size:  32px;
   font-weight: 700;
+}
+h2 {
+  color: #4247CD;
+}
+p {
+  color: #4247CD;
 }
 nav {
   width:  100%;
+}
+span {
+  background-color: #D8DFFC;
+}
+.bg-primary-100{
+  background-color: #D8DFFC;
 }
 .hero_img {
   width: 250px !important;
@@ -32,30 +46,75 @@ nav {
   width: 190px !important;
 }
 .btn {
-  background-color: #D8DFFC;
+  background-color: #4247CD;
   font-size: 14px;
-  color: #4247CD;
+  color: #F1F4F9;
   font-weight: 700;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .logo img {
-  width:  100px;
+  width: 100%;
 }
 .footer-whitepaper {
   display:  flex;
   width:  100%;
   float: left;
 }
- .footer ul {
+.footer ul {
   margin-top: 0;
   font-size: 16px;
   color: #D8DFFC;
   font-weight:  700;
  }
- .footer-copyright {
+.footer-copyright {
   font-family: 'Trispace', sans-serif;
   font-size: 12px;
   color: #D8DFFC;
  }
+.floraweek p {
+  width: 75%;
+  float:  left;
+  padding-top: 20px;
+ }
+.floraweek img {
+  width: 25%;
+ }
+.floraweek h1 {
+  width: 75%;
+  float: left;
+}
+.left-content {
+  width:  66.67%;
+  float: left;
+}
+.right-content {
+  width:  33.33%;
+  float: right;
+}
+.bottom-content {
+  width: 100%;
+}
+.events-left {
+  width:  60%;
+}
+.events-right {
+  width: 40%;
+}
+.events-right img {
+  float: left;
+}
+.events-right-date {
+  font-size: 12px;
+  margin-left: 20px;
+  padding-left: 20px;
+}
+.attribute-img {
+  width:  100%;
+  padding-bottom: 20px;
+
+}
 
 @layer components {
   .navbar-container {

@@ -11,7 +11,7 @@ const Update = (props: IUpdateProps) => {
   const router = useRouter();
 
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md">
+    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md">
       <h2>{props.title}</h2>
       <img
         src={`${router.basePath}${props.image}`}
