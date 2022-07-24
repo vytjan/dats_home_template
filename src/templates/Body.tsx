@@ -2,6 +2,7 @@ import { Section } from '../layout/Section';
 import { About } from './About';
 import { Additional } from './Additional';
 import { Attributes } from './Attributes';
+import { Box } from './Box';
 import { Calendar } from './Calendar';
 import { ContactForm } from './ContactForm';
 import { Events } from './Events';
@@ -11,15 +12,14 @@ import { FloraWeek } from './FloraWeek';
 import { FooterArt } from './FooterArt';
 import { HallOfFame } from './HallOfFame';
 import { InstaEmbed } from './InstaEmbed';
+import { Logo } from './Logo';
 import { MediumWidget } from './MediumWidget';
 import { Profiles } from './Profiles';
 import { Roadmap } from './Roadmap';
 import { SeenOn } from './SeenOn';
 import { Stats } from './Stats';
 import { Update } from './Update';
-import { Logo } from './Logo';
-import { Box } from './Box';
-import { Navbar } from '../navigation/Navbar';
+// import { Navbar } from '../navigation/Navbar';
 
 const Body = () => {
   // const router = useRouter();
@@ -152,96 +152,107 @@ const Body = () => {
     linkUrl: `daturians.com`,
   };
 
+  const boxProps = {
+    xl: true,
+    image: `/assets/images/color_full.png`,
+    imageAlt: `Logo`,
+  };
+
   return (
     <Section>
-    <div className="flex-col">
-      <div className="left-content grid grid-cols-3 gap-5 max-auto px-3">
-        <Logo
-          image={logoProps.image}
-        ></Logo>
-        <FloraWeek
-          description={floraProps.description}
-          image={floraProps.image}
-          imageAlt={floraProps.imageAlt}
-          size={floraProps.size}
-          title={floraProps.title}
-        ></FloraWeek>
-        <MediumWidget
-        title={mediumProps.title}
-        description={mediumProps.description}
-        image={mediumProps.image}
-        imageAlt={mediumProps.imageAlt}
-        size={mediumProps.size}
-        link={mediumProps.link}
-      ></MediumWidget>
-      <About></About>
-      <Roadmap
-        image={roadmapProps.image}
-        imageAlt={roadmapProps.imageAlt}
-        size={roadmapProps.size}
-      ></Roadmap>
-    </div>
-    <div className="right-content grid grid-cols-2 gap-5 max-auto px-3">
-      <Calendar></Calendar>
-      <Update
-        title={updateProps.title}
-        image={updateProps.image}
-        imageAlt={updateProps.imageAlt}
-        size={updateProps.size}
-      ></Update>
-      <Events
-        description={eventsProps.description}
-        location={eventsProps.location}
-        date={eventsProps.date}
-        image={eventsProps.image}
-        imageAlt={eventsProps.imageAlt}
-        size={eventsProps.size}
-      ></Events>
-      <InstaEmbed url={instaProps.url} width={instaProps.width}></InstaEmbed>
-      <Attributes
-        description1={attributesProps.description1}
-        description2={attributesProps.description2}
-        image={attributesProps.image}
-        imageAlt={attributesProps.imageAlt}
-        size={attributesProps.size}
-      ></Attributes>
-      <Stats
-        src={statsProps.src}
-        height={statsProps.height}
-        width={statsProps.width}
-        title={statsProps.title}
-      ></Stats>
-    </div>
-    </div>
-    <div className="bottom-content grid grid-cols-4 gap-5 max-auto px-3">
-      <FloraVsTech
-        description={floraVsTechProps.description}
-        image={floraVsTechProps.image}
-        imageAlt={floraVsTechProps.imageAlt}
-        size={floraVsTechProps.size}
-        title={floraVsTechProps.title}
-      ></FloraVsTech>
-      <Additional
-        urlUkraine={addProps.urlUkraine}
-        urlGreenhouse={addProps.urlGreenhouse}
-        urlCafe={addProps.urlCafe}
-        imageUkraine={addProps.imageUkraine}
-        imageUkraineAlt={addProps.imageUkraineAlt}
-        imageCafe={addProps.imageCafe}
-        imageCafeAlt={addProps.imageCafeAlt}
-        imageGreenhouse={addProps.imageGreenhouse}
-        imageGreenhouseAlt={addProps.imageGreenhouseAlt}
-        description={addProps.description}
-      ></Additional>
-      <HallOfFame description={hofProps.description}></HallOfFame>
-      <FaqCont></FaqCont>
-      <Box></Box>
-      <Profiles></Profiles>
-      <SeenOn></SeenOn>
-      <ContactForm
-        description={contactProps.description}
-        linkUrl={contactProps.linkUrl}
-      ></ContactForm>
+      <div className="flex-col">
+        <div className="left-content grid grid-cols-3 gap-5 max-auto px-3">
+          <Logo image={logoProps.image} imageAlt={logoProps.imageAlt}></Logo>
+          <FloraWeek
+            description={floraProps.description}
+            image={floraProps.image}
+            imageAlt={floraProps.imageAlt}
+            size={floraProps.size}
+            title={floraProps.title}
+          ></FloraWeek>
+          <MediumWidget
+            title={mediumProps.title}
+            description={mediumProps.description}
+            image={mediumProps.image}
+            imageAlt={mediumProps.imageAlt}
+            size={mediumProps.size}
+            link={mediumProps.link}
+          ></MediumWidget>
+          <About></About>
+          <Roadmap
+            image={roadmapProps.image}
+            imageAlt={roadmapProps.imageAlt}
+            size={roadmapProps.size}
+          ></Roadmap>
+        </div>
+        <div className="right-content grid grid-cols-2 gap-5 max-auto px-3">
+          <Calendar></Calendar>
+          <Update
+            title={updateProps.title}
+            image={updateProps.image}
+            imageAlt={updateProps.imageAlt}
+            size={updateProps.size}
+          ></Update>
+          <Events
+            description={eventsProps.description}
+            location={eventsProps.location}
+            date={eventsProps.date}
+            image={eventsProps.image}
+            imageAlt={eventsProps.imageAlt}
+            size={eventsProps.size}
+          ></Events>
+          <InstaEmbed
+            url={instaProps.url}
+            width={instaProps.width}
+          ></InstaEmbed>
+          <Attributes
+            description1={attributesProps.description1}
+            description2={attributesProps.description2}
+            image={attributesProps.image}
+            imageAlt={attributesProps.imageAlt}
+            size={attributesProps.size}
+          ></Attributes>
+          <Stats
+            src={statsProps.src}
+            height={statsProps.height}
+            width={statsProps.width}
+            title={statsProps.title}
+          ></Stats>
+        </div>
+      </div>
+      <div className="bottom-content grid grid-cols-4 gap-5 max-auto px-3">
+        <FloraVsTech
+          description={floraVsTechProps.description}
+          image={floraVsTechProps.image}
+          imageAlt={floraVsTechProps.imageAlt}
+          size={floraVsTechProps.size}
+          title={floraVsTechProps.title}
+        ></FloraVsTech>
+        <Additional
+          urlUkraine={addProps.urlUkraine}
+          urlGreenhouse={addProps.urlGreenhouse}
+          urlCafe={addProps.urlCafe}
+          imageUkraine={addProps.imageUkraine}
+          imageUkraineAlt={addProps.imageUkraineAlt}
+          imageCafe={addProps.imageCafe}
+          imageCafeAlt={addProps.imageCafeAlt}
+          imageGreenhouse={addProps.imageGreenhouse}
+          imageGreenhouseAlt={addProps.imageGreenhouseAlt}
+          description={addProps.description}
+        ></Additional>
+        <HallOfFame description={hofProps.description}></HallOfFame>
+        <FaqCont></FaqCont>
+        <Box
+          xl={boxProps.xl}
+          image={boxProps.image}
+          imageAlt={boxProps.imageAlt}
+        ></Box>
+        <Profiles></Profiles>
+        <SeenOn></SeenOn>
+        <ContactForm
+          description={contactProps.description}
+          linkUrl={contactProps.linkUrl}
+        ></ContactForm>
       </div>
       <FooterArt></FooterArt>
     </Section>

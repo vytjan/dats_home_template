@@ -1,6 +1,6 @@
 export const AppConfig = {
   site_name: 'Daturians',
-  title: 'Daturians NFT landing page',
+  title: 'Daturians NFT home page',
   description: 'Daturians are virtual planters.',
   locale: 'en',
 };

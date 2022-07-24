@@ -6,7 +6,7 @@ type INavbarProps = {
 };
 
 const Navbar = (props: INavbarProps) => (
-  <div className="navbar-container flex flex-wrap items-center">
+  <div className="hero-li col-span-5 navbar-container flex flex-wrap items-center">
     <nav>
       <ul className="navbar flex items-center font-medium text-xl">
         {props.children}

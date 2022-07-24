@@ -1,6 +1,6 @@
 import { Meta } from '../layout/Meta';
 import { AppConfig } from '../utils/AppConfig';
-import { Body } from './Body';
+// import { Body } from './Body';
 import { Footer } from './Footer';
 import { HeadTitle } from './HeadTitle';
 import { Hero } from './Hero';

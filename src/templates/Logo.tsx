@@ -15,7 +15,9 @@ const Logo = (props: ILogoProps) => {
   //   : 'font-semibold text-xl';
 
   return (
-    <span className={`text-center flex sm:text-left sm:items-center sm:justify-between rounded-md col-span-1 logo`}>
+    <span
+      className={`text-center flex sm:text-left sm:items-center sm:justify-between rounded-md col-span-1 logo`}
+    >
       <img
         src={`${router.basePath}${props.image}`}
         alt={props.imageAlt}
