@@ -14,7 +14,7 @@ const FloraVsTech = (props: IFloraVsTechProps) => {
   return (
     <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-5">
       <div>
-        <h2>{props.title}</h2>
+        <h1>{props.title}</h1>
         <p>{props.description}</p>
       </div>
       <img

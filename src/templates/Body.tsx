@@ -19,7 +19,9 @@ import { Stats } from './Stats';
 import { Update } from './Update';
 import { Logo } from './Logo';
 import { Box } from './Box';
+import Link from 'next/link';
 import { Navbar } from '../navigation/Navbar';
+import { Button } from '../button/Button';
 
 const Body = () => {
   // const router = useRouter();
@@ -27,7 +29,7 @@ const Body = () => {
   // console.log(router.basePath);
 
   const logoProps = {
-    image: `/assets/images/color_full.png`,
+    image: `/assets/images/logo.svg`,
     imageAlt: `Logo`,
     size: 100,
   };
@@ -41,16 +43,16 @@ const Body = () => {
   };
 
   const updateProps = {
-    image: `/assets/images/daturimanz.jpg`,
-    imageAlt: `Kiwis`,
+    image: `/assets/images/icons/discord.svg`,
+    imageAlt: `discord`,
     size: 44,
     title: `Update day`,
   };
 
   const eventsProps = {
     description: `Blockchain Futurist conference 2022`,
-    image: `/assets/images/daturimanz.jpg`,
-    imageAlt: `Kiwis`,
+    image: `/assets/images/icons/calendar.svg`,
+    imageAlt: `calendar`,
     date: `August 8-10`,
     location: `Toronto, Canada`,
     size: 25,
@@ -59,8 +61,8 @@ const Body = () => {
   const mediumProps = {
     title: `Daturian Structure`,
     description: `Update 2.1`,
-    image: `/assets/images/daturimanz.jpg`,
-    imageAlt: `Kiwis`,
+    image: `/assets/images/icons/medium.svg`,
+    imageAlt: `medium`,
     size: 44,
     link: `https://www.medium.com`,
   };
@@ -154,6 +156,77 @@ const Body = () => {
 
   return (
     <Section>
+    <Navbar className="grid grid-cols-5">
+        <li className="body-li">
+          <Link href="/">
+            <a>
+              <div className="navigation-bar">
+                <div>
+                    <Button regular={false} hero={true}>
+                    <img className="nav-icon" src="/assets/images/icons/about.svg" alt="about"/>
+                      About
+                    </Button>
+                </div>
+              </div>
+            </a>
+          </Link>
+        </li>
+        <li className="body-li">
+          <Link href="/about">
+            <a>
+              <div className="navigation-bar">
+                <div>
+                    <Button regular={false} hero={true}>
+                    <img className="nav-icon" src="/assets/images/icons/shop.svg" alt="shop"/>
+                      Merch
+                    </Button>
+                </div>
+              </div>
+            </a>
+          </Link>
+        </li>
+        <li className="body-li">
+          <Link href="/">
+            <a>
+              <div className="navigation-bar">
+                <div>
+                    <Button regular={false} hero={true}>
+                      Mint
+                    </Button>
+                </div>
+              </div>
+            </a>
+          </Link>
+        </li>
+        <li className="body-li">
+          <Link href="https://gallery.daturians.com">
+            <a>
+              <div className="navigation-bar">
+                <div>
+                    <Button regular={false} hero={true}>
+                    <img className="nav-icon" src="/assets/images/icons/gallery.svg" alt="gallery"/>
+                      Gallery
+                    </Button>
+                </div>
+              </div>
+            </a>
+          </Link>
+        </li>
+        <li className="body-li">
+          <Link href="/">
+            <a>
+              <div className="navigation-bar">
+                <div>
+                    <Button regular={false} hero={true}>
+                    <img className="nav-icon" src="/assets/images/icons/barrel.svg" alt="barrel"/>
+                      Seed Barrel
+                    </Button>
+                </div>
+              </div>
+            </a>
+          </Link>
+        </li>
+      </Navbar>
     <div className="flex-col">
       <div className="left-content grid grid-cols-3 gap-5 max-auto px-3">
         <Logo
@@ -236,7 +309,7 @@ const Body = () => {
       <HallOfFame description={hofProps.description}></HallOfFame>
       <FaqCont></FaqCont>
       <Box></Box>
-      <Profiles></Profiles>
+      <Profiles className="gap-5"></Profiles>
       <SeenOn></SeenOn>
       <ContactForm
         description={contactProps.description}
