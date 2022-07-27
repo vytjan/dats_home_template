@@ -15,7 +15,7 @@ const Stats = (props: IStatsProps) => {
           src={props.src}
           height={props.height}
           width={props.width}
-          title={props.title}
+          title={''}
         ></iframe>
       </div>
     </div>

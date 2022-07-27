@@ -98,8 +98,8 @@ const Body = () => {
 
   const statsProps = {
     src: `https://dune.com/embeds/753447/1358291/4ad0a3fb-6ec2-4c83-b3ab-425e10c72d8b`,
-    height: 250,
-    width: 750,
+    height: 200,
+    width: 700,
     title: `Daturians Minted`,
   };
 

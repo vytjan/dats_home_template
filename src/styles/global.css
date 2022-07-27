@@ -189,6 +189,7 @@ span {
   /* stats plot */
   .stats-container {
   position: relative;
+  z-index:999;
   width: 100%;
   overflow: hidden;
   padding-top: 56.25%; /* 16:9 Aspect Ratio */
@@ -202,6 +203,10 @@ span {
   right: 0;
   width: 100%;
   height: 100%;
-  border: none;
+}
+
+/* stats plot overrides */
+image[class^="chart_chart"] {
+  opacity: 0.0;
 }
 }
