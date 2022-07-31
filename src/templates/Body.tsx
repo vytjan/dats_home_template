@@ -34,10 +34,16 @@ const Body = () => {
     size: 100,
   };
 
+  const InstaProps = {
+    image: `/assets/images/instagram.png`,
+    imageAlt: `instagram`,
+    size: 100,
+  };
+
   const floraProps = {
     description: `Aloe vera is made up of 99.5% water, but the 0.5% solid portions are known to have the most active nutrients.`,
     image: `/assets/images/floraweek/aloe_vera.png`,
-    imageAlt: `Kiwis`,
+    imageAlt: `plant`,
     size: 44,
     title: `FLORA of the week`,
   };
@@ -157,6 +163,13 @@ const Body = () => {
   return (
     <Section>
     <Navbar className="grid grid-cols-5">
+    <div class="container flex flex-wrap justify-between items-center mx-auto">
+    <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
+      <span class="sr-only">Open main menu</span>
+      <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+    </button>
+    <div class="hidden w-full xl:block md:w-auto" id="navbar-default">
+      <ul class="flex flex-col p-4 mt-4 rounded-lg  xl:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
         <li className="body-li">
           <Link href="/">
             <a>
@@ -226,6 +239,9 @@ const Body = () => {
             </a>
           </Link>
         </li>
+        </ul>
+        </div>
+        </div>
       </Navbar>
     <div className="flex-col">
       <div className="left-content grid grid-cols-3 gap-5 max-auto px-3">
@@ -270,7 +286,9 @@ const Body = () => {
         imageAlt={eventsProps.imageAlt}
         size={eventsProps.size}
       ></Events>
-      <InstaEmbed url={instaProps.url} width={instaProps.width}></InstaEmbed>
+      <InstaEmbed 
+          image={InstaProps.image}
+        ></InstaEmbed>
       <Attributes
         description1={attributesProps.description1}
         description2={attributesProps.description2}

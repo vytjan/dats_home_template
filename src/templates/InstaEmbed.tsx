@@ -1,28 +1,29 @@
-import React from 'react';
-
-import { InstagramEmbed } from 'react-social-media-embed';
-
-// cudos to https://justinmahar.github.io/react-social-media-embed/?path=/story/home--page
+import { useRouter } from 'next/router';
 
 type IInstaProps = {
-  url: string;
-  width: number;
+  image: string;
+  imageAlt: string;
+  xl?: boolean;
 };
 
 const InstaEmbed = (props: IInstaProps) => {
-  const [hasMounted, setHasMounted] = React.useState(false);
+  const router = useRouter();
 
-  React.useEffect(() => {
-    setHasMounted(true);
-  }, []);
-  if (!hasMounted) {
-    return null;
-  }
+  const size = props.xl ? '44' : '32';
+  // const fontStyle = props.xl
+  //   ? 'font-semibold text-3xl'
+  //   : 'font-semibold text-xl';
 
   return (
-    <div className="InstaEmbed flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md col-span-2">
-      <InstagramEmbed url={props.url} width={props.width} />
-    </div>
+    <span className={`text-center flex sm:text-left sm:items-center sm:justify-between rounded-md col-span-2 instagram`}>
+      <img
+        src={`${router.basePath}${props.image}`}
+        alt={props.imageAlt}
+        width={size}
+        height={size}
+      />
+    </span>
   );
 };
+
 export { InstaEmbed };

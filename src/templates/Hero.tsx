@@ -8,8 +8,9 @@ import { Navbar } from '../navigation/Navbar';
 const Hero = () => (
   <Background className="hero-page" color="#F1F4F9">
     <Section>
-      <div className="text-center flex p-4 sm:text-left sm:items-center sm:justify-center sm:p-4 rounded-md col-span-5
+    <div className="text-center flex p-4 sm:text-left sm:items-center sm:justify-center sm:p-4 rounded-md col-span-5
       ">
+
       <Navbar className="hero-li col-span-5">
         <li className="hero-li">
           <Link href="/about">
