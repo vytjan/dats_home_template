@@ -227,7 +227,7 @@ span {
   margin-right: 20px;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1280px) {
   .left-content {
     width: 100%;
     float: left;
@@ -235,8 +235,81 @@ span {
   .right-content {
     width: 100%;
     float: right;
+    margin-top: 20px;
+  }
+  .left-arrow-medium {
+    display: none;
+  }
+  .right-arrow-medium {
+    display: none;
+  }
+  .medium {
+    background-color: #D8DFFC;
+  }
+  .instagram {
+    width: 49%;
+    float: left;
+    height: 100%;
+    margin-bottom: 0px !important;
+  }
+  .attributes {
+    width: 49%;
+    float: right;
   }
 }
+.instagram {
+  margin-bottom: 20px;
+}
+.roadmap-rejected-alignment {
+  margin-left: 45px;
+}
+.dat-paragraph {
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 820px) {
+    .btn-road-done {
+      display: none;
+    }
+    .btn-road-ongoing {
+      display: none;
+    }
+    .btn-road-future {
+      display: none;
+    }
+    .btn-road-rejected {
+      display: none;
+    }
+    .arrow-right {
+      display: none;
+    }
+    .arrow-left {
+      display: none;
+    }
+    .roadmap-5 {
+      display: flex;
+    }
+    .roadmap-25 {
+      display: flex;
+    }
+    .roadmap-50 {
+      display: flex;
+    }
+    .roadmap-75 {
+      display: flex;
+    }
+    .roadmap-100 {
+      display: flex;
+    }
+    .roadmap-paragraph {
+      margin: auto;
+      margin-left: 20px;
+    }
+    .roadmap-rejected-alignment {
+      margin-left: 0px;
+    }
+}
+
 
 @layer components {
   .navbar-container {
@@ -333,4 +406,40 @@ span {
 image[class^="chart_chart"] {
   opacity: 0.0;
 }
+
+/* modal style*/
+.modal {
+  font-size: 12px;
+}
+.modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+.modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
+.modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+}
+
 }

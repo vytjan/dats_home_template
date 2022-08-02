@@ -1,5 +1,5 @@
-import { Seed } from '../templates/Seed';
+import { SeedPage } from '../templates/SeedPage';
 
-const SeedBarrel = () => <Seed />;
+const SeedBarrel = () => <SeedPage />;
 
 export default SeedBarrel;
