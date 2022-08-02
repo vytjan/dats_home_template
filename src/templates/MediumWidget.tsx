@@ -79,7 +79,7 @@ const MediumWidget = (props: IMediumWidgetProps) => {
   });
 
   return (
-    <div className="text-center flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-primary-100 rounded-md col-span-3 medium">
+    <div className="flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-primary-100 rounded-md col-span-3 medium">
       <div className="medium-inside text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md">
         <img
           src={`${router.basePath}${props.image}`}

@@ -161,7 +161,7 @@ const Roadmap = () => {
             Text RPG
           </Button>
         </div>
-        <div className="roadmap-row rejected">
+        <div className="roadmap-row rejected roadmap-rejected-alignment">
           <Button regular={false} rejected={true}>
             Flora Meta
           </Button>
@@ -172,7 +172,7 @@ const Roadmap = () => {
             P2E game
           </Button>
         </div>
-        <div className="roadmap-row rejected">
+        <div className="roadmap-row rejected roadmap-rejected-alignment">
           <Button regular={false} rejected={true}>
             Our Metaverse
           </Button>

@@ -12,8 +12,9 @@ const Attributes = (props: IAttributesProps) => {
   const router = useRouter();
 
   return (
-    <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md col-span-2">
-      <img className="attribute-img rounded-md"
+    <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md col-span-2 attributes">
+      <img
+        className="attribute-img rounded-md"
         src={`${router.basePath}${props.image}`}
         alt={props.imageAlt}
         width={props.size}
