@@ -6,12 +6,14 @@ type INavbarProps = {
 };
 
 const Navbar = (props: INavbarProps) => (
-  <div className="hero-li col-span-5 navbar-container flex flex-wrap items-center">
-    <nav>
-      <ul className="navbar flex items-center font-medium text-xl">
-        {props.children}
-      </ul>
-    </nav>
+  <div className="grid grid-cols-5">
+    <div className="hero-li col-span-5 navbar-container flex flex-wrap items-center">
+      <nav>
+        <ul className="navbar flex items-center font-medium text-xl">
+          {props.children}
+        </ul>
+      </nav>
+    </div>
   </div>
 );
 
