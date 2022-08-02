@@ -102,7 +102,7 @@ const Hero = () => (
             </Link>
           </li>
           <li className="hero-li">
-            <Link href="/">
+            <Link href="/seed">
               <a>
                 <div className="hover column">
                   <div>

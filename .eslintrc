@@ -11,7 +11,8 @@
       {
         "singleQuote": true
       }
-    ]
+    ],
+    "no-param-reassign": 0
   },
   "overrides": [
     // Configuration for TypeScript files

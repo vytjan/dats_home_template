@@ -65,12 +65,14 @@ const MediumWidget = (props: IMediumWidgetProps) => {
 
   useEffect(() => {
     getPosts().then((d) => {
+      // const d2 = d.map(x.subtitle => x * 2);
       d.items.forEach(function (item: any) {
-        const theItem = item;
-        const cut1 = theItem.content.split('>');
-        const [cut2] = cut1[0].split('<');
+        // const theItem = { ...item };
+        const cut1 = item.content.split('>');
+        const [cut2] = cut1[1].split('<');
         // console.log(cut2);
-        theItem.subtitle = cut2;
+        item.subtitle = cut2;
+        // item = theItem;
       });
       setData({ posts: d.items, isFetching: false });
     });
