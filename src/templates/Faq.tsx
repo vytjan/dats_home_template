@@ -185,7 +185,7 @@ const config = {
 
 const FaqCont = () => {
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-3">
+    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-blue rounded-md col-span-3">
       <Faq data={data} config={config} styles={styles} />
     </div>
   );

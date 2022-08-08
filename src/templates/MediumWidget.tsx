@@ -57,7 +57,7 @@ const MediumWidget = (props: IMediumWidgetProps) => {
       );
       return await response.json();
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       setData({ posts: data.posts, isFetching: true });
       return e;
     }
@@ -66,7 +66,7 @@ const MediumWidget = (props: IMediumWidgetProps) => {
   useEffect(() => {
     getPosts().then((d) => {
       // const d2 = d.map(x.subtitle => x * 2);
-      d.items.forEach(function (item: any) {
+      d.items.forEach((item: any) => {
         // const theItem = { ...item };
         const cut1 = item.content.split('>');
         const [cut2] = cut1[1].split('<');
@@ -79,7 +79,7 @@ const MediumWidget = (props: IMediumWidgetProps) => {
   });
 
   return (
-    <div className="flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-primary-100 rounded-md col-span-3 medium">
+    <div className="flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-pink rounded-md col-span-3 medium">
       <div className="medium-inside text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md">
         <img
           src={`${router.basePath}${props.image}`}

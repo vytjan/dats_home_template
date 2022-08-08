@@ -11,10 +11,9 @@ import { Calendar } from './Calendar';
 import { ContactForm } from './ContactForm';
 import { Events } from './Events';
 import { FaqCont } from './Faq';
-import { FloraVsTech } from './FloraVsTech';
 import { FloraWeek } from './FloraWeek';
 import { FooterArt } from './FooterArt';
-import { HallOfFame } from './HallOfFame';
+// import { HallOfFame } from './HallOfFame';
 import { InstaEmbed } from './InstaEmbed';
 import { Logo } from './Logo';
 import { MediumWidget } from './MediumWidget';
@@ -112,25 +111,25 @@ const Body = () => {
     title: `Daturians Minted`,
   };
 
-  const floraVsTechProps = {
-    description: `There are 222 hand drawn
-    attributes that make up a
-    Daturian! It s all vector
-    and there s no AI. Except
-    for Adobe Illustrator and
-    some coding, of course. And
-    just like Shrek and onions
-     they are made of layers!
-    8 layers, to be exact. Each
-    layer is tied to specific
-    metadata that tells a
-    unique story about your
-    Daturian.`,
-    image: `/assets/images/flora_vs_tech.png`,
-    imageAlt: `Kiwis`,
-    size: 250,
-    title: `Flora VS Tech`,
-  };
+  // const floraVsTechProps = {
+  //   description: `There are 222 hand drawn
+  //   attributes that make up a
+  //   Daturian! It s all vector
+  //   and there s no AI. Except
+  //   for Adobe Illustrator and
+  //   some coding, of course. And
+  //   just like Shrek and onions
+  //    they are made of layers!
+  //   8 layers, to be exact. Each
+  //   layer is tied to specific
+  //   metadata that tells a
+  //   unique story about your
+  //   Daturian.`,
+  //   image: `/assets/images/flora_vs_tech.png`,
+  //   imageAlt: `Kiwis`,
+  //   size: 250,
+  //   title: `Flora VS Tech`,
+  // };
 
   const addProps = {
     urlUkraine: `https://opensea.io/collection/daturians4ukraine`,
@@ -150,9 +149,9 @@ const Body = () => {
     just for YOU!`,
   };
 
-  const hofProps = {
-    description: `Some hall of fame description`,
-  };
+  // const hofProps = {
+  //   description: `Some hall of fame description`,
+  // };
 
   const contactProps = {
     description: `Have something to say to us? A
@@ -163,7 +162,7 @@ const Body = () => {
 
   const boxProps = {
     xl: true,
-    image: `/assets/images/color_full.png`,
+    image: `/assets/images/polygon_partnership.png`,
     imageAlt: `Logo`,
   };
 
@@ -321,17 +320,19 @@ const Body = () => {
             imageAlt={eventsProps.imageAlt}
             size={eventsProps.size}
           ></Events>
-          <InstaEmbed
-            image={InstaProps.image}
-            imageAlt={InstaProps.imageAlt}
-          ></InstaEmbed>
-          <Attributes
-            description1={attributesProps.description1}
-            description2={attributesProps.description2}
-            image={attributesProps.image}
-            imageAlt={attributesProps.imageAlt}
-            size={attributesProps.size}
-          ></Attributes>
+          <div className="insta-attributes col-span-2 gap-5">
+            <InstaEmbed
+              image={InstaProps.image}
+              imageAlt={InstaProps.imageAlt}
+            ></InstaEmbed>
+            <Attributes
+              description1={attributesProps.description1}
+              description2={attributesProps.description2}
+              image={attributesProps.image}
+              imageAlt={attributesProps.imageAlt}
+              size={attributesProps.size}
+            ></Attributes>
+          </div>
           <Stats
             src={statsProps.src}
             height={statsProps.height}
@@ -341,13 +342,6 @@ const Body = () => {
         </div>
       </div>
       <div className="bottom-content grid grid-cols-4 gap-5 max-auto px-3">
-        <FloraVsTech
-          description={floraVsTechProps.description}
-          image={floraVsTechProps.image}
-          imageAlt={floraVsTechProps.imageAlt}
-          size={floraVsTechProps.size}
-          title={floraVsTechProps.title}
-        ></FloraVsTech>
         <Additional
           urlUkraine={addProps.urlUkraine}
           urlGreenhouse={addProps.urlGreenhouse}
@@ -360,7 +354,6 @@ const Body = () => {
           imageGreenhouseAlt={addProps.imageGreenhouseAlt}
           description={addProps.description}
         ></Additional>
-        <HallOfFame description={hofProps.description}></HallOfFame>
         <FaqCont></FaqCont>
         <Box
           xl={boxProps.xl}

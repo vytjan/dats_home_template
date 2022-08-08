@@ -1,12 +1,6 @@
-import { AppConfig } from '../utils/AppConfig';
-
 const FooterCopyright = () => (
   <div className="footer-copyright">
-    © Copyright {new Date().getFullYear()} {AppConfig.title}. Powered with{' '}
-    <span role="img" aria-label="Love">
-      ♥
-    </span>{' '}
-    by <a href="https://daturians.com">Daturians NFT</a>
+    © Daturians {new Date().getFullYear()} Powered by Polygon
     {/*
      * PLEASE READ THIS SECTION
      * We'll really appreciate if you could have a link to our website

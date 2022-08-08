@@ -7,7 +7,7 @@ type IStatsProps = {
 
 const Stats = (props: IStatsProps) => {
   return (
-    <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-2">
+    <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-yellow rounded-md col-span-2">
       <h1>Stats</h1>
       <div className="stats-container">
         <iframe

@@ -18,12 +18,14 @@ const Logo = (props: ILogoProps) => {
     <span
       className={`text-center flex sm:text-left sm:items-center sm:justify-between rounded-md col-span-1 logo`}
     >
-      <img
-        src={`${router.basePath}${props.image}`}
-        alt={props.imageAlt}
-        width={size}
-        height={size}
-      />
+      <a href="https://www.daturians.com/">
+        <img
+          src={`${router.basePath}${props.image}`}
+          alt={props.imageAlt}
+          width={size}
+          height={size}
+        />
+      </a>
     </span>
   );
 };

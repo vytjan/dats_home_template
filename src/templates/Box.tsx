@@ -16,7 +16,7 @@ const Box = (props: IBoxProps) => {
 
   return (
     <span
-      className={`text-center flex p-4 sm:text-left sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-2`}
+      className={`text-center flex sm:text-left sm:items-center sm:justify-between bg-primary-100 rounded-md col-span-2 box`}
     >
       <img
         src={`${router.basePath}${props.image}`}

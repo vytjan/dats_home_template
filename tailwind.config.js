@@ -1,5 +1,8 @@
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    '/node_modules/flowbite-react/**/*.js',
+  ],
   theme: {
     fontSize: {
       xs: '0.75rem',
@@ -44,5 +47,5 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: ['@flowbite/plugin'],
 };

@@ -13,7 +13,7 @@ const Events = (props: IEventsProps) => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md col-span-2">
+    <div className="flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-green rounded-md col-span-2">
       <div className="events-left">
         <h1>Events</h1>
         <p>{props.description}</p>
