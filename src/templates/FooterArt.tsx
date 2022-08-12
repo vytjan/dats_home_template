@@ -9,7 +9,7 @@ const FooterArt = () => {
   const router = useRouter();
 
   return (
-    <div className="text-center flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-primary-100 rounded-md">
+    <div className="text-center flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-primary-100 rounded-md footer-art">
       <img
         src={`${router.basePath}${footerArt.imageUrl}`}
         alt={footerArt.imageAlt}

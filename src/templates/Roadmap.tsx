@@ -1,9 +1,29 @@
 import { Button } from '../button/Button';
+import { useRouter } from 'next/router';
 
-const Roadmap = () => {
+type IRoadmapProps = {
+  image: string;
+  imageAlt: string;
+  size: number;
+  title: string;
+};
+
+const Roadmap = (props: IRoadmapProps) => {
+  const router = useRouter();
   return (
-    <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-primary-100 rounded-md col-span-3">
-      <h1>Roadmap</h1>
+    <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between p-12 bg-primary-100 rounded-md col-span-3">
+            <div className="about-title">
+        <h1>Roadmap</h1>
+        <a href="https://twitter.com/DaturiansNFT">
+          <img
+            className="roadmap-icon"
+            src={`${router.basePath}${props.image}`}
+            alt={props.imageAlt}
+            width={props.size}
+            height={props.size}
+          />
+        </a>
+      </div>
       <div className="roadmap-5">
         <div className="roadmap-row">
           <Button regular={false} percentdone={true}>
@@ -184,6 +204,23 @@ const Roadmap = () => {
           {`We are here to stay and to develop further. We'll present a few of our
           options to the community on further development of the Daturian
           metaverse.`}
+        </p>
+      </div>
+      <div className="roadmap-legends">
+        <p className="roadmap-paragraph">
+          <b>{`Legends:`}</b>
+            <Button regular={false} done={true}>
+              Done
+            </Button>
+            <Button regular={false} ongoing={true}>
+              In progress
+            </Button>
+            <Button regular={false} future={true}>
+              Future plans
+            </Button>
+            <Button regular={false} rejected={true}>
+              Community Options
+            </Button>
         </p>
       </div>
     </div>

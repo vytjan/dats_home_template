@@ -55,6 +55,18 @@ const Body = () => {
     title: `Update day`,
   };
 
+  const aboutProps = {
+    image: `/assets/images/icons/twitter.svg`,
+    imageAlt: `twitter`,
+    size: 44,
+    title: `Twitter`,
+  };
+  const roadmapProps = {
+    image: `/assets/images/icons/snapshot.svg`,
+    imageAlt: `snapshot`,
+    size: 44,
+    title: `Snapshot`,
+  };
   const eventsProps = {
     description: `Blockchain Futurist conference 2022`,
     image: `/assets/images/icons/calendar.svg`,
@@ -169,11 +181,11 @@ const Body = () => {
   return (
     <Section>
       <Navbar>
-        <div className="container flex flex-wrap justify-between items-center mx-auto">
+        <div className="flex flex-wrap justify-between items-center mx-auto">
           <button
             data-collapse-toggle="navbar-default"
             type="button"
-            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 burger"
             aria-controls="navbar-default"
             aria-expanded="false"
           >
@@ -196,7 +208,7 @@ const Body = () => {
             <ul className="flex flex-col p-4 mt-4 rounded-lg  xl:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
               <li className="body-li">
                 <Link href="/">
-                  <a>
+                  <a href="#" class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">
                     <div className="navigation-bar">
                       <div>
                         <div className="btn btn-hero">
@@ -301,8 +313,14 @@ const Body = () => {
             size={mediumProps.size}
             link={mediumProps.link}
           ></MediumWidget>
-          <About></About>
-          <Roadmap></Roadmap>
+          <About
+            image={aboutProps.image}
+            imageAlt={aboutProps.imageAlt}
+          ></About>
+          <Roadmap
+            image={roadmapProps.image}
+            imageAlt={roadmapProps.imageAlt}
+          ></Roadmap>
         </div>
         <div className="right-content grid grid-cols-2 gap-5 max-auto px-3">
           <Calendar></Calendar>

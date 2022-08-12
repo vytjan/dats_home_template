@@ -80,13 +80,16 @@ const MediumWidget = (props: IMediumWidgetProps) => {
 
   return (
     <div className="flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-pink rounded-md col-span-3 medium">
-      <div className="medium-inside text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md">
+      <div className="medium-inside text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between p-8 bg-primary-100 rounded-md">
+        <a href="https://medium.com/@daturians_nft">
         <img
+          className="medium-icon"
           src={`${router.basePath}${props.image}`}
           alt={props.imageAlt}
           width={props.size}
           height={props.size}
         />
+        </a>
         <div>
           {data.isFetching && data.posts !== undefined ? (
             <div>

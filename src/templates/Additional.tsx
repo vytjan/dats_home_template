@@ -18,8 +18,8 @@ const Additional = (props: IAdditionalProps) => {
   // const router = useRouter();
 
   return (
-    <div className="text-center flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-secondary-100 rounded-md col-span-5">
-      <div className="additional sm:p-12 p-4 bg-neon-green rounded-md">
+    <div className="flex-col sm:text-left flex-row sm:items-center sm:justify-between bg-secondary-100 rounded-md col-span-5">
+      <div className="additional p-12 p-4 bg-dark rounded-md">
         <h1>Additional</h1>
         <p className="dat-paragraph">{props.description}</p>
       </div>

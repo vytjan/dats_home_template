@@ -10,12 +10,13 @@ const data = {
       content: (
         <div>
           <p>
-            NFT stands for “non-fungible token“. NFTs are virtual crypto tokens
-            used “to represent ownership of unique items. They let us tokenize
+            NFT stands for “non-fungible token“. NFTs are <b>virtual crypto tokens</b>
+            used “to represent ownership of unique items". They let us tokenize
             things like art, collectibles, even real estate.
           </p>
+          <br/>
           <p>
-            They can only have one official owner at a time and they&apos;re
+            They can only have <b>one official owner</b> at a time and they&apos;re
             secured by a blockchain - no one can modify the record of ownership
             or copy/paste a new NFT into existence.”
           </p>
@@ -26,7 +27,7 @@ const data = {
               <u>{' whitepaper'}</u>
             </a>
             .
-          </p>
+          </p><br/>
         </div>
       ),
     },
@@ -40,11 +41,12 @@ const data = {
             }
             <a href="https://medium.com/@daturians_nft">{'Medium'}</a>.
           </p>
+          <br/>
           <p>
             Transparent team, friendly and organically grown community -
             that&apos;s what Daturians are. This collection is our kick-starter
-            and WE ARE HERE TO STAY!
-          </p>
+            and <b>WE ARE HERE TO STAY!</b>
+          </p><br/>
         </div>
       ),
     },
@@ -53,9 +55,9 @@ const data = {
       content: (
         <div>
           <p>
-            Where: only on this
-            <a href="https://www.daturians.com/">{'website'}</a>
-          </p>
+            <b>Only</b> on this
+            <a href="https://www.daturians.com/">{' website.'}</a>
+          </p><br/>
         </div>
       ),
     },
@@ -63,7 +65,7 @@ const data = {
       title: 'How many Daturians are there?',
       content: (
         <div>
-          <p>8020 plant/fungi/tech loving creatures.</p>
+          <p><b>8020</b> plant/fungi/tech loving creatures.</p><br/>
         </div>
       ),
     },
@@ -72,9 +74,9 @@ const data = {
       content: (
         <div>
           <p>
-            16+ MATIC in public sale | max. 20 NFTs per wallet. There will be 4
+            <b>16+ MATIC</b> in public sale | max. <b>20 NFTs per wallet</b>. There will be 4
             batches with incrementing price.
-          </p>
+          </p><br/>
         </div>
       ),
     },
@@ -84,7 +86,7 @@ const data = {
         <div>
           <p>
             Every aspect of your Daturian! Owning a Daturian NFT means you will
-            own an ERC-721 non-fungible token with all of its metadata
+            own an <b>ERC-721 non-fungible token</b> with all of its metadata
             (obviously, including the Daturian as a profile picture (PFP)) as an
             entry to a super friendly and plant/fungi/tech loving Daturians
             community with future collections, events and many other benefits
@@ -92,20 +94,9 @@ const data = {
             server.
           </p>
           <p>
-            Ownership includes full copyright and free use of the 1270 Datura
+            Ownership includes <b>full copyright and free use</b> of the 1270 Datura
             fellas.
-          </p>
-        </div>
-      ),
-    },
-    {
-      title: 'Mint price & limits?',
-      content: (
-        <div>
-          <p>
-            16+ MATIC in public sale | max. 20 NFTs per wallet. There will be 4
-            batches with incrementing price.
-          </p>
+          </p><br/>
         </div>
       ),
     },
@@ -115,12 +106,12 @@ const data = {
         <div>
           <p>
             You&apos;ll be able to buy Daturians through Polygon. It&apos;s a
-            scaling solution for Ethereum Blockchain. “Er, what…?” If
+            <b>scaling solution for Ethereum Blockchain.</b> “Er, what…?” If
             you&apos;re not familiar with blockchain technologies or Ethereum in
             particular - all you need to know is that you&apos;ll avoid high
             fees upon transaction. But if you&apos;re eager to learn -
-            here&apos;s a good start.
-          </p>
+            <a href="https://polygon.technology/">{' here is'}</a> a good start.
+          </p><br/>
         </div>
       ),
     },
@@ -130,17 +121,17 @@ const data = {
         <div>
           <p>
             You&apos;ll need a place for your Daturian to live at. You can do
-            that by getting your Metamask wallet ready and sending the desired
+            that by getting your <b>Metamask wallet</b> ready and sending the desired
             amount of MATIC to the wallet and minting the Daturian on this
             website or buying one on OpenSea marketplace. The one-and-only link
-            to the Daturians OpenSea collection will be posted on this website
+            to the Daturians OpenSea collection will be posted on <b>this website</b>
             after the whitelist pre-sale. Beware of fake/copy collections!!!
             Plenty of scammers around these days.
-          </p>
+          </p><br/>
           <p>
-            If you are still having doubts, feel free to join our discord.
+            If you are still having doubts, feel free to join our <a href="https://discord.gg/xmdURtj2WT">{'discord'}</a>.
             Wallet setup guides and all other instructions are provided there.
-          </p>
+          </p><br/>
         </div>
       ),
     },
@@ -149,20 +140,16 @@ const data = {
       content: (
         <div>
           <p>
-            Keep your wallet and your data safe! We encourage you to use a
+            <b>Keep your wallet and your data safe!</b> We encourage you to use a
             separate Metamask wallet for each purchase of an NFT and then
             transfer it to your &apos;main&apos; wallet where you keep your
             beloved NFTs. No one wants to get scammed, right?
-          </p>
+          </p><br/>
           <p>
-            If you are still having doubts, feel free to join our discord.
-            Wallet setup guides and all other instructions are provided there.
-          </p>
-          <p>
-            Safe wallet = happy Daturian. And most importantly - read fantasy
+            <b>Safe wallet = happy Daturian.</b> And most importantly - read fantasy
             novels to your Daturian, make sure to check if their leaves are not
             falling down and catch up with your fellow Daturian holders.
-          </p>
+          </p><br/>
         </div>
       ),
     },
@@ -185,7 +172,7 @@ const config = {
 
 const FaqCont = () => {
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-12 bg-blue rounded-md col-span-3">
+    <div className="flex flex-col p-4 text-left sm:flex-row sm:items-center sm:justify-between p-12 bg-primary-100 rounded-md col-span-3">
       <Faq data={data} config={config} styles={styles} />
     </div>
   );

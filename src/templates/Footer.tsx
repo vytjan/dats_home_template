@@ -5,7 +5,7 @@ import { CenteredFooter } from '../footer/CenteredFooter';
 import { Section } from '../layout/Section';
 
 const Footer = () => (
-  <Background color="#F1F4F9">
+  <Background>
     <Section>
       <div className="col-span-5 p-6 footer">
         <CenteredFooter>
@@ -20,6 +20,44 @@ const Footer = () => (
             </Link>
           </li>
         </CenteredFooter>
+        <div className="some-icons">
+          <a href="https://twitter.com/DaturiansNFT">
+            <img
+              className="twitter-icon"
+              src="/assets/images/icons/twitter.svg"
+            />
+          </a>
+          <a href="https://discord.gg/xmdURtj2WT">
+            <img
+              className="discord-icon"
+              src="/assets/images/icons/discord.svg"
+            />
+          </a>
+          <a href="https://medium.com/@daturians_nft">
+            <img
+              className="medium-icon"
+              src="/assets/images/icons/medium.svg"
+            />
+          </a>
+          <a href="https://opensea.io/collection/daturiansnft">
+            <img
+              className="opensea-icon"
+              src="/assets/images/icons/opensea.svg"
+            />
+          </a>
+          <a href="https://twitter.com/DaturiansNFT">
+            <img
+              className="roadmap-icon"
+              src="/assets/images/icons/snapshot.svg"
+            />
+          </a>
+          <a href="https://www.instagram.com/daturiansnft/">
+            <img
+              className="instagram-icon"
+              src="/assets/images/icons/instagram.svg"
+            />
+          </a>
+        </div>
       </div>
     </Section>
   </Background>

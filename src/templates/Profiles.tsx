@@ -79,7 +79,7 @@ const Profiles = () => {
   return (
     <div className="sm:text-left sm:flex-row sm:items-center sm:justify-between bg-secondary-100 rounded-md col-span-5">
       <h1 className="team-member-title">Team</h1>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-4 gap-5 profiles">
         {profiles.map(
           ({ id, name, description, linkText, linkUrl, imgUrl, imgAlt }) => (
             <div className="team-member rounded-md" key={id}>
@@ -90,11 +90,8 @@ const Profiles = () => {
                 width="100%"
                 height="100%"
               />
-              <h2 className="p-4 team-member-name">{name}</h2>
-              <p className="p-4">{description}</p>
-              <p className="p-4">
-                <a href={linkUrl}>{linkText}</a>
-              </p>
+              <a href={linkUrl}><h2 className="p-4 team-member-name">{name}</h2></a>
+              <p className="p-4 team-member-description">{description}</p>
             </div>
           )
         )}

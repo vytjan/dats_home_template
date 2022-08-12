@@ -14,7 +14,7 @@ const FloraWeek = (props: IFloraProps) => {
   // console.log(router.basePath);
 
   return (
-    <div className="floraweek p-4 sm:text-left sm:items-center sm:justify-between sm:p-8 bg-grass rounded-md col-span-2">
+    <div className="floraweek p-4 sm:text-left sm:items-center sm:justify-between p-8 bg-primary-100 rounded-md col-span-2">
       <h1>{props.title}</h1>
       <p>{props.description}</p>
       <img
