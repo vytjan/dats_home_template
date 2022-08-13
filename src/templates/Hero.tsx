@@ -22,7 +22,7 @@ const Hero = () => (
           <button
             data-collapse-toggle="navbar-default"
             type="button"
-            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 burger"
+            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 burger"
             aria-controls="navbar-default"
             aria-expanded="false"
           >
@@ -41,7 +41,7 @@ const Hero = () => (
               ></path>
             </svg>
           </button>
-          <div className="hidden w-full xl:block md:w-auto" id="navbar-default">
+          <div className="hidden w-full md:block xl:w-auto" id="navbar-default">
             <div className="grid grid-cols-5 p-4 sm:items-center sm:justify-between gap-5">
               <li className="hero-li">
                 <Link href="/about">

@@ -138,6 +138,7 @@ const MyWallet = (props: MyWalletProps) => {
 
   if (address.length === 0)
     return (
+      
       <div className="grid grid-cols-1 gap-5 max-auto px-3">
         <div className="flex flex-col pb-12">
           <div className="seed-art">
