@@ -1,18 +1,18 @@
-import { Button } from '../button/Button';
 import { useRouter } from 'next/router';
+
+import { Button } from '../button/Button';
 
 type IRoadmapProps = {
   image: string;
   imageAlt: string;
   size: number;
-  title: string;
 };
 
 const Roadmap = (props: IRoadmapProps) => {
   const router = useRouter();
   return (
     <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between p-12 bg-primary-100 rounded-md col-span-3">
-            <div className="about-title">
+      <div className="about-title">
         <h1>Roadmap</h1>
         <a href="https://twitter.com/DaturiansNFT">
           <img
@@ -209,18 +209,18 @@ const Roadmap = (props: IRoadmapProps) => {
       <div className="roadmap-legends">
         <p className="roadmap-paragraph">
           <b>{`Legends:`}</b>
-            <Button regular={false} done={true}>
-              Done
-            </Button>
-            <Button regular={false} ongoing={true}>
-              In progress
-            </Button>
-            <Button regular={false} future={true}>
-              Future plans
-            </Button>
-            <Button regular={false} rejected={true}>
-              Community Options
-            </Button>
+          <Button regular={false} done={true}>
+            Done
+          </Button>
+          <Button regular={false} ongoing={true}>
+            In progress
+          </Button>
+          <Button regular={false} future={true}>
+            Future plans
+          </Button>
+          <Button regular={false} rejected={true}>
+            Community Options
+          </Button>
         </p>
       </div>
     </div>

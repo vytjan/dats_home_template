@@ -331,7 +331,7 @@ button:disabled .btn-road-percent-ongoing {
   background-color: #A5F70D !important;
   border: none !important;
 }
-.body-burger {
+.body-burger, #headlessui-menu-items-2  {
   float: right;
   position: absolute;
   right: 25px;
@@ -339,7 +339,7 @@ button:disabled .btn-road-percent-ongoing {
   color: #4147D5 !important;
   background-color: #D7DFFF !important;
 }
-.body-burger:focus {
+.body-burger:focus, #headlessui-menu-items-2:focus {
   background-color: #A5F70D !important;
   border: none !important;
 }

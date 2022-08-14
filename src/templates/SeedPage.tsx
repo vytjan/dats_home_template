@@ -4,6 +4,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 import { Section } from '../layout/Section';
 import { uploadFileRequest } from '../utils/upload.services';
+import { HeaderMenu } from './HeaderMenu';
 import MyWallet from './MyWallet';
 import SubmissionGallery from './SubmissionGallery';
 import { UiFileInputButton } from './UiFileInputButton';
@@ -89,6 +90,7 @@ const SeedPage = () => {
 
   return (
     <Section>
+      <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
         <div className="grid-cols-1 gap-5 max-auto px-3">
           <MyWallet
