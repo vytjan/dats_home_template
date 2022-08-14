@@ -70,6 +70,9 @@ button:disabled .btn-road-percent-ongoing {
 .bg-dark {
   background-color: #4147D5;
 }
+.mywallet {
+  background-color: #4147D5;
+}
 .bg-dark:hover {
   box-shadow: -2px -2px 8px #fff,  2px 2px 8px #4147D5;
   -webkit-transition: .3s ease-in-out;
@@ -417,12 +420,17 @@ button:disabled .btn-road-percent-ongoing {
   margin-right: auto;
   margin-left: auto;
   position: absolute;
-  top: 20%;
+  top: 40%;
   width: 30%;
 }
 .seed-art {
-  width: 80%;
   margin: auto;
+}
+.seed-art img {
+  height: 100vh;
+  width: auto;
+  object-fit: cover;
+  -webkit-filter: blur(10px) saturate(2);
 }
 @media only screen and (max-width: 1279px) {
   .btn-hero {
@@ -440,7 +448,7 @@ button:disabled .btn-road-percent-ongoing {
   .medium-inside {
     justify-content: space-around !important;
   }
-  .medium-icon {
+  .medium-inside .medium-icon {
     margin-left: 20px;
     margin-right: 40px;
   }
@@ -700,7 +708,7 @@ button:disabled .btn-road-percent-ongoing {
   .mobile-date {
     margin: 0px;
   }
-  .discord-icon {
+  .discord .discord-icon {
     margin: auto;
     margin-bottom: 5px;
   }
@@ -729,7 +737,7 @@ button:disabled .btn-road-percent-ongoing {
   .gallery-icon{
     display: none;
   }
-  .opensea-icon {
+  .about-title .opensea-icon {
     display: none;
   }
   .seen-title {
