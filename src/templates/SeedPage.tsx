@@ -73,7 +73,7 @@ const SeedPage = () => {
       // console.log(response2);
     });
 
-    // console.log('response', response);
+    console.log('response', response);
     return response;
   };
 
@@ -120,7 +120,7 @@ const SeedPage = () => {
                   allowMultipleFiles={true}
                 />
               ) : (
-                <h1>{`You don't have any more submissions!`}</h1>
+                <p>{`You don't have any more submissions!`}</p>
               )}
               <SubmissionGallery
                 allSubmissions={loadedSubmissions}

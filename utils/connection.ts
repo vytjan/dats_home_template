@@ -25,6 +25,6 @@ export const connection = async () => {
 
   // OUR SEED MODEL
   const Seed = mongoose.models.Seed || mongoose.model('Seed', SeedSchema);
-
+  console.log(Seed);
   return { conn, Seed };
 };
