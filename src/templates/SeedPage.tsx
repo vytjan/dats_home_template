@@ -127,7 +127,7 @@ const SeedPage = () => {
               ></SubmissionGallery>
             </div>
           ) : (
-            <p>`Connect to your wallet first!`</p>
+            <p></p>
           )}
         </div>
       </div>

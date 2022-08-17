@@ -39,7 +39,7 @@ const Hero = () => (
                 <li className="">
                   <Link href="/about">
                     <a>
-                      <div className="hover column">
+                      <div className="hover column mobile-about">
                         <figure>
                           <Button regular={false} hero={true}>
                             About
@@ -191,7 +191,7 @@ const Hero = () => (
               <li className="hero-li">
                 <Link href="/">
                   <a>
-                    <div className="hover column">
+                    <div className="hover column minting">
                       <div>
                         <figure>
                           <img

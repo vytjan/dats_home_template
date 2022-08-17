@@ -164,7 +164,7 @@ const MyWallet = (props: MyWalletProps) => {
   return (
 
 
-    <div className="grid grid-cols-1 text-center gap-5 max-auto px-3 sm:items-center sm:justify-between bg-secondary-100 rounded-md">
+    <div className="grid grid-cols-1 text-center gap-5 max-auto px-3 sm:items-center sm:justify-between bg-primary-100 rounded-md wallet-address">
       <p>{address}</p>
       <h2>{`Entries remaining: ${nfts.length - props.childSubmissions} of ${
         nfts.length

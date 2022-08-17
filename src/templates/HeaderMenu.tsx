@@ -28,7 +28,7 @@ const HeaderMenu = () => {
               <li className="">
                 <Link href="/about">
                   <a>
-                    <div className="hover column">
+                    <div className="hover column mobile-about">
                       <figure>
                         <Button regular={false} hero={true}>
                           About
