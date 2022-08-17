@@ -86,9 +86,14 @@ export const UiFileInputButton: React.FC<IProps> = (props) => {
   }, [props.getNftsHeld, props.sumbissionCount]); // 👈️ add state variables you want to track
 
   return (
-    <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-between sm:p-8 bg-primary-100 rounded-md">
-      <Popup open={tooManySelected} closeOnDocumentClick onClose={closeModal}>
-        <div className="modal">
+    <div className="text-center flex flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between bg-primary-100 rounded-md">
+      <Popup
+        open={tooManySelected}
+        closeOnDocumentClick
+        onClose={closeModal}
+        modal
+      >
+        <div className="modal bg-primary-100 rounded-md">
           <a className="close" onClick={closeModal}>
             &times;
           </a>
@@ -97,8 +102,8 @@ export const UiFileInputButton: React.FC<IProps> = (props) => {
           </div>
         </div>
       </Popup>
-      <form ref={formRef}>
-        <button type="button" onClick={onClickHandler}>
+      <form className="file-upload-form" ref={formRef}>
+        <button type="button" onClick={onClickHandler} className="p-4 sm:p-8">
           {props.label}
         </button>
         <input

@@ -138,11 +138,14 @@ const MyWallet = (props: MyWalletProps) => {
 
   if (address.length === 0)
     return (
-
       <div className="grid grid-cols-1 gap-5 max-auto px-3 mywallet">
         <div className="flex flex-col pb-12">
           <div className="seed-art rounded-md">
-            <img className="rounded-md" src="/assets/images/seed_barrel.png"/>
+            <img
+              className="rounded-md"
+              src="/assets/images/seed_barrel.png"
+              alt="Seed_Barrel.png"
+            />
           </div>
           <button
             onClick={connectToWallet}
@@ -162,8 +165,6 @@ const MyWallet = (props: MyWalletProps) => {
       </div>
     );
   return (
-
-
     <div className="grid grid-cols-1 text-center gap-5 max-auto px-3 sm:items-center sm:justify-between bg-primary-100 rounded-md wallet-address">
       <p>{address}</p>
       <h2>{`Entries remaining: ${nfts.length - props.childSubmissions} of ${

@@ -26,7 +26,6 @@ export const uploadFileRequest = async (
       headers: {
         'Content-Type': 'application/json',
       },
-      onUploadProgress: progressCallback,
       validateStatus: (_status) => true,
     };
     // const seed = { filename: fileName, address: currAddress };
@@ -35,10 +34,10 @@ export const uploadFileRequest = async (
       JSON.stringify(procFileNames),
       config2
     );
-    return response2.data;
+    return response2;
   }
 
-  return response.data;
+  return response;
 };
 
 export const uploadFileSuccessful = async (

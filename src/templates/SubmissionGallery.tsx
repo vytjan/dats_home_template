@@ -21,8 +21,12 @@ const SubmissionGallery = (props: ISubmissionGalleryProps) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 rounded-md ">
           {props.allSubmissions.map((nft) => (
             // eslint-disable-next-line no-underscore-dangle
-            <div key={nft._id}>
-              <img src={pubDir + nft.filename} alt={nft.filename} />
+            <div key={nft._id} className="submission-images">
+              <img
+                className="rounded-md"
+                src={pubDir + nft.filename}
+                alt={nft.filename}
+              />
             </div>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import axios, { AxiosRequestConfig } from 'axios';
+import Popup from 'reactjs-popup';
 
 import { Section } from '../layout/Section';
 import { uploadFileRequest } from '../utils/upload.services';
@@ -18,6 +19,11 @@ const SeedPage = () => {
   const [loadedSubmissions, setLoadedSubmissions] = useState<AllSubmissions>(
     []
   );
+  const [successfulUpload, setSuccessfulUpload] = useState(false);
+  const [failedUpload, setFailedUpload] = useState(false);
+
+  const closeModalSuccess = () => setSuccessfulUpload(false);
+  const closeModalFailure = () => setFailedUpload(false);
 
   const submissionCount = async (currAddress: string | number | boolean) => {
     try {
@@ -57,36 +63,46 @@ const SeedPage = () => {
       setLoadedSubmissions(slicedResult);
       return slicedResult;
     } catch (error: any) {
-      // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
       return error.response.data;
     }
   };
 
   const onChange = async (formData: FormData) => {
     // console.log(formData);
-    const response = await uploadFileRequest(formData, address, (event) => {
-      console.log(
-        `Current progress:`,
-        Math.round((event.loaded * 100) / event.total)
-      );
-      submissionCount(address);
-      // console.log(response2);
-    });
+    try {
+      const response = await uploadFileRequest(formData, address, (event) => {
+        console.log(
+          `Current progress:`,
+          Math.round((event.loaded * 100) / event.total)
+        );
+        submissionCount(address);
+        // console.log(response2);
+      });
 
-    console.log('response', response);
-    return response;
+      // console.log('response', response);
+      // handle responses
+      if (response.status === 200) {
+        setSuccessfulUpload(true);
+      }
+      return response;
+    } catch (error: any) {
+      // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
+      // alert('Something went wrong, please try again.');
+      setFailedUpload(true);
+      return error.response.data;
+    }
   };
 
   useEffect(() => {
     loadSubmissions();
     setSubmissions(submissions);
-  }, [submissions]);
+  }, [submissions, successfulUpload]);
 
   useEffect(() => {
     if (address !== '') {
       submissionCount(address);
     }
-  }, [address]);
+  }, [address, submissions, successfulUpload]);
 
   return (
     <Section>
@@ -105,6 +121,36 @@ const SeedPage = () => {
           ></MyWallet>
           {address.length > 0 ? (
             <div className="grid-cols-3 gap-5 max-auto px-3">
+              <Popup
+                open={successfulUpload}
+                closeOnDocumentClick
+                onClose={closeModalSuccess}
+                modal
+              >
+                <div className="modal bg-primary-100 rounded-md">
+                  <a className="close" onClick={closeModalSuccess}>
+                    &times;
+                  </a>
+                  <div className="header">
+                    <p>{`Files uploaded successfully`}</p>
+                  </div>
+                </div>
+              </Popup>
+              <Popup
+                open={failedUpload}
+                closeOnDocumentClick
+                onClose={closeModalFailure}
+                modal
+              >
+                <div className="modal bg-primary-100 rounded-md">
+                  <a className="close" onClick={closeModalFailure}>
+                    &times;
+                  </a>
+                  <div className="header">
+                    <p>{`Something went wrong with the upload, please try again.`}</p>
+                  </div>
+                </div>
+              </Popup>
               {nftsHeld - submissions > 0 ? (
                 <UiFileInputButton
                   setSubmissionState={setSubmissionState}

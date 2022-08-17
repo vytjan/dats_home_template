@@ -360,6 +360,8 @@ button:disabled .btn-road-percent-ongoing {
   cursor: pointer;
   position: relative;
 }
+
+
 .menu-icon span {
   background-color: #4147D5;
   height: 3px;
@@ -378,24 +380,23 @@ button:disabled .btn-road-percent-ongoing {
 .menu-icon span:last-child {
   top: 12px;
 }
-.menu-icon:hover span:nth-child(2) {
+.menu-icon.toggled span:nth-child(2) {
   opacity: 0;
 }
-.menu-icon:hover span:first-child,
-.menu-icon:hover span:last-child {
+.menu-icon.toggled span:first-child,
+.menu-icon.toggled span:last-child {
   top: 6px;
   background-color: #FF4360;
 }
-.headlessui-menu-items-2 {
-  background-color: #D7DFFF !important;
-}
-.menu-icon:hover span:first-child {
+
+.menu-icon.toggled span:first-child {
   transform: rotate(45deg);
 }
-.menu-icon:hover span:last-child {
+.menu-icon.toggled span:last-child {
   transform: rotate(-45deg);
 }
-.body-burger, #headlessui-menu-items-2  {
+
+.body-burger, div[id^='headlessui-menu-items-'] {
   float: right;
   position: absolute;
   right: 0px;
@@ -405,16 +406,7 @@ button:disabled .btn-road-percent-ongoing {
   width: 100%;
   height: 100%;
 }
-.body-burger, #headlessui-menu-items-16  {
-  float: right;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  color: #4147D5 !important;
-  background-color: #D7DFFF !important;
-  width: 100%;
-  height: 100%;
-}
+
 .hero-image {
   display: none;
 }
@@ -499,12 +491,10 @@ button:disabled .btn-road-percent-ongoing {
   padding: 20px;
 }
 @media only screen and (max-width: 1023px) {
-  #headlessui-menu-items-2 .btn-hero {
+  div[id^='headlessui-menu-items-'] .btn-hero {
     font-size: 20px !important;
   }
-  #headlessui-menu-items-16 .btn-hero {
-    font-size: 20px !important;
-  }
+  
   .mobile-about {
     margin-top: 100px;
   }
@@ -1008,7 +998,7 @@ image[class^="chart_chart"] {
 }
 .modal > .header {
   width: 100%;
-  border-bottom: 1px solid gray;
+  /* border: 1px solid gray; */
   font-size: 18px;
   text-align: center;
   padding: 5px;
@@ -1035,6 +1025,18 @@ image[class^="chart_chart"] {
   background: #ffffff;
   border-radius: 18px;
   border: 1px solid #cfcece;
+}
+
+/* file upload form */
+form.file-upload-form {
+  width: 100%;
+  height: 100%;
+
+}
+
+form.file-upload-form button {
+  width: 100%;
+  height: 100%;
 }
 
 }

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Menu } from '@headlessui/react';
 import Link from 'next/link';
 
@@ -6,6 +8,11 @@ import { Navbar } from '../navigation/Navbar';
 // import { HallOfFame } from './HallOfFame';
 
 const HeaderMenu = () => {
+  const [isToggled, setToggle] = useState(false);
+
+  const toggleClass = () => {
+    setToggle(!isToggled);
+  };
   return (
     <Navbar>
       <div className="flex flex-wrap justify-between items-center mx-auto">
@@ -13,13 +20,14 @@ const HeaderMenu = () => {
           <Menu.Button as="div">
             <button
               type="button"
+              onClick={toggleClass}
               className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 burger header-burger"
             >
-                <div className="menu-icon">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
+              <div className={isToggled ? 'menu-icon toggled' : 'menu-icon'}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </button>
           </Menu.Button>
           {/* Render a `section` instead of a `div` */}
