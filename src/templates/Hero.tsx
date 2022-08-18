@@ -162,7 +162,7 @@ const Hero = () => {
                 <li className="hero-li">
                   <Link href="/about">
                     <a>
-                      <div className="hover column merch">
+                      <div className="hover column merch-hero">
                         <div>
                           <figure>
                             <img
