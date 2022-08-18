@@ -67,17 +67,6 @@ const Body = () => {
     link: `https://www.medium.com`,
   };
 
-  // const instaProps = {
-  //   url: `https://www.instagram.com/p/CfRZ24UsfrO/`,
-  //   width: 328,
-  // };
-
-  // const roadmapProps = {
-  //   image: `/assets/images/roadmap_screenshot.png`,
-  //   imageAlt: `roadmap`,
-  //   size: 500,
-  // };
-
   const attributesProps = {
     description1: `Since Daturians are technically advanced creatures
     some of them have tech features. You ll see in the
@@ -105,26 +94,6 @@ const Body = () => {
     title: `Daturians Minted`,
   };
 
-  // const floraVsTechProps = {
-  //   description: `There are 222 hand drawn
-  //   attributes that make up a
-  //   Daturian! It s all vector
-  //   and there s no AI. Except
-  //   for Adobe Illustrator and
-  //   some coding, of course. And
-  //   just like Shrek and onions
-  //    they are made of layers!
-  //   8 layers, to be exact. Each
-  //   layer is tied to specific
-  //   metadata that tells a
-  //   unique story about your
-  //   Daturian.`,
-  //   image: `/assets/images/flora_vs_tech.png`,
-  //   imageAlt: `Kiwis`,
-  //   size: 250,
-  //   title: `Flora VS Tech`,
-  // };
-
   const addProps = {
     urlUkraine: `https://opensea.io/collection/daturians4ukraine`,
     urlCafe: `https://opensea.io/collection/daturians-cafe`,
@@ -142,10 +111,6 @@ const Body = () => {
     create something special
     just for YOU!`,
   };
-
-  // const hofProps = {
-  //   description: `Some hall of fame description`,
-  // };
 
   const contactProps = {
     description: `Have something to say to us? A

@@ -1061,6 +1061,18 @@ image[class^="chart_chart"] {
   text-align: center;
   padding: 5px;
 }
+.modal > .header-contact-us {
+  width: 100%;
+  /* border: 1px solid gray; */
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+
+.modal-contact {
+  position:relative;
+}
+
 .modal > .content {
   width: 100%;
   padding: 10px 5px;

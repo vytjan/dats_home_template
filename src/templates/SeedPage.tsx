@@ -10,6 +10,11 @@ import MyWallet from './MyWallet';
 import SubmissionGallery from './SubmissionGallery';
 import { UiFileInputButton } from './UiFileInputButton';
 
+const popMessages = [
+  'Something went wrong with the upload, please try again.',
+  'Image file size cannot exceed 3MB. Only .jpg, .jpeg, .png images are allowed.',
+];
+
 const SeedPage = () => {
   type AllSubmissions = Awaited<ReturnType<typeof loadSubmissions>>;
   const [address, setAddress] = useState('');
@@ -21,6 +26,7 @@ const SeedPage = () => {
   );
   const [successfulUpload, setSuccessfulUpload] = useState(false);
   const [failedUpload, setFailedUpload] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(0);
 
   const closeModalSuccess = () => setSuccessfulUpload(false);
   const closeModalFailure = () => setFailedUpload(false);
@@ -77,19 +83,23 @@ const SeedPage = () => {
           Math.round((event.loaded * 100) / event.total)
         );
         submissionCount(address);
-        // console.log(response2);
+        // console.log(response);
       });
 
       // console.log('response', response);
       // handle responses
       if (response.status === 200) {
         setSuccessfulUpload(true);
+      } else {
+        setFailedUpload(true);
+        setPopupMessage(1);
       }
       return response;
     } catch (error: any) {
       // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
       // alert('Something went wrong, please try again.');
       setFailedUpload(true);
+      setPopupMessage(0);
       return error.response.data;
     }
   };
@@ -148,7 +158,7 @@ const SeedPage = () => {
                     &times;
                   </a>
                   <div className="header">
-                    <p>{`Something went wrong with the upload, please try again.`}</p>
+                    <p>{popMessages[popupMessage]}</p>
                   </div>
                 </div>
               </Popup>

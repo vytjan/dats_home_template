@@ -18,12 +18,23 @@ const upload = multer({
     destination: outputFolderName,
     filename: (_req, file, cb) => cb(null, file.originalname),
   }),
+  // eslint-disable-next-line consistent-return
   fileFilter: (_req, file, cb) => {
-    const acceptFile: boolean = ['image/jpeg', 'image/png'].includes(
-      file.mimetype
-    );
+    // const acceptFile: boolean = ['image/jpeg', 'image/png'].includes(
+    //   file.mimetype
+    // );
 
-    cb(null, acceptFile);
+    // cb(null, acceptFile);
+    if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
   },
 });
 
