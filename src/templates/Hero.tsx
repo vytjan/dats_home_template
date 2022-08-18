@@ -34,7 +34,7 @@ const Hero = () => {
                 <button
                   type="button"
                   onClick={toggleClass}
-                  className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 burger header-burger"
+                  className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 burger header-burger"
                 >
                   <div
                     className={isToggled ? 'menu-icon toggled' : 'menu-icon'}
@@ -66,7 +66,7 @@ const Hero = () => {
                   <li className="">
                     <Link href="/about">
                       <a>
-                        <div className="hover column">
+                        <div className="hover column mobile-merch">
                           <div>
                             <figure>
                               <Button regular={false} hero={true}>
@@ -162,7 +162,7 @@ const Hero = () => {
                 <li className="hero-li">
                   <Link href="/about">
                     <a>
-                      <div className="hover column">
+                      <div className="hover column merch">
                         <div>
                           <figure>
                             <img
