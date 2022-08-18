@@ -167,7 +167,7 @@ const SeedPage = () => {
                   allowMultipleFiles={true}
                 />
               ) : (
-                <p>{`You don't have any more submissions!`}</p>
+                <p className="text-center">{`You don't have any more submissions!`}</p>
               )}
               <SubmissionGallery
                 allSubmissions={loadedSubmissions}

@@ -490,6 +490,29 @@ button:disabled .btn-road-percent-ongoing {
   margin: 10px;
   padding: 20px;
 }
+.submission-images {
+  height: 250px;
+  width: auto;
+}
+.submission-images img {
+  object-fit:  cover;
+  width: 100%;
+  height: 100%;
+}
+.merch {
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: #E9EDFF;
+  color: #B8C7FF;
+  outline: 2px solid #D8DFFC;
+}
+.mobile-merch {
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+.mobile-merch .btn {
+  color: #E9EDFF;
+}
 @media only screen and (max-width: 1023px) {
   div[id^='headlessui-menu-items-'] .btn-hero {
     font-size: 20px !important;
@@ -560,6 +583,7 @@ button:disabled .btn-road-percent-ongoing {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 0.375rem;
   }
   .floraweek img {
     width: 20%;
@@ -644,6 +668,7 @@ button:disabled .btn-road-percent-ongoing {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 0.375rem;
 }
 .styles_faq-row-wrapper__3vA1D .styles_row-body__1NvUo .styles_faq-row__2YF3c .styles_row-title__1YiiY .styles_icon-wrapper__2cftw {
   color: #4247CD !important;
@@ -750,6 +775,16 @@ button:disabled .btn-road-percent-ongoing {
     }
 }
 @media only screen and (max-width: 640px) {
+  .attribute-img {
+    display: none;
+  }
+  .faq-block {
+    grid-column: span 4 / span 4;
+    margin-right: -20px;
+  }
+  .box {
+    display: none;
+  }
   #__next .logo {
     display: none;
   }

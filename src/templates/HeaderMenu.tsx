@@ -51,7 +51,7 @@ const HeaderMenu = () => {
               <li className="">
                 <Link href="/about">
                   <a>
-                    <div className="hover column">
+                    <div className="hover column mobile-merch">
                       <div>
                         <figure>
                           <Button regular={false} hero={true}>
@@ -146,7 +146,7 @@ const HeaderMenu = () => {
                 <a>
                   <div className="navigation-bar">
                     <div>
-                      <div className="btn btn-hero">
+                      <div className="btn btn-hero merch">
                         <img
                           className="nav-icon"
                           src="/assets/images/icons/shop.svg"
