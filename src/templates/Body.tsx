@@ -37,21 +37,6 @@ const Body = () => {
     size: 100,
   };
 
-  const floraProps = {
-    description: `Aloe vera is made up of 99.5% water, but the 0.5% solid portions are known to have the most active nutrients.`,
-    image: `/assets/images/floraweek/aloe_vera.png`,
-    imageAlt: `plant`,
-    size: 44,
-    title: `FLORA of the week`,
-  };
-
-  const updateProps = {
-    image: `/assets/images/icons/discord.svg`,
-    imageAlt: `discord`,
-    size: 44,
-    title: `Update day`,
-  };
-
   const aboutProps = {
     image: `/assets/images/icons/twitter.svg`,
     imageAlt: `twitter`,
@@ -181,13 +166,7 @@ const Body = () => {
       <div className="flex-col">
         <div className="left-content grid grid-cols-3 gap-5 max-auto px-3">
           <Logo image={logoProps.image} imageAlt={logoProps.imageAlt}></Logo>
-          <FloraWeek
-            description={floraProps.description}
-            image={floraProps.image}
-            imageAlt={floraProps.imageAlt}
-            size={floraProps.size}
-            title={floraProps.title}
-          ></FloraWeek>
+          <FloraWeek></FloraWeek>
           <MediumWidget
             title={mediumProps.title}
             description={mediumProps.description}
@@ -209,12 +188,7 @@ const Body = () => {
         </div>
         <div className="right-content grid grid-cols-2 gap-5 max-auto px-3">
           <Calendar></Calendar>
-          <Update
-            title={updateProps.title}
-            image={updateProps.image}
-            imageAlt={updateProps.imageAlt}
-            size={updateProps.size}
-          ></Update>
+          <Update></Update>
           <Events
             description={eventsProps.description}
             location={eventsProps.location}

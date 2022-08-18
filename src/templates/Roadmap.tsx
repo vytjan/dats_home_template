@@ -207,7 +207,7 @@ const Roadmap = (props: IRoadmapProps) => {
         </p>
       </div>
       <div className="roadmap-legends">
-        <p className="roadmap-paragraph">
+        <div className="roadmap-paragraph">
           <b>{`Legends:`}</b>
           <Button regular={false} done={true}>
             Done
@@ -221,7 +221,7 @@ const Roadmap = (props: IRoadmapProps) => {
           <Button regular={false} rejected={true}>
             Community Options
           </Button>
-        </p>
+        </div>
       </div>
     </div>
   );

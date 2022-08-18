@@ -66,7 +66,7 @@ const HeaderMenu = () => {
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                <Link href="/">
+                <Link href="https://mint.daturians.com">
                   <a>
                     <div className="hover column">
                       <div>
@@ -120,7 +120,7 @@ const HeaderMenu = () => {
         <div className="hidden w-full lg:block md:w-auto" id="navbar-default">
           <ul className="flex flex-col p-4 mt-4 rounded-lg  lg:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li className="body-li">
-              <Link href="/">
+              <Link href="/about">
                 <a
                   href="#"
                   className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
@@ -160,7 +160,7 @@ const HeaderMenu = () => {
               </Link>
             </li>
             <li className="body-li">
-              <Link href="/">
+              <Link href="https://mint.daturians.com">
                 <a>
                   <div className="navigation-bar mint">
                     <div>

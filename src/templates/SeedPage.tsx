@@ -27,6 +27,7 @@ const SeedPage = () => {
 
   const submissionCount = async (currAddress: string | number | boolean) => {
     try {
+      // console.log(currAddress);
       const config: AxiosRequestConfig = {
         headers: {
           'Content-Type': 'application/json',
@@ -34,8 +35,8 @@ const SeedPage = () => {
         },
       };
       // const seed = { address: currAddress };
-      const result2 = await axios.get(`/api/seed`, config);
-      // console.log(result2.data);
+      const result2 = await axios.get(`/api/seed/${currAddress}`, config);
+      // console.log(result2);
       const subCount = result2.data.length;
       setSubmissions(subCount);
       setSubmissionState(false);
@@ -56,10 +57,10 @@ const SeedPage = () => {
       // const seed = { address: currAddress };
       const result2 = await axios.get(`/api/seed`, config);
       // console.log(result2.data);
-      let slicedResult = result2.data;
-      if (result2.data.length > 5) {
-        slicedResult = result2.data.slice(0, 5);
-      }
+      const slicedResult = result2.data;
+      // if (result2.data.length > 5) {
+      //   slicedResult = result2.data.slice(0, 5);
+      // }
       setLoadedSubmissions(slicedResult);
       return slicedResult;
     } catch (error: any) {

@@ -17,25 +17,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Potential Responses
   const handleCase: ResponseFuncs = {
     // RESPONSE FOR GET REQUESTS
-    GET: async (req2: NextApiRequest, res2: NextApiResponse) => {
-      console.log(req2);
-      const address1 = req.headers.CurrAddress;
-      // console.log(addrPa);
-      // console.log(address1);
+    GET: async (_req2: NextApiRequest, res2: NextApiResponse) => {
       const { Seed } = await connection(); // connect to database
-      if (address1 !== undefined) {
-        // @ts-ignore
-        res2.json(await Seed.find({ address1 }).catch(catcher));
-      } else {
-        // @ts-ignore
-        res2.json(await Seed.find().catch(catcher));
-      }
+      // @ts-ignore
+      res2.json(await Seed.find().catch(catcher));
+      res2.end();
+      return res2;
     },
     // RESPONSE POST REQUESTS
     POST: async (req3: NextApiRequest, res3: NextApiResponse) => {
       const { Seed } = await connection(); // connect to database
       // @ts-ignore
       res3.json(await Seed.create(req3.body).catch(catcher));
+      res3.end();
+      return res3;
     },
   };
 

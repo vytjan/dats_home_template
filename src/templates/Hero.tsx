@@ -81,7 +81,7 @@ const Hero = () => {
                 </Menu.Item>
                 <Menu.Item>
                   <li className="">
-                    <Link href="/">
+                    <Link href="https://mint.daturians.com">
                       <a>
                         <div className="hover column">
                           <div>
@@ -182,7 +182,7 @@ const Hero = () => {
                   </Link>
                 </li>
                 <li className="hero-li">
-                  <Link href="/">
+                  <Link href="https://mint.daturians.com">
                     <a>
                       <div className="hover column minting">
                         <div>
