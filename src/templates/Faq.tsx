@@ -55,7 +55,9 @@ const data = {
       content: (
         <div>
           <p>
-            <b>Only</b> on this
+            Phase 2 whitelist minting for OG Florafam: <b>August 26th</b>.<br/><br/>
+            Phase 2 public sale: <b>August 31st</b>.<br/><br/>
+            Minting <b>only</b> on this
             <a href="https://www.daturians.com/">{' website.'}</a>
           </p><br/>
         </div>
@@ -74,8 +76,11 @@ const data = {
       content: (
         <div>
           <p>
-            <b>16+ MATIC</b> in public sale | max. <b>20 NFTs per wallet</b>. There will be 4
-            batches with incrementing price.
+            <b>For OG Florafam members: </b>(holders of 1-2006) a Daturian is going to cost <b>12M MATIC</b> for the first 48 hours. After that, OG Florafam will always be able able to mint a Daturian for <b>16 MATIC</b>.</p>
+            <br/><br/>
+            <p><b>Public sale: 22</b> MATIC</p>
+            <br/><br/>
+            <p><b>Limits:</b> the will be no limits for the phase 2 minting.
           </p><br/>
         </div>
       ),
@@ -92,7 +97,7 @@ const data = {
             community with future collections, events and many other benefits
             for Daturians NFT holders. Our community lives on Daturians discord
             server.
-          </p>
+          </p><br/><br/>
           <p>
             Ownership includes <b>full copyright and free use</b> of the 1270 Datura
             fellas.
