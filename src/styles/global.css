@@ -815,6 +815,16 @@ button:disabled .btn-road-percent-ongoing {
     }
 }
 @media only screen and (max-width: 640px) {
+  .p-12 {
+    padding: 2rem !important;
+  }
+  .seen-on {
+    display: flex;
+    align-items: center;
+  }
+  .contact {
+    padding: 0rem !important;
+  }
   .attribute-img {
     display: none;
   }
@@ -874,10 +884,13 @@ button:disabled .btn-road-percent-ongoing {
     font-size: 12px !important;
   }
   .contact .btn-regular {
-    width: 100%;
-    top: 10%;
     background-color: #4147D5;
-    color: #D8DFFC;
+    color: #E9EDFF;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    font-size: 10px;
+    margin: auto;
+    padding-top: 0;
   }
   .gallery-icon{
     display: none;
