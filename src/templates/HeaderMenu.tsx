@@ -18,6 +18,7 @@ const HeaderMenu = () => {
       <div className="flex flex-wrap justify-between items-center mx-auto">
         <Menu as="div">
           <Menu.Button as="div">
+            <a href="https://daturians.com/"><img className="mobile-logo lg:hidden" src="/assets/images/icons/mobile-logo.png"/></a>
             <button
               type="button"
               onClick={toggleClass}
