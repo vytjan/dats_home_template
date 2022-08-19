@@ -134,7 +134,7 @@ const MyWallet = (props: MyWalletProps) => {
       // });
     };
     checkConnection();
-  }, []);
+  });
 
   if (address.length === 0)
     return (

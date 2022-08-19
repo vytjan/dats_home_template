@@ -10,15 +10,16 @@ const data = {
       content: (
         <div>
           <p>
-            NFT stands for “non-fungible token“. NFTs are <b>virtual crypto tokens</b>
-            used “to represent ownership of unique items". They let us tokenize
+            NFT stands for “non-fungible token“. NFTs are{' '}
+            <b>virtual crypto tokens</b>
+            used “to represent ownership of unique items“. They let us tokenize
             things like art, collectibles, even real estate.
           </p>
-          <br/>
+          <br />
           <p>
-            They can only have <b>one official owner</b> at a time and they&apos;re
-            secured by a blockchain - no one can modify the record of ownership
-            or copy/paste a new NFT into existence.”
+            They can only have <b>one official owner</b> at a time and
+            they&apos;re secured by a blockchain - no one can modify the record
+            of ownership or copy/paste a new NFT into existence.”
           </p>
           <p>
             Yes, it was Vitalik&Co who came up with this idea and implemented
@@ -27,7 +28,8 @@ const data = {
               <u>{' whitepaper'}</u>
             </a>
             .
-          </p><br/>
+          </p>
+          <br />
         </div>
       ),
     },
@@ -41,12 +43,13 @@ const data = {
             }
             <a href="https://medium.com/@daturians_nft">{'Medium'}</a>.
           </p>
-          <br/>
+          <br />
           <p>
             Transparent team, friendly and organically grown community -
             that&apos;s what Daturians are. This collection is our kick-starter
             and <b>WE ARE HERE TO STAY!</b>
-          </p><br/>
+          </p>
+          <br />
         </div>
       ),
     },
@@ -55,11 +58,14 @@ const data = {
       content: (
         <div>
           <p>
-            Phase 2 whitelist minting for OG Florafam: <b>August 26th</b>.<br/><br/>
-            Phase 2 public sale: <b>August 31st</b>.<br/><br/>
+            Phase 2 whitelist minting for OG Florafam: <b>August 26th</b>.<br />
+            <br />
+            Phase 2 public sale: <b>August 31st</b>.<br />
+            <br />
             Minting <b>only</b> on this
             <a href="https://www.daturians.com/">{' website.'}</a>
-          </p><br/>
+          </p>
+          <br />
         </div>
       ),
     },
@@ -67,7 +73,10 @@ const data = {
       title: 'How many Daturians are there?',
       content: (
         <div>
-          <p><b>8020</b> plant/fungi/tech loving creatures.</p><br/>
+          <p>
+            <b>8020</b> plant/fungi/tech loving creatures.
+          </p>
+          <br />
         </div>
       ),
     },
@@ -76,12 +85,22 @@ const data = {
       content: (
         <div>
           <p>
-            <b>For OG Florafam members: </b>(holders of 1-2006) a Daturian is going to cost <b>12M MATIC</b> for the first 48 hours. After that, OG Florafam will always be able able to mint a Daturian for <b>16 MATIC</b>.</p>
-            <br/><br/>
-            <p><b>Public sale: 22</b> MATIC</p>
-            <br/><br/>
-            <p><b>Limits:</b> the will be no limits for the phase 2 minting.
-          </p><br/>
+            <b>For OG Florafam members: </b>(holders of 1-2006) a Daturian is
+            going to cost <b>12M MATIC</b> for the first 48 hours. After that,
+            OG Florafam will always be able able to mint a Daturian for{' '}
+            <b>16 MATIC</b>.
+          </p>
+          <br />
+          <br />
+          <p>
+            <b>Public sale: 22</b> MATIC
+          </p>
+          <br />
+          <br />
+          <p>
+            <b>Limits:</b> the will be no limits for the phase 2 minting.
+          </p>
+          <br />
         </div>
       ),
     },
@@ -97,11 +116,14 @@ const data = {
             community with future collections, events and many other benefits
             for Daturians NFT holders. Our community lives on Daturians discord
             server.
-          </p><br/><br/>
+          </p>
+          <br />
+          <br />
           <p>
-            Ownership includes <b>full copyright and free use</b> of the 1270 Datura
-            fellas.
-          </p><br/>
+            Ownership includes <b>full copyright and free use</b> of the 1270
+            Datura fellas.
+          </p>
+          <br />
         </div>
       ),
     },
@@ -116,7 +138,8 @@ const data = {
             particular - all you need to know is that you&apos;ll avoid high
             fees upon transaction. But if you&apos;re eager to learn -
             <a href="https://polygon.technology/">{' here is'}</a> a good start.
-          </p><br/>
+          </p>
+          <br />
         </div>
       ),
     },
@@ -126,17 +149,21 @@ const data = {
         <div>
           <p>
             You&apos;ll need a place for your Daturian to live at. You can do
-            that by getting your <b>Metamask wallet</b> ready and sending the desired
-            amount of MATIC to the wallet and minting the Daturian on this
-            website or buying one on OpenSea marketplace. The one-and-only link
-            to the Daturians OpenSea collection will be posted on <b>this website</b>
+            that by getting your <b>Metamask wallet</b> ready and sending the
+            desired amount of MATIC to the wallet and minting the Daturian on
+            this website or buying one on OpenSea marketplace. The one-and-only
+            link to the Daturians OpenSea collection will be posted on{' '}
+            <b>this website</b>
             after the whitelist pre-sale. Beware of fake/copy collections!!!
             Plenty of scammers around these days.
-          </p><br/>
+          </p>
+          <br />
           <p>
-            If you are still having doubts, feel free to join our <a href="https://discord.gg/xmdURtj2WT">{'discord'}</a>.
-            Wallet setup guides and all other instructions are provided there.
-          </p><br/>
+            If you are still having doubts, feel free to join our{' '}
+            <a href="https://discord.gg/xmdURtj2WT">{'discord'}</a>. Wallet
+            setup guides and all other instructions are provided there.
+          </p>
+          <br />
         </div>
       ),
     },
@@ -145,16 +172,18 @@ const data = {
       content: (
         <div>
           <p>
-            <b>Keep your wallet and your data safe!</b> We encourage you to use a
-            separate Metamask wallet for each purchase of an NFT and then
+            <b>Keep your wallet and your data safe!</b> We encourage you to use
+            a separate Metamask wallet for each purchase of an NFT and then
             transfer it to your &apos;main&apos; wallet where you keep your
             beloved NFTs. No one wants to get scammed, right?
-          </p><br/>
+          </p>
+          <br />
           <p>
-            <b>Safe wallet = happy Daturian.</b> And most importantly - read fantasy
-            novels to your Daturian, make sure to check if their leaves are not
-            falling down and catch up with your fellow Daturian holders.
-          </p><br/>
+            <b>Safe wallet = happy Daturian.</b> And most importantly - read
+            fantasy novels to your Daturian, make sure to check if their leaves
+            are not falling down and catch up with your fellow Daturian holders.
+          </p>
+          <br />
         </div>
       ),
     },

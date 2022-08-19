@@ -31,7 +31,8 @@ const ContactForm = (props: IContactProps) => {
         }, 3000);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        return err;
       });
   };
 
