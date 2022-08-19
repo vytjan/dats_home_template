@@ -11,7 +11,8 @@
     "clean": "rimraf .next out",
     "lint": "next lint",
     "build-types": "tsc --noEmit --pretty",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "vercel-build": "cp ./index.d.ts node_modules/react-faq-component/build/"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.6",
