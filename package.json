@@ -2,9 +2,9 @@
   "name": "next-js-boilerplate",
   "version": "1.0.0",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node app.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "PORT=3000 NODE_ENV=production node app.js",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "export": "next export",
     "build-prod": "run-s clean build export",
