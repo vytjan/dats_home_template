@@ -83,10 +83,10 @@ const SeedPage = () => {
           Math.round((event.loaded * 100) / event.total)
         );
         submissionCount(address);
-        // console.log(response);
+        console.log(response);
       });
 
-      // console.log('response', response);
+      console.log('response', response);
       // handle responses
       if (response.status === 200) {
         setSuccessfulUpload(true);

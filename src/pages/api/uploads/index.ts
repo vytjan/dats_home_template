@@ -1,4 +1,7 @@
+import { S3Client } from '@aws-sdk/client-s3';
+import aws from 'aws-sdk';
 import multer from 'multer';
+import multerS3 from 'multer-s3';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 
@@ -8,23 +11,33 @@ interface NextConnectApiRequest extends NextApiRequest {
   files: Express.Multer.File[];
 }
 type ResponseData = ApiResponse<String[], String>;
+type ResponseData2 = ApiResponse<Express.Multer.File[]>;
 
 const oneMegabyteInBytes = 1500000;
-const outputFolderName = './public/uploads';
+
+const s3 = new S3Client({
+  credentials: new aws.Credentials({
+    accessKeyId: process.env.REACT_APP_ACCESS_ID!,
+    secretAccessKey: process.env.REACT_APP_ACCESS_KEY!,
+  }),
+  region: process.env.REACT_APP_REGION!,
+});
 
 const upload = multer({
   limits: { fileSize: oneMegabyteInBytes * 2 },
-  storage: multer.diskStorage({
-    destination: outputFolderName,
-    filename: (_req, file, cb) => cb(null, file.originalname),
+  storage: multerS3({
+    // eslint-disable-next-line
+    s3: s3,
+    acl: 'public-read',
+    bucket: 'daturiansuploads',
+    // contentType: multerS3.AUTO_CONTENT_TYPE,
+    key(_req, _file, cb) {
+      // console.log(file);
+      cb(null, Date.now().toString()); // use Date.now() for unique file keys
+    },
   }),
   // eslint-disable-next-line consistent-return
   fileFilter: (_req, file, cb) => {
-    // const acceptFile: boolean = ['image/jpeg', 'image/png'].includes(
-    //   file.mimetype
-    // );
-
-    // cb(null, acceptFile);
     if (
       file.mimetype === 'image/png' ||
       file.mimetype === 'image/jpg' ||
@@ -47,6 +60,7 @@ const apiRoute = nextConnect({
     res
       .status(501)
       .json({ error: `Sorry something Happened! ${error.message}` });
+    // console.log(res);
   },
   onNoMatch(req: NextConnectApiRequest, res: NextApiResponse<ResponseData>) {
     res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
@@ -56,13 +70,9 @@ const apiRoute = nextConnect({
 apiRoute.use(upload.array('theFiles'));
 
 apiRoute.post(
-  (req: NextConnectApiRequest, res: NextApiResponse<ResponseData>) => {
-    // const filenames = fs.readdirSync(outputFolderName);
-    // const images = filenames.map((name) => name);
-    // console.log(req.files);
-    const result = req.files.map((a) => a.filename);
-    // console.log(result);
-    res.status(200).json({ data: result });
+  (req: NextConnectApiRequest, res: NextApiResponse<ResponseData2>) => {
+    res.status(200).json({ data: req.files });
+    // console.log(res);
   }
 );
 

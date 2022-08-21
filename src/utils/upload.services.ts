@@ -18,8 +18,8 @@ export const uploadFileRequest = async (
     // console.log(response.data.data);
     const fileNames = response.data.data;
     // console.log(fileNames);
-    const procFileNames = fileNames.map((value: string) => ({
-      filename: value,
+    const procFileNames = fileNames.map((value: any) => ({
+      filename: value.location,
       address: currAddress,
     }));
     const config2: AxiosRequestConfig = {
