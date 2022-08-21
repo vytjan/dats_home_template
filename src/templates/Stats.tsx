@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 type IStatsProps = {
   src: string;
   width: number;
@@ -6,6 +8,8 @@ type IStatsProps = {
 };
 
 const Stats = (props: IStatsProps) => {
+  const router = useRouter();
+
   return (
     <div className="flex-col sm:text-left sm:flex-row sm:items-center sm:justify-between p-12 bg-primary-100 rounded-md col-span-2">
       <div className="about-title">
@@ -13,7 +17,8 @@ const Stats = (props: IStatsProps) => {
         <a href="https://opensea.io/collection/daturiansnft">
           <img
             className="opensea-icon"
-            src="/assets/images/icons/opensea.svg"
+            src={`${router.basePath}/assets/images/icons/opensea.svg`}
+            alt="opensea.svg"
           />
         </a>
       </div>

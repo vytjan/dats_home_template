@@ -25,7 +25,7 @@ const Attributes = (props: IAttributesProps) => {
         <a href="https://gallery.daturians.com/">
           <img
             className="gallery-icon"
-            src="/assets/images/icons/gallery.svg"
+            src={`${router.basePath}/assets/images/icons/gallery.svg`}
             alt={props.imageAlt}
             width={props.size}
             height={props.size}

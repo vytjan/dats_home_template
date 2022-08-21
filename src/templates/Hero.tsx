@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Menu } from '@headlessui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Background } from '../background/Background';
 import { Button } from '../button/Button';
@@ -10,6 +11,8 @@ import { Navbar } from '../navigation/Navbar';
 
 const Hero = () => {
   const [isToggled, setToggle] = useState(false);
+
+  const router = useRouter();
 
   const toggleClass = () => {
     setToggle(!isToggled);
@@ -20,7 +23,7 @@ const Hero = () => {
       <div className="hero-full">
         <img
           className="hero-image"
-          src="/assets/images/hero_full.png"
+          src={`${router.basePath}/assets/images/hero_full.png`}
           height="100%"
           width="100%"
           alt="hero-full"
@@ -145,7 +148,7 @@ const Hero = () => {
                           <figure>
                             <img
                               className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                              src="/assets/images/hero_1.png"
+                              src={`${router.basePath}/assets/images/hero_1.png`}
                               height="100%"
                               width="100%"
                               alt="hero1"
@@ -167,7 +170,7 @@ const Hero = () => {
                           <figure>
                             <img
                               className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                              src="/assets/images/hero_2.png"
+                              src={`${router.basePath}/assets/images/hero_2.png`}
                               height="100%"
                               width="100%"
                               alt="hero2"
@@ -189,7 +192,7 @@ const Hero = () => {
                           <figure>
                             <img
                               className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                              src="/assets/images/hero_3.png"
+                              src={`${router.basePath}/assets/images/hero_3.png`}
                               height="100%"
                               width="100%"
                               alt="hero3"
@@ -211,7 +214,7 @@ const Hero = () => {
                           <figure>
                             <img
                               className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                              src="/assets/images/hero_4.png"
+                              src={`${router.basePath}/assets/images/hero_4.png`}
                               height="100%"
                               width="100%"
                               alt="hero4"
@@ -233,7 +236,7 @@ const Hero = () => {
                           <figure>
                             <img
                               className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                              src="/assets/images/hero_5.png"
+                              src={`${router.basePath}/assets/images/hero_5.png`}
                               height="100%"
                               width="100%"
                               alt="hero5"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { ethers } from 'ethers';
+import { useRouter } from 'next/router';
 import Web3Modal from 'web3modal';
 
 import { NftContractAddress } from '../utils/AppConfig';
@@ -24,7 +25,7 @@ const MyWallet = (props: MyWalletProps) => {
   const [nfts, setNfts] = useState<NftItems>([]);
   const [address, setAddress] = useState('');
   const [loadingState, setLoadingState] = useState('not-loaded');
-  // const router = useRouter()
+  const router = useRouter();
   // const ipfsGateway = 'https://daturians.mypinata.cloud/ipfs/';
 
   /* next, load the NFTs of connected wallet */
@@ -143,7 +144,7 @@ const MyWallet = (props: MyWalletProps) => {
           <div className="seed-art rounded-md">
             <img
               className="rounded-md"
-              src="/assets/images/seed_barrel.png"
+              src={`${router.basePath}/assets/images/seed_barrel.png`}
               alt="Seed_Barrel.png"
             />
           </div>

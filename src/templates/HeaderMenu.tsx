@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Menu } from '@headlessui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Button } from '../button/Button';
 import { Navbar } from '../navigation/Navbar';
@@ -9,6 +10,8 @@ import { Navbar } from '../navigation/Navbar';
 
 const HeaderMenu = () => {
   const [isToggled, setToggle] = useState(false);
+
+  const router = useRouter();
 
   const toggleClass = () => {
     setToggle(!isToggled);
@@ -21,7 +24,7 @@ const HeaderMenu = () => {
             <a href="https://daturians.com/">
               <img
                 className="mobile-logo lg:hidden"
-                src="/assets/images/icons/mobile-logo.png"
+                src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
                 alt="mobile-logo.png"
               />
             </a>
@@ -138,7 +141,7 @@ const HeaderMenu = () => {
                       <div className="btn btn-hero">
                         <img
                           className="nav-icon"
-                          src="/assets/images/icons/about.svg"
+                          src={`${router.basePath}/assets/images/icons/about.svg`}
                           alt="about"
                         />
                         About
@@ -156,7 +159,7 @@ const HeaderMenu = () => {
                       <div className="btn btn-hero merch">
                         <img
                           className="nav-icon"
-                          src="/assets/images/icons/shop.svg"
+                          src={`${router.basePath}/assets/images/icons/shop.svg`}
                           alt="shop"
                         />
                         Merch
@@ -187,7 +190,7 @@ const HeaderMenu = () => {
                       <div className="btn btn-hero">
                         <img
                           className="nav-icon"
-                          src="/assets/images/icons/gallery.svg"
+                          src={`${router.basePath}/assets/images/icons/gallery.svg`}
                           alt="gallery"
                         />
                         Gallery
@@ -205,7 +208,7 @@ const HeaderMenu = () => {
                       <div className="btn btn-hero">
                         <img
                           className="nav-icon"
-                          src="/assets/images/icons/barrel.svg"
+                          src={`${router.basePath}/assets/images/icons/barrel.svg`}
                           alt="barrel"
                         />
                         Seed Barrel

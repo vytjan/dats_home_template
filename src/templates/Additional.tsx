@@ -1,5 +1,5 @@
 import Link from 'next/link';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 type IAdditionalProps = {
   urlUkraine: string;
@@ -15,7 +15,7 @@ type IAdditionalProps = {
 };
 
 const Additional = (props: IAdditionalProps) => {
-  // const router = useRouter();
+  const router = useRouter();
 
   return (
     <div className="flex-col sm:text-left flex-row sm:items-center sm:justify-between bg-secondary-100 rounded-md col-span-5">
@@ -28,7 +28,7 @@ const Additional = (props: IAdditionalProps) => {
           <a>
             <img
               className="rounded-md additional-props"
-              src={props.imageUkraine}
+              src={router.basePath + props.imageUkraine}
               height="100%"
               width="100%"
               alt={props.imageUkraineAlt}
@@ -39,7 +39,7 @@ const Additional = (props: IAdditionalProps) => {
           <a>
             <img
               className="rounded-md additional-props"
-              src={props.imageCafe}
+              src={router.basePath + props.imageCafe}
               height="100%"
               width="100%"
               alt={props.imageCafeAlt}
@@ -50,7 +50,7 @@ const Additional = (props: IAdditionalProps) => {
           <a>
             <img
               className="rounded-md additional-props"
-              src={props.imageGreenhouse}
+              src={router.basePath + props.imageGreenhouse}
               height="100%"
               width="100%"
               alt={props.imageGreenhouseAlt}

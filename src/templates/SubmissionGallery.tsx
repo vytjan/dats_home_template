@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 type ISubmissionGalleryProps = {
   allSubmissions: Array<{
     src: string;
@@ -7,6 +9,8 @@ type ISubmissionGalleryProps = {
 };
 
 const SubmissionGallery = (props: ISubmissionGalleryProps) => {
+  const router = useRouter();
+
   const pubDir = '/uploads/';
 
   if (!props.allSubmissions.length)
@@ -27,7 +31,7 @@ const SubmissionGallery = (props: ISubmissionGalleryProps) => {
             <div key={nft._id} className="submission-images">
               <img
                 className="rounded-md"
-                src={pubDir + nft.filename}
+                src={router.basePath + pubDir + nft.filename}
                 alt={nft.filename}
               />
             </div>
