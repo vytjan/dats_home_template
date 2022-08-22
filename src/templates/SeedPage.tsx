@@ -83,7 +83,7 @@ const SeedPage = () => {
           Math.round((event.loaded * 100) / event.total)
         );
         submissionCount(address);
-        console.log(response);
+        // console.log(response);
       });
 
       console.log('response', response);

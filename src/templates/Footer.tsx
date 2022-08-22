@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="col-span-5 p-6 footer">
           <CenteredFooter>
             <li className="footer-whitepaper">
-              <Link href="https://www.daturians.com/wp-content/uploads/2022/07/Daturians_whitepaper.pdf">
+              <Link href="https://daturiansuploads.s3.amazonaws.com/uploads/Daturians_whitepaper.pdf">
                 <a>Whitepaper</a>
               </Link>
             </li>

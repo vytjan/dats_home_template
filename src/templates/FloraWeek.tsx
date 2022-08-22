@@ -73,6 +73,7 @@ const FloraWeek = () => {
   return (
     <div className="floraweek p-4 sm:text-left sm:items-center sm:justify-between p-8 bg-primary-100 rounded-md col-span-2">
       <h1>{`FLORA of the week`}</h1>
+      <p className="floraweek-name">{floraProps[week]?.title}</p>
       <p>{floraProps[week]?.description}</p>
       <img
         src={`${router.basePath}${floraProps[week]?.image}`}
