@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 import Popup from 'reactjs-popup';
 
+import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
+import { AppConfig } from '../utils/AppConfig';
 import { uploadFileRequest } from '../utils/upload.services';
 import { HeaderMenu } from './HeaderMenu';
 import MyWallet from './MyWallet';
@@ -117,6 +119,10 @@ const SeedPage = () => {
 
   return (
     <Section>
+      <Meta
+        title={AppConfig.seedTitle}
+        description={AppConfig.seedDescription}
+      />
       <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
         <div className="grid-cols-1 gap-5 max-auto px-3">

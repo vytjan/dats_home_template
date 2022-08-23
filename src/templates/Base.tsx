@@ -7,7 +7,10 @@ import { Footer } from './Footer';
 
 const Base = () => (
   <div className="antialiased text-gray-600">
-    <Meta title={AppConfig.title} description={AppConfig.description} />
+    <Meta
+      title={AppConfig.aboutTitle}
+      description={AppConfig.aboutDescription}
+    />
     <Body />
     <Footer />
   </div>

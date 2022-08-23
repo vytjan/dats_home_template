@@ -82,8 +82,8 @@ const Roadmap = (props: IRoadmapProps) => {
           </Button>
         </div>
         <p className="roadmap-paragraph">
-          {`It's fun to be a tourist but by this time your Daturian needs a place
-          to live. We'll start working on a new collection for Daturian holders.`}
+          {`There are plenty of seeds in the barrel! For 8 straight weeks we will select one random submission of your favourite
+           uploaded plant/fungi, draw a 1:1 unique Signature Daturian and send it to the lucky winner's wallet.`}
         </p>
       </div>
       <div className="roadmap-50">
