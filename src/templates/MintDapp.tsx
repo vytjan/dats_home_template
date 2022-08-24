@@ -25,9 +25,7 @@ const MintDapp = () => {
   const data = useAppSelector((state: any) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
   const [connectedState, setConnectedState] = useState(false);
-  const [feedback, setFeedback] = useState(
-    `Click "MINT" to mint your DATURIANS NFT.`
-  );
+  const [feedback, setFeedback] = useState(`Price: 12 MATIC`);
   const [mintAmount, setMintAmount] = useState(1);
   const [isHovering, setIsHovered] = useState(false);
 
@@ -72,7 +70,7 @@ const MintDapp = () => {
     const totalGasLimit = String(gasLimit * mintAmount);
     const maxPriorityFee = String(MintConfig.MAX_PRIORITY_FEE);
     const maxFeeGas = String(MintConfig.MAX_FEE_PER_GAS);
-    setFeedback(`Minting your ${MintConfig.NFT_NAME}...`);
+    setFeedback(`Minting ${MintConfig.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
       .mint(mintAmount)
@@ -85,13 +83,13 @@ const MintDapp = () => {
         value: totalCostWei,
       })
       .once('error', (_err: any) => {
-        setFeedback('Oopsy, something went wrong! Please try again.');
+        setFeedback('Oopsy, doopsy');
         setClaimingNft(false);
       })
       .then((receipt: any) => {
         console.log(receipt);
         setFeedback(
-          `Congrats, the ${MintConfig.NFT_NAME} is yours! go visit Opensea.io to view it.`
+          `Congrats, the ${MintConfig.NFT_NAME} is yours! Visit Opensea.io to view it.`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
@@ -172,34 +170,48 @@ const MintDapp = () => {
                 alt="book"
                 className="book"
                 // src={logImages[0]}
-                onClick={(e) => {
-                  if (connectedState === false) {
-                    setIsHovered(true);
-                    e.preventDefault();
-                    web3Modal.clearCachedProvider();
-                    web3Modal
-                      .connect()
-                      .then((connectedProvider) => {
-                        console.log(connectedProvider);
-                        dispatch(connect(connectedProvider));
-                        getData();
-                        setConnectedState(true);
-                      })
-                      .catch((err: any) => {
-                        console.log(err);
-                        setFeedback(
-                          'It seems that user closed the WalletConnect pop-up.'
-                        );
-                        setIsHovered(false);
-                        setConnectedState(false);
-                        setClaimingNft(false);
-                      });
-                  } else {
-                    e.preventDefault();
-                    console.log('already connected');
-                  }
-                }}
               />
+
+              {!connectedState ? (
+                <div className="flex justify-center mint-state">
+                  <button
+                    className="font-bold mt-4 bg-dark text-white rounded shadow-lg mint-button"
+                    onClick={(e) => {
+                      if (connectedState === false) {
+                        setIsHovered(true);
+                        e.preventDefault();
+                        web3Modal.clearCachedProvider();
+                        web3Modal
+                          .connect()
+                          .then((connectedProvider) => {
+                            console.log(connectedProvider);
+                            dispatch(connect(connectedProvider));
+                            getData();
+                            setConnectedState(true);
+                          })
+                          .catch((err: any) => {
+                            console.log(err);
+                            setFeedback(
+                              'It seems that user closed the WalletConnect pop-up.'
+                            );
+                            setIsHovered(false);
+                            setConnectedState(false);
+                            setClaimingNft(false);
+                          });
+                      } else {
+                        e.preventDefault();
+                        console.log('already connected');
+                      }
+                    }}
+                  >
+                    Connect wallet
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-center dingles">
+                  <button></button>
+                </div>
+              )}
             </a>
           </div>
           <div className="responsive-wrapper">
@@ -233,32 +245,34 @@ const MintDapp = () => {
                       ) : null}
                     </div>
                   ) : (
-                    <div className="flex justify-center">
-                      <p className="mint-description">{feedback}</p>
-                      <div>
-                        <button
-                          className="btn btn-regular mint-styled-button-round"
-                          disabled={!!claimingNft}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            decrementMintAmount();
-                          }}
-                        >
-                          -
-                        </button>
-                        <p className="mint-description">{mintAmount}</p>
-                        <button
-                          className="btn btn-regular mint-styled-button-round"
-                          disabled={!!claimingNft}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            incrementMintAmount();
-                          }}
-                        >
-                          +
-                        </button>
+                    <div className="justify-center">
+                      <div className="flex justify-center">
+                        <p className="mint-description">{feedback}</p>
+                        <div className="mint-numbers">
+                          <button
+                            className="btn btn-regular mint-styled-button-round"
+                            disabled={!!claimingNft}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              decrementMintAmount();
+                            }}
+                          >
+                            -
+                          </button>
+                          <p className="mint-description">{mintAmount}</p>
+                          <button
+                            className="btn btn-regular mint-styled-button-round"
+                            disabled={!!claimingNft}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              incrementMintAmount();
+                            }}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
-                      <div>
+                      <div className="main-mint-btn">
                         <button
                           className="btn btn-regular mint-styled-button"
                           disabled={!!claimingNft}

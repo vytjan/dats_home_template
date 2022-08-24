@@ -1,9 +1,9 @@
 const Calendar = () => {
   const date = new Date();
   const locale = 'en-GB';
-  const month = date.toLocaleString('default', { month: 'long' });
+  const month = date.toLocaleString('default', { month: 'short' });
   const day = date.getDate();
-  const weekday = date.toLocaleDateString(locale, { weekday: 'long' });
+  const weekday = date.toLocaleDateString(locale, { weekday: 'short' });
 
   return (
     <div className="text-center flex flex-col p-4 sm:text-left sm:flex-row sm:items-center sm:justify-center sm:p-8 bg-primary-100 rounded-md col-span-1">
