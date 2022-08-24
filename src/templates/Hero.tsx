@@ -67,7 +67,7 @@ const Hero = () => {
                 </Menu.Item>
                 <Menu.Item>
                   <li className="">
-                    <Link href="/about">
+                    <Link href="/about" className="inactive-link">
                       <a>
                         <div className="hover column mobile-merch">
                           <div>
@@ -84,7 +84,7 @@ const Hero = () => {
                 </Menu.Item>
                 <Menu.Item>
                   <li className="">
-                    <Link href="https://mint.daturians.com">
+                    <Link href="/mint">
                       <a>
                         <div className="hover column">
                           <div>
@@ -163,7 +163,7 @@ const Hero = () => {
                   </Link>
                 </li>
                 <li className="hero-li">
-                  <Link href="/about">
+                  <Link href="/about" className="inactive-link">
                     <a>
                       <div className="hover column merch-hero">
                         <div>
@@ -185,7 +185,7 @@ const Hero = () => {
                   </Link>
                 </li>
                 <li className="hero-li">
-                  <Link href="https://mint.daturians.com">
+                  <Link href="/mint">
                     <a>
                       <div className="hover column minting">
                         <div>

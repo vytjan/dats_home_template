@@ -75,6 +75,9 @@ const MediumWidget = (props: IMediumWidgetProps) => {
         // item = theItem;
       });
       setData({ posts: d.items, isFetching: false });
+      return () => {
+        setData({ posts: dataPlaceholder, isFetching: true }); // This worked for me
+      };
     });
   });
 
