@@ -118,12 +118,16 @@ export const connect = (connectedProvider: any) => {
       } else {
         console.log('Wrong network');
         // alert('Wrong network, please switch to Polygon');
-        dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
+        dispatch(
+          connectFailed({
+            errorMsg: `Change network to ${CONFIG.NETWORK.NAME}.`,
+          })
+        );
       }
     } catch (err) {
       console.log(err);
       // alert('Something went wrong, please contact the team');
-      dispatch(connectFailed('Something went wrong.'));
+      dispatch(connectFailed({ errorMsg: 'Something went wrong.' }));
     }
   };
 };

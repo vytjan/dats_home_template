@@ -50,9 +50,9 @@ export const blockchainMode = createSlice({
         web3: action.payload.web3,
       };
     },
-    CONNECTION_FAILED: (_state, action: PayloadAction<BlockchainState>) => {
+    CONNECTION_FAILED: (state, action: PayloadAction<BlockchainState>) => {
       return {
-        ...initialState,
+        ...state,
         loading: false,
         errorMsg: action.payload.errorMsg,
       };

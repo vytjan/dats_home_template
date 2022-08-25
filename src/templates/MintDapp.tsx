@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { useRouter } from 'next/router';
+import Popup from 'reactjs-popup';
 import Web3Modal from 'web3modal';
 
 import { useAppSelector } from '../hooks';
@@ -18,6 +19,29 @@ import { HeaderMenu } from './HeaderMenu';
 const truncate = (input: any, len: any) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
 
+// web3modal setup
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      chainId: MintConfig.NETWORK.ID,
+      infuraId: MintConfig.INFURA_ID,
+      rpc: {
+        137: MintConfig.NETWORK_URL,
+      },
+    },
+    network: 'matic',
+  },
+};
+
+let web3Modal: Web3Modal;
+if (typeof window !== 'undefined') {
+  web3Modal = new Web3Modal({
+    cacheProvider: true,
+    providerOptions, // required
+  });
+}
+
 const MintDapp = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -25,42 +49,32 @@ const MintDapp = () => {
   const data = useAppSelector((state: any) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
   const [connectedState, setConnectedState] = useState(false);
-  const [feedback, setFeedback] = useState(`Price: 12 MATIC`);
+  const [feedback, setFeedback] = useState(
+    `Price: ${MintConfig.DISPLAY_COST} MATIC`
+  );
   const [mintAmount, setMintAmount] = useState(1);
   const [isHovering, setIsHovered] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const logImages = [
     `${router.basePath}/assets/images/encyclopedia.png`,
     `${router.basePath}/assets/images/encyclopedia_open.png`,
   ];
 
-  // web3modal setup
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        chainId: MintConfig.NETWORK.ID,
-        infuraId: MintConfig.INFURA_ID,
-        rpc: {
-          137: MintConfig.NETWORK_URL,
-        },
-      },
-      network: 'matic',
-    },
-  };
-
-  let web3Modal: Web3Modal;
-  const createWeb3Modal = () => {
-    web3Modal = new Web3Modal({
-      cacheProvider: false,
-      providerOptions,
-    });
-    // return web3Modal;
-  };
+  const closeModalSuccess = () => setErrorMessage(false);
 
   useEffect(() => {
-    createWeb3Modal();
-  }, []);
+    if (
+      blockchain.errorMsg === `Change network to ${MintConfig.NETWORK.NAME}.`
+    ) {
+      setConnectedState(false);
+      setErrorMessage(true);
+      // createWeb3Modal();
+      console.log(blockchain.errorMsg);
+    } else if (blockchain.errorMessage !== '') {
+      setErrorMessage(true);
+    }
+  }, [blockchain, blockchain.errorMsg]);
 
   const claimNFTs = () => {
     const cost = MintConfig.WEI_COST;
@@ -83,7 +97,7 @@ const MintDapp = () => {
         value: totalCostWei,
       })
       .once('error', (_err: any) => {
-        setFeedback('Oopsy, doopsy');
+        setFeedback('Something went wrong, please try again.');
         setClaimingNft(false);
       })
       .then((receipt: any) => {
@@ -119,10 +133,10 @@ const MintDapp = () => {
 
   const getData = () => {
     if (blockchain.account !== '' && blockchain.smartContract !== null) {
-      console.log(blockchain.account);
-      console.log(blockchain.smartContract);
+      // console.log(blockchain.account);
+      // console.log(blockchain.smartContract);
       dispatch(fetchData(blockchain.account));
-      console.log(data);
+      // console.log(data);
     } else {
       console.log('blockchain not set');
     }
@@ -131,6 +145,32 @@ const MintDapp = () => {
   useEffect(() => {
     getData();
   }, [blockchain.account]);
+
+  const connectToWallet = useCallback(async () => {
+    web3Modal.clearCachedProvider();
+    web3Modal
+      .connect()
+      .then((connectedProvider) => {
+        console.log(connectedProvider);
+        dispatch(connect(connectedProvider));
+        getData();
+        setConnectedState(true);
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setFeedback('It seems you closed the WalletConnect pop-up.');
+        setIsHovered(false);
+        setConnectedState(false);
+        setClaimingNft(false);
+      });
+  }, []);
+
+  // Auto connect to the cached provider
+  // useEffect(() => {
+  //   if (web3Modal.cachedProvider) {
+  //     connectToWallet();
+  //   }
+  // }, [connect]);
 
   // console.log(web3Modal);
   return (
@@ -164,47 +204,28 @@ const MintDapp = () => {
             </a>
           </p>
           <div>
+            <img
+              src={isHovering ? logImages[1] : logImages[0]}
+              alt="book"
+              className="book"
+            />
             <a href="">
-              <img
-                src={isHovering ? logImages[1] : logImages[0]}
-                alt="book"
-                className="book"
-                // src={logImages[0]}
-              />
-
               {!connectedState ? (
                 <div className="flex justify-center mint-state">
                   <button
                     className="font-bold mt-4 bg-dark text-white rounded shadow-lg mint-button"
                     onClick={(e) => {
                       if (connectedState === false) {
-                        setIsHovered(true);
                         e.preventDefault();
-                        web3Modal.clearCachedProvider();
-                        web3Modal
-                          .connect()
-                          .then((connectedProvider) => {
-                            console.log(connectedProvider);
-                            dispatch(connect(connectedProvider));
-                            getData();
-                            setConnectedState(true);
-                          })
-                          .catch((err: any) => {
-                            console.log(err);
-                            setFeedback(
-                              'It seems that user closed the WalletConnect pop-up.'
-                            );
-                            setIsHovered(false);
-                            setConnectedState(false);
-                            setClaimingNft(false);
-                          });
+                        connectToWallet();
+                        setIsHovered(true);
                       } else {
                         e.preventDefault();
                         console.log('already connected');
                       }
                     }}
                   >
-                    Connect wallet
+                    {`Connect wallet`}
                   </button>
                 </div>
               ) : (
@@ -238,6 +259,16 @@ const MintDapp = () => {
                     <div className="flex justify-center">
                       {blockchain.errorMsg !== '' ? (
                         <>
+                          <Popup
+                            open={errorMessage}
+                            onClose={closeModalSuccess}
+                          >
+                            <div className="modal-contact bg-primary-100 rounded-md">
+                              <div className="header-contact-us">
+                                <p>{blockchain.errorMessage}</p>
+                              </div>
+                            </div>
+                          </Popup>
                           <p className="mint-description">
                             {blockchain.errorMsg}
                           </p>
