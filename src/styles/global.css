@@ -1346,4 +1346,8 @@ div. responsive-wrapper @media (min-width: 767px) {
   line-height: 1.6;
 }
 
+.mint-error{
+  color: #FF4360;
+}
+
 }
