@@ -93,7 +93,8 @@ const MintDapp = () => {
     setFeedback(`Minting ${MintConfig.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .mint(mintAmount)
+      // .mint(mintAmount)
+      .whitelistedMint(mintAmount)
       .send({
         gas: String(totalGasLimit),
         maxPriorityFeePerGas: String(maxPriorityFee),
