@@ -1350,4 +1350,82 @@ div. responsive-wrapper @media (min-width: 767px) {
   color: #FF4360;
 }
 
+/*old gallery styling*/
+
+.bg-pink {
+	background-color: #FF4360;
+}
+
+.text-pink {
+	color: #FF4360;
+}
+
+.heart {
+	margin-left: 90%;
+	color: #FF4360;
+}
+
+.heart svg {
+	stroke: #ffffff;
+	stroke-width: 3px;
+}
+
+.two-columns {
+	display: flex;
+	align-items: center;
+}
+
+.attribute-title {
+	width: 25%;
+	float: left;
+}
+
+.attribute-description {
+	width: 75%;
+	float: right;
+}
+
+.flower-attribute-title {
+	width: 25%;
+	float: right;
+	margin-right: 50px;
+}
+
+.flower-attribute-description {
+	width: 75%;
+	float: left;
+}
+
+.logo {
+	width: 150px;
+	height: 100%;
+	margin-top: 17px;
+}
+
+.menu {
+	text-align: right;
+	width:100%;
+}
+
+.chakra-button {
+	background-color: #F9F9F9 !important;
+	color: #000072 !important;
+}
+
+.daturian {
+	height: 100%;
+}
+
+.content-gallery {
+	background-color: #E4EFF9;
+	display: flex;
+}
+
+@media only screen and (max-width: 1140px) {
+  .daturian {
+    height: auto !important;
+    border-radius: 10px;
+  }
+}
+
 }
