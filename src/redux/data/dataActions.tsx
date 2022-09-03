@@ -1,7 +1,3 @@
-// log
-
-// import { ThunkDispatch } from 'redux-thunk';
-
 import { store } from '../store';
 import {
   CHECK_DATA_REQUEST,
@@ -37,8 +33,8 @@ export const fetchData = (_account: string) => {
         .getState()
         .blockchain.smartContract!.methods.totalSupply()
         .call();
-      console.log(store.getState());
-      console.log(totalSupply);
+      // console.log(store.getState());
+      // console.log(totalSupply);
       // let cost = await store
       //   .getState()
       //   .blockchain.smartContract.methods.cost()

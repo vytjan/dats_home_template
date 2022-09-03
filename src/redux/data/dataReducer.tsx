@@ -25,7 +25,7 @@ export const dataMode = createSlice({
   // So for example, if we make a dispatch to the 'increment' action here from the index page, it will get triggered and change the value of the state from 0 to 1.
   reducers: {
     CHECK_DATA_REQUEST: (state, _action) => {
-      console.log('loading');
+      // console.log('loading');
       return {
         ...state,
         loading: true,
@@ -34,7 +34,7 @@ export const dataMode = createSlice({
       };
     },
     CHECK_DATA_SUCCESS: (state, action) => {
-      console.log(action);
+      // console.log(action);
       return {
         ...state,
         loading: false,

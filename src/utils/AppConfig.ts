@@ -25,8 +25,8 @@ export const MintConfig = {
   NFT_NAME: 'Daturians',
   SYMBOL: 'DATU',
   MAX_SUPPLY: 8020,
-  WEI_COST: 12000000000000000000,
-  DISPLAY_COST: 12,
+  WEI_COST: 22000000000000000000,
+  DISPLAY_COST: 22,
   GAS_PRICE: 10000000,
   GAS_LIMIT: 3000000,
   MAX_PRIORITY_FEE: 55000000000,
@@ -34,7 +34,4 @@ export const MintConfig = {
   MARKETPLACE: 'Opensea',
   MARKETPLACE_LINK: 'https://opensea.io/collection/daturiansnft',
   SHOW_BACKGROUND: true,
-  NETWORK_URL:
-    'https://polygon-mainnet.infura.io/v3/0470019fdf234b2cad2f660b9070bb45',
-  INFURA_ID: '0470019fdf234b2cad2f660b9070bb45',
 };

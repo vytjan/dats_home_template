@@ -25,9 +25,9 @@ const providerOptions = {
     package: WalletConnectProvider,
     options: {
       chainId: MintConfig.NETWORK.ID,
-      infuraId: MintConfig.INFURA_ID,
+      infuraId: process.env.INFURA_ID,
       rpc: {
-        137: MintConfig.NETWORK_URL,
+        137: process.env.INFURA_NETWORK_URL,
       },
     },
     network: 'matic',
@@ -93,8 +93,8 @@ const MintDapp = () => {
     setFeedback(`Minting ${MintConfig.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      // .mint(mintAmount)
-      .whitelistedMint(mintAmount)
+      .mint(mintAmount)
+      // .whitelistedMint(mintAmount)
       .send({
         gas: String(totalGasLimit),
         maxPriorityFeePerGas: String(maxPriorityFee),
@@ -145,7 +145,7 @@ const MintDapp = () => {
       dispatch(fetchData(blockchain.account));
       // console.log(data);
     } else {
-      console.log('blockchain not set');
+      // console.log('blockchain not set');
     }
   };
 
@@ -158,7 +158,7 @@ const MintDapp = () => {
     web3Modal
       .connect()
       .then((connectedProvider) => {
-        console.log(connectedProvider);
+        // console.log(connectedProvider);
         dispatch(connect(connectedProvider));
         getData();
         setConnectedState(true);
