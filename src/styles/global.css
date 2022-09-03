@@ -1428,4 +1428,9 @@ div. responsive-wrapper @media (min-width: 767px) {
   }
 }
 
+/*single nft placeholder in the gallery*/
+div .single-nft-placeholder {
+  width: 350;
+  height: 350;
+}
 }

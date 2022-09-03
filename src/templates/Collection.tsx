@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import {
-  trackWindowScroll,
-  CommonProps,
-} from 'react-lazy-load-image-component';
+import { Input } from '@chakra-ui/react';
+import { ethers } from 'ethers';
+import LazyLoad from 'react-lazyload';
 
-import { getQueryMetadata } from '../pages/api/nftApi';
+import { Meta } from '../layout/Meta';
+import { Section } from '../layout/Section';
+import { AppConfig, NftContractAddress } from '../utils/AppConfig';
+import DaturiansNFT from '../utils/artifacts/Daturians.json';
+import { HeaderMenu } from './HeaderMenu';
 import NFT from './Nft';
-import SearchBox from './SearchNfts';
 
 export type MetadataItems = {
   tokenId: string;
@@ -27,30 +29,26 @@ const initialItems: MetadataItems = [
   },
 ];
 
-// export default function Home({scrollPosition}) {
-const Collection = (props: CommonProps) => {
+const Collection = () => {
   const [totalNfts, setTotalNfts] = useState<MetadataItems>([]);
   const [nfts, setNfts] = useState<MetadataItems>([]);
   const [query, setQuery] = useState('');
-  // const [loadingState, setLoadingState] = useState('not-loaded');
-
-  const { scrollPosition } = props;
 
   async function loadNfts() {
     /* create a generic provider and query for unsold market items */
-    // const provider = new ethers.providers.JsonRpcProvider(
-    //   'https://polygon-rpc.com/'
-    // );
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https://polygon-rpc.com/'
+    );
     // const provider = new ethers.providers.JsonRpcProvider(node_url)
-    // const contract = new ethers.Contract(
-    //   NftContractAddress,
-    //   DaturiansNFT.abi,
-    //   provider
-    // );
+    const contract = new ethers.Contract(
+      NftContractAddress,
+      DaturiansNFT.abi,
+      provider
+    );
     // get minted number
     try {
-      // const minted = await contract.totalMinted.call();
-      const minted = 20;
+      const minted = await contract.totalMinted.call();
+      // const minted = 20;
       const tempDataArray = Array.from({ length: minted }, (_x, i) => i + 1);
       const items = tempDataArray.map((i: any) => {
         const item = {
@@ -63,9 +61,7 @@ const Collection = (props: CommonProps) => {
 
         return item;
       });
-      // console.log(items);
       return items;
-      // setLoadingState('loaded');
     } catch (err) {
       console.log(err);
       return initialItems;
@@ -74,53 +70,91 @@ const Collection = (props: CommonProps) => {
 
   useEffect(() => {
     const promise = loadNfts();
-    // console.log(currItems);
-    // console.log(items[13])
     promise.then((data) => {
       setTotalNfts(data);
-      console.log(data);
-      data.map((nft) => {
-        console.log(nft);
-        return null;
-      });
-      // const array = Array.from(Array(3), () => (MetaDataItems[]))
+
+      // console.log(data);
       setNfts(data);
-      console.log(nfts);
     });
   }, []);
 
+  // whenever search value gets updated, we will update patience list
+  useEffect(() => {
+    const newNfts = totalNfts.filter((value) =>
+      value.name.toLowerCase().includes(query.toLowerCase())
+    );
+    // console.log(newNfts);
+    setNfts(newNfts);
+  }, [query, totalNfts]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     await e.preventDefault();
-    const res = getQueryMetadata(query, totalNfts);
-    setNfts(res);
+    const newNfts = totalNfts.filter((value) =>
+      value.name.toLowerCase().includes(query.toLowerCase())
+    );
+    // console.log(newNfts);
+    setNfts(newNfts);
   };
 
-  if (!totalNfts.length)
-    return (
-      <h1 className="px-20 py-10 text-2l font-semibold text-center">
-        Loading Daturians NFT
-      </h1>
-    );
-  if (nfts.length < 1)
-    return (
-      <h1 className="px-20 py-10 text-3xl">No Daturians match your search</h1>
-    );
+  const handleKeyUp = (event: any) => {
+    // key code for enter
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      event.target.blur();
+    }
+  };
+
   return (
-    <div className="flex justify-center">
-      <div className="px-4" style={{ maxWidth: '1600px' }}>
-        <SearchBox
-          handleSubmit={handleSubmit}
-          query={query}
-          setQuery={setQuery}
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-          {nfts.map((nft) => (
-            <NFT key={nft.tokenId} scrollPosition={scrollPosition} />
-          ))}
+    <Section>
+      <Meta
+        title={AppConfig.collectionTitle}
+        description={AppConfig.collectionDescription}
+      />
+      <HeaderMenu></HeaderMenu>
+      <div className="flex justify-center">
+        <div className="grid-cols-1 gap-5 max-auto px-3">
+          <h1 className="text-3xl">{AppConfig.collectionTitle}</h1>
+          {!totalNfts.length ? (
+            <h1 className="px-20 py-10 text-2l font-semibold text-center">
+              Loading Daturians NFT
+            </h1>
+          ) : (
+            <>
+              {nfts.length < 1 ? (
+                <h1 className="px-20 py-10 text-3xl">
+                  No Daturians match your search. Sorry...
+                </h1>
+              ) : (
+                <div className="px-4" style={{ maxWidth: '1600px' }}>
+                  <div>
+                    <h3>Search by name:</h3>
+                    <form onSubmit={handleSubmit} className="search rounded">
+                      <Input
+                        placeholder="Search for Daturian ID"
+                        variant="ghost"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyUp={handleKeyUp}
+                      />
+                    </form>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                    {nfts.map((nft, index) => (
+                      <div className="widget-wrapper" key={index}>
+                        <LazyLoad height={350} key={index}>
+                          <NFT key={nft.tokenId} tokenId={nft.tokenId} />
+                        </LazyLoad>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
-    </div>
+    </Section>
   );
 };
 
-export default trackWindowScroll(Collection);
+export default Collection;

@@ -95,7 +95,7 @@ const HeaderMenu = () => {
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                <Link href="https://gallery.daturians.com">
+                <Link href="/gallery">
                   <a>
                     <div className="hover column">
                       <div>
@@ -185,7 +185,7 @@ const HeaderMenu = () => {
               </Link>
             </li>
             <li className="body-li">
-              <Link href="https://gallery.daturians.com">
+              <Link href="/gallery">
                 <a>
                   <div className="navigation-bar">
                     <div>

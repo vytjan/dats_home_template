@@ -17,9 +17,9 @@ const NftGallery = () => {
       />
       <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
-        <div className="grid-cols-1 gap-5 max-auto px-3">
-          <h1>Collections</h1>
-          <div className="flex-col p-4 sm:text-left sm:items-center sm:justify-between bg-primary-100 rounded-md col-span-2">
+        <h1 className="justify-center text-center">Collections</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+          <div className="bg-primary-100 rounded-md col-span-2">
             <Link href="/gallery/this_collection">
               <a>
                 <div className="hover column">
@@ -34,6 +34,72 @@ const NftGallery = () => {
                       />
                       <Button regular={false} hero={true}>
                         {`Daturians`}
+                      </Button>
+                    </figure>
+                  </div>
+                </div>
+              </a>
+            </Link>
+          </div>
+          <div className="bg-primary-100 rounded-md col-span-2">
+            <Link href="/gallery/this_collection">
+              <a>
+                <div className="hover column">
+                  <div>
+                    <figure>
+                      <img
+                        className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/cafe.png`}
+                        height="100%"
+                        width="100%"
+                        alt="daturians"
+                      />
+                      <Button regular={false} hero={true}>
+                        {`Daturians 2`}
+                      </Button>
+                    </figure>
+                  </div>
+                </div>
+              </a>
+            </Link>
+          </div>
+          <div className="bg-primary-100 rounded-md col-span-2">
+            <Link href="/gallery/this_collection">
+              <a>
+                <div className="hover column">
+                  <div>
+                    <figure>
+                      <img
+                        className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/cafe.png`}
+                        height="100%"
+                        width="100%"
+                        alt="daturians"
+                      />
+                      <Button regular={false} hero={true}>
+                        {`Daturians 3`}
+                      </Button>
+                    </figure>
+                  </div>
+                </div>
+              </a>
+            </Link>
+          </div>
+          <div className="bg-primary-100 rounded-md col-span-2">
+            <Link href="/gallery/this_collection">
+              <a>
+                <div className="hover column">
+                  <div>
+                    <figure>
+                      <img
+                        className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/cafe.png`}
+                        height="100%"
+                        width="100%"
+                        alt="daturians"
+                      />
+                      <Button regular={false} hero={true}>
+                        {`Daturians 4`}
                       </Button>
                     </figure>
                   </div>

@@ -101,7 +101,7 @@ const Hero = () => {
                 </Menu.Item>
                 <Menu.Item>
                   <li className="">
-                    <Link href="https://gallery.daturians.com">
+                    <Link href="/gallery">
                       <a>
                         <div className="hover column">
                           <div>
@@ -207,7 +207,7 @@ const Hero = () => {
                   </Link>
                 </li>
                 <li className="hero-li">
-                  <Link href="https://gallery.daturians.com">
+                  <Link href="/gallery">
                     <a>
                       <div className="hover column">
                         <div>

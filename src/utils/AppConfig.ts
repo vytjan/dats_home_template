@@ -8,6 +8,8 @@ export const AppConfig = {
   aboutDescription: 'Everything there is to know about Daturians NFT',
   mintTitle: 'Mint Daturians NFT',
   mintDescription: 'Mint Daturians NFT here',
+  collectionTitle: 'Daturians NFT Collection',
+  collectionDescription: 'Daturians NFT OG collection of 8020 unique NFTs.',
   locale: 'en',
 };
 
