@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { Input } from '@chakra-ui/react';
 import { ethers } from 'ethers';
 import LazyLoad from 'react-lazyload';
 
@@ -129,9 +128,8 @@ const Collection = () => {
                   <div>
                     <h3>Search by name:</h3>
                     <form onSubmit={handleSubmit} className="search rounded">
-                      <Input
+                      <input
                         placeholder="Search for Daturian ID"
-                        variant="ghost"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyUp={handleKeyUp}
