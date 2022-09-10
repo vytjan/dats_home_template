@@ -73,9 +73,12 @@ const NFT = (props: INFTProps) => {
               height="350"
               width="350"
             ></img>
-            <div className="p-4">
-              <p style={{ height: '35px' }} className="text-base font-semibold">
-                {currNft.name}
+            <div className="p-4 gallery-text">
+              <p style={{ height: '26px' }} className="id text-base font-semibold">
+                <b>Id:</b> {currNft.name}
+              </p>
+              <p style={{ height: '26px' }} className="rank text-base font-semibold">
+                <b>Rank:</b> <span>2021</span>
               </p>
             </div>
           </a>

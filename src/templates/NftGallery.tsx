@@ -17,22 +17,21 @@ const NftGallery = () => {
       />
       <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
-        <h1 className="justify-center text-center">Collections</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           <div className="bg-primary-100 rounded-md col-span-2">
             <Link href="/gallery/this_collection">
               <a>
                 <div className="hover column">
-                  <div>
+                  <div className="collections">
                     <figure>
                       <img
-                        className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                        src={`${router.basePath}/assets/images/cafe.png`}
+                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/gallery/daturian.png`}
                         height="100%"
                         width="100%"
-                        alt="daturians"
+                        alt="Daturians"
                       />
-                      <Button regular={false} hero={true}>
+                      <Button regular={true} hero={false}>
                         {`Daturians`}
                       </Button>
                     </figure>
@@ -45,17 +44,17 @@ const NftGallery = () => {
             <Link href="/gallery/this_collection">
               <a>
                 <div className="hover column">
-                  <div>
+                  <div className="collections">
                     <figure>
                       <img
-                        className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                        src={`${router.basePath}/assets/images/cafe.png`}
+                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/gallery/signature_daturian.png`}
                         height="100%"
                         width="100%"
-                        alt="daturians"
+                        alt="signature"
                       />
-                      <Button regular={false} hero={true}>
-                        {`Daturians 2`}
+                      <Button regular={true} hero={false}>
+                        {`Signatures`}
                       </Button>
                     </figure>
                   </div>
@@ -67,17 +66,17 @@ const NftGallery = () => {
             <Link href="/gallery/this_collection">
               <a>
                 <div className="hover column">
-                  <div>
+                  <div className="collections">
                     <figure>
                       <img
-                        className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                        src={`${router.basePath}/assets/images/cafe.png`}
+                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/gallery/ukrainian_daturian.png`}
                         height="100%"
                         width="100%"
-                        alt="daturians"
+                        alt="ukrainians"
                       />
-                      <Button regular={false} hero={true}>
-                        {`Daturians 3`}
+                      <Button regular={true} hero={false}>
+                        {`Ukrainians`}
                       </Button>
                     </figure>
                   </div>
@@ -89,17 +88,17 @@ const NftGallery = () => {
             <Link href="/gallery/this_collection">
               <a>
                 <div className="hover column">
-                  <div>
+                  <div className="collections">
                     <figure>
                       <img
-                        className="hero_img p-4 sm:text-left sm:items-center sm:justify-between"
-                        src={`${router.basePath}/assets/images/cafe.png`}
+                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/gallery/collab_daturian.png`}
                         height="100%"
                         width="100%"
-                        alt="daturians"
+                        alt="collabs"
                       />
-                      <Button regular={false} hero={true}>
-                        {`Daturians 4`}
+                      <Button regular={true} hero={false}>
+                        {`Collabs`}
                       </Button>
                     </figure>
                   </div>

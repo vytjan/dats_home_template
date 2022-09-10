@@ -76,28 +76,26 @@ const SingleNft = () => {
             Loading Daturian
           </h1>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 pt-4">
-            {/* image */}
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4">
-              <div className="rounded-xl overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+            {/* home */}
+            <div className="bg-primary-100 rounded-md grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
+              <div className="rounded-md overflow-hidden">
                 <img
-                  className="object-cover content-center daturian"
-                  src={meta.image}
-                  alt={meta.image}
+                  className="object-cover content-center home-logo"
+                  src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
                 />
               </div>
             </div>
-
+            <div className="col-span-2">
             <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 ">
-              {/* name */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-1">
+            {/* name */}
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
                 <div className="p-4 ">
                   <p className="text-2l font-semibold">{meta.name}</p>
                 </div>
               </div>
-
               {/* health */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-2">
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
                 <div className="p-4 w-full inline-flex">
                   <p className="text-2l font-semibold w-3/12">
                     {`${meta.data.attributes[7].trait_type}: `}
@@ -131,98 +129,8 @@ const SingleNft = () => {
                   </div>
                 </div>
               </div>
-
-              {/* location */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-3">
-                <div className="two-columns">
-                  <div className="p-4 attribute-title">
-                    <p className="text-2l font-semibold">
-                      {meta.data.attributes[2].trait_type}:{' '}
-                    </p>
-                    <p className="text-2l font-light">
-                      {meta.data.attributes[2].value}
-                    </p>
-                  </div>
-                  <div className="p-4 attribute-description">
-                    <p className="font-light">{meta.data.extras[0].value}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* genetics */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-3">
-                <div className="p-4 inline-flex text-center">
-                  <p className="text-2l font-semibold">Genetics: </p>
-                  <p className="font-light">{meta.data.attributes[3].value}</p>
-                </div>
-              </div>
-
-              {/* family */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-3">
-                <div className="two-columns">
-                  <div className="p-4 attribute-title">
-                    <p className="text-2l font-semibold">
-                      {meta.data.attributes[3].trait_type}:{' '}
-                    </p>
-                    <p className="text-2l font-light">
-                      {meta.data.attributes[3].value}
-                    </p>
-                  </div>
-                  <div className="p-4 attribute-description">
-                    <p className="font-light">{meta.data.extras[1].value}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Occupation */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-2">
-                <div className="p-4 ">
-                  <p className="text-2l font-semibold text-center">
-                    {`${meta.data.attributes[4].trait_type}: `}
-                  </p>
-                  <p className="text-2l font-light text-center">
-                    {meta.data.attributes[4].value}
-                  </p>
-                  <p>&nbsp;</p>
-                  <div>
-                    <p className="font-light">{meta.data.extras[2].value}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Special ability */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-1">
-                <div className="p-4 ">
-                  <p className="text-2l font-semibold text-center">
-                    {`${meta.data.extras[3].trait_type}: `}
-                  </p>
-                  <p>&nbsp;</p>
-                  <p>&nbsp;</p>
-                  <div>
-                    <p className="font-light">{meta.data.extras[3].value}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Plant */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-3">
-                <div className="two-columns">
-                  <div className="p-4 flower-attribute-description">
-                    <p className="font-light">{meta.data.extras[4].value}</p>
-                  </div>
-                  <div className="p-4 flower-attribute-title">
-                    <p className="text-2l font-semibold">
-                      {meta.data.attributes[9].trait_type}:{' '}
-                    </p>
-                    <p className="text-2l font-light">
-                      {meta.data.attributes[9].value}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               {/* faction */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-1">
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
                 <div className="p-4 inline-flex">
                   <p className="text-2l font-semibold">
                     {`${meta.data.attributes[1].trait_type}: `}
@@ -234,9 +142,8 @@ const SingleNft = () => {
                   </div>
                 </div>
               </div>
-
               {/* type */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-2">
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
                 <div className="p-4 inline-flex">
                   <p className="text-2l font-semibold">
                     {`${meta.data.attributes[0].trait_type}: `}
@@ -248,9 +155,8 @@ const SingleNft = () => {
                   </div>
                 </div>
               </div>
-
               {/* Character traits */}
-              <div className="content-gallery rounded-xl overflow-hidden col-span-3">
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
                 <div className="p-4 inline-flex">
                   <p className="text-2l font-semibold">
                     {`${meta.data.extras[5].trait_type}: `}
@@ -261,6 +167,140 @@ const SingleNft = () => {
                 </div>
               </div>
             </div>
+            </div>
+
+            {/* image */}
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
+              <div className="rounded-md overflow-hidden">
+                <img
+                  className="object-cover content-center daturian"
+                  src={meta.image}
+                  alt={meta.image}
+                />
+              </div>
+            </div>
+            <div className="col-span-2">
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+              {/* family */}
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 col-span-1">
+                      <h1>
+                        {meta.data.attributes[3].trait_type}:{' '}{meta.data.attributes[3].value}
+                      </h1>
+                      <br/><p className="font-light">{meta.data.extras[1].value}</p>
+                    </div>
+                    <div className="p-4 col-span-1">
+                      <img
+                      className="object-cover content-center family-crest"
+                      src={`${router.basePath}/assets/images/gallery/families/The-Milksalots-Tribe.png`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              {/* location */}
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 col-span-1">
+                      <img
+                      className="object-cover content-center family-crest"
+                      src={`${router.basePath}/assets/images/gallery/locations/Chillden.png`}
+                      />
+                    </div>
+                    <div className="p-4 col-span-1">
+                      <h1>
+                        {meta.data.attributes[2].trait_type}:{' '}{meta.data.attributes[2].value}
+                      </h1>
+                      <br/><p className="font-light">{meta.data.extras[0].value}</p>
+                    </div>
+                  </div>
+                </div>
+              {/* additional */}
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 p-4 flex">
+                  <div class="pulsating-circle"></div>
+                  <p><b>What is {meta.name} doing:</b> Gathering mushrooms </p>
+                </div>
+              </div>
+            </div>
+            {/* genetics */}
+            <div className="col-span-2">
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 col-span-1">
+                      <h1>
+                        {meta.data.attributes[3].trait_type}:{' '}{meta.data.attributes[3].value}
+                      </h1>
+                      <br/><p className="font-light">{meta.data.extras[1].value}</p>
+                    </div>
+                    <div className="p-4 col-span-1">
+                      <img
+                      className="object-cover content-center family-crest"
+                      src={`${router.basePath}/assets/images/gallery/families/Mix-Blood.png`}
+                      />
+                    </div>
+                  </div>
+              </div>
+            </div>
+            {/* Occupation */}
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="p-4">
+                  <h1>
+                    {`${meta.data.attributes[4].trait_type}: `}
+                    {meta.data.attributes[4].value}
+                  </h1>
+                  <p>&nbsp;</p>
+                  <div>
+                    <p className="font-light">{meta.data.extras[2].value}</p>
+                  </div>
+                </div>
+              </div>
+              {/* Special ability */}
+              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="p-4 ">
+                  <h1>
+                    {`${meta.data.extras[3].trait_type}: `}
+                  </h1>
+                  <p>&nbsp;</p>
+                  <div>
+                    <p className="font-light">{meta.data.extras[3].value}</p>
+                  </div>
+                </div>
+              </div>
+              {/* flower */}
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 col-span-1">
+                      <h1>
+                        {meta.data.attributes[9].trait_type}:{' '}{meta.data.attributes[9].value}
+                      </h1>
+                      <br/><p className="font-light">{meta.data.extras[4].value}</p>
+                    </div>
+                    <div className="p-4 col-span-1">
+                      <img
+                      className="object-cover content-center flower-image"
+                      src={`${router.basePath}/assets/images/floraweek/russula.png`}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 datura-map">
+                 <img
+                    className="object-cover content-center"
+                    src={`${router.basePath}/assets/images/datura_map.png`}
+                    />
+                </div>
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 opensea-box gap-4 p-4">
+                 <div className="about-title single-opensea">
+                  <h1>View on Opensea:</h1>
+                  <a href="https://opensea.io/collection/daturiansnft">
+                    <img
+                      className="opensea-icon"
+                      src={`${router.basePath}/assets/images/icons/opensea.svg`}
+                      alt="opensea.svg"
+                    />
+                  </a>
+                </div>
+                </div>
           </div>
         )}
       </div>
