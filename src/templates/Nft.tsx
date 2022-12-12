@@ -4,7 +4,7 @@ import axios from 'axios';
 import Link from 'next/link';
 
 export type MetadataItem = {
-  tokenId: string;
+  tokenId: number;
   image: string;
   name: string;
   description: string;
@@ -12,12 +12,12 @@ export type MetadataItem = {
 };
 
 export type INFTProps = {
-  tokenId: string;
+  tokenId: number;
 };
 
 const NFT = (props: INFTProps) => {
   const [currNft, setCurrNft] = useState<MetadataItem>();
-  const getSingleNFTMeta = async (tokenId: string) => {
+  const getSingleNFTMeta = async (tokenId: number) => {
     const ipfsGateway = 'https://daturians.mypinata.cloud/ipfs/';
     /*
      *  map over items returned from smart contract and format
@@ -74,10 +74,16 @@ const NFT = (props: INFTProps) => {
               width="350"
             ></img>
             <div className="p-4 gallery-text">
-              <p style={{ height: '26px' }} className="id text-base font-semibold">
+              <p
+                style={{ height: '26px' }}
+                className="id text-base font-semibold"
+              >
                 <b>Id:</b> {currNft.name}
               </p>
-              <p style={{ height: '26px' }} className="rank text-base font-semibold">
+              <p
+                style={{ height: '26px' }}
+                className="rank text-base font-semibold"
+              >
                 <b>Rank:</b> <span>2021</span>
               </p>
             </div>

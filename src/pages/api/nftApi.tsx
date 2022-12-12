@@ -1,12 +1,14 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
-export const getMetadataById = async (id: String, contract: any) => {
+const uploadCurrentMeta = async (currId: number, contract: any) => {
   try {
-    const tokenUri = await contract.tokenURI(id);
+    const tokenUri = await contract.tokenURI(currId);
+
     const ipfsGateway = 'https://daturians.mypinata.cloud/ipfs/';
 
     const newUri = tokenUri.replace('ipfs://', ipfsGateway);
     const meta = await axios.get(newUri);
+    // console.log(meta.data);
     const imgUri = meta.data.image.replace('ipfs://', ipfsGateway);
     // append class name
     meta.data.extras.forEach((element: any) => {
@@ -24,17 +26,72 @@ export const getMetadataById = async (id: String, contract: any) => {
     });
 
     const item = {
-      tokenId: id,
+      tokenId: currId,
       image: imgUri,
       name: meta.data.name,
       description: meta.data.description,
       data: meta.data,
     };
-    return item;
+    // console.log(item);
+    // upload to mongodb
+    try {
+      // console.log(currAddress);
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const result2 = await axios.post(`/api/meta/${currId}`, item, config);
+      // console.log(result2);
+      // console.log(result2.data);
+      return result2.data;
+    } catch (error: any) {
+      // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
+      return error.response.data;
+    }
   } catch (e) {
     console.error(e);
     return e;
   }
+};
+
+export const getMetadataById = async (
+  id: String,
+  contract: any,
+  currMinted: Number
+) => {
+  // first check if meta json is already in mongodb
+  const currId = Number(id);
+  // console.log(currId);
+  // only perform if the NFT id is <= currently minted
+  if (currId <= currMinted) {
+    try {
+      // console.log(currAddress);
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          id: currId,
+        },
+      };
+
+      const result2 = await axios.get(`/api/meta/${currId}`, config);
+      // console.log(result2);
+      // console.log(result2.data);
+      if (result2.data.length === 0) {
+        // if there is no record of current NFT, load it to mongodb
+        const res3 = await uploadCurrentMeta(currId, contract);
+        return res3;
+      }
+      return result2;
+    } catch (error: any) {
+      // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
+      return error.response.data;
+    }
+  } else {
+    return null;
+  }
+
   // finally {
   // console.log('We do other stuff.');
   // }
@@ -62,6 +119,41 @@ export const getMetadataById = async (id: String, contract: any) => {
   // }
   // return item
 };
+
+export const getAllMeta = async () =>
+  // id: String,
+  // contract: any,
+  // currMinted: Number
+  {
+    // first check if meta json is already in mongodb
+    // const currId = Number(id);
+    // only perform if the NFT id is <= currently minted
+    // if (currId <= currMinted) {
+    try {
+      // console.log(currAddress);
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          // id: currId,
+        },
+      };
+
+      const result2 = await axios.get(`/api/meta/`, config);
+      // console.log(result2);
+      // console.log(result2.data.length);
+      // if (result2.data.length === 0) {
+      //   // if there is no record of current NFT, load it to mongodb
+      //   const res3 = await uploadCurrentMeta(currId, contract);
+      //   return res3;
+      // }
+      return result2;
+    } catch (error: any) {
+      // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
+      return error.response.data;
+    }
+    // } else {
+    // return null;
+  };
 
 export const getQueryMetadata = (query: any, items: any) => {
   const resultItems = items.filter((item: any) =>
