@@ -1,5 +1,3 @@
-// import console from 'console';
-
 import { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
@@ -8,39 +6,65 @@ import LazyLoad from 'react-lazyload';
 
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
-import { getMetadataById, getAllMeta } from '../pages/api/nftApi';
+import { getFilteredMeta } from '../pages/api/filterApi';
 import { AppConfig, NftContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
+import GenericFilter from './GenericFilter';
 import { HeaderMenu } from './HeaderMenu';
 import NFT from './Nft';
 import SortFilter from './SortField';
 
+// export type MetadataItems = {
+//   tokenId: number;
+//   image: string;
+//   name: string;
+//   description: string;
+//   data: {
+//     id: number;
+//     name: string;
+//     description: string;
+//     image: string;
+//     edition: number;
+//     attributes: [
+//       {
+//         trait_type: string;
+//         value: string;
+//         display_type: string;
+//       }
+//     ];
+//     extras: [
+//       {
+//         trait_type: string;
+//         value: string;
+//       }
+//     ];
+//   };
+// }[];
+
+// export type MetadataItems = {
+//   tokenId: number;
+//   image: string;
+//   name: string;
+//   description: string;
+// }[];
+
 export type MetadataItems = {
   tokenId: number;
-  image: String;
-  name: String;
-  description: String;
-  data: {
-    id: Number;
-    name: String;
-    description: String;
-    image: String;
-    edition: Number;
-    attributes: [
-      {
-        trait_type: String;
-        value: String;
-        display_type: String;
-      }
-    ];
-    extras: [
-      {
-        trait_type: String;
-        value: String;
-      }
-    ];
-  };
+  image: string;
+  name: string;
+  description: string;
+  // data: string;
 }[];
+
+const initialItems: MetadataItems = [
+  {
+    tokenId: 0,
+    image: '0.jpg',
+    name: 'Daturian',
+    description: 'Daturian description',
+    // data: '',
+  },
+];
 
 const sortStates = [
   { name: 'Top rank', type: 0, unavailable: true },
@@ -49,134 +73,233 @@ const sortStates = [
   { name: 'Oldest', type: 3, unavailable: false },
 ];
 
-const initialItems: MetadataItems = [
-  {
-    tokenId: 0,
-    image: '0.jpg',
-    name: 'Daturian',
-    description: 'Daturian description',
-    data: {
-      id: 0,
-      name: 'Daturian',
-      description: 'Daturian description',
-      image: '0.jpg',
-      edition: 0,
-      attributes: [
-        {
-          trait_type: 'a',
-          value: 'b',
-          display_type: 'c',
-        },
-      ],
-      extras: [
-        {
-          trait_type: 'a',
-          value: 'b',
-        },
-      ],
-    },
-  },
-];
+let filterTypeValues = [{ name: '', type: 0 }];
+
+let filterLocationValues = [{ name: '', type: 0 }];
+
+let filterFamilyValues = [{ name: '', type: 0 }];
+
+let filterOccupationValues = [{ name: '', type: 0 }];
+
+// const initialItems: MetadataItems = [
+//   {
+//     tokenId: 0,
+//     image: '0.jpg',
+//     name: 'Daturian',
+//     description: 'Daturian description',
+//     // data: {
+//     //   id: 0,
+//     //   name: 'Daturian',
+//     //   description: 'Daturian description',
+//     //   image: '0.jpg',
+//     //   edition: 0,
+//     //   attributes: [
+//     //     {
+//     //       trait_type: 'a',
+//     //       value: 'b',
+//     //       display_type: 'c',
+//     //     },
+//     //   ],
+//     //   extras: [
+//     //     {
+//     //       trait_type: 'a',
+//     //       value: 'b',
+//     //     },
+//     //   ],
+//     // },
+//   },
+// ];
 
 const Collection = () => {
   const [totalNfts, setTotalNfts] = useState<MetadataItems>([]);
   const [nfts, setNfts] = useState<MetadataItems>([]);
   const [query, setQuery] = useState('');
   const [sortType, setSortType] = useState(sortStates[2]);
+  const [filterType, setFilterType] = useState([filterTypeValues[0]?.name]);
+  const [filterFamily, setFilterFamily] = useState([
+    filterFamilyValues[0]?.name,
+  ]);
+  const [filterOccupation, setFilterOccupation] = useState([
+    filterOccupationValues[0]?.name,
+  ]);
+  const [filterLocation, setFilterLocation] = useState([
+    filterLocationValues[0]?.name,
+  ]);
+  const [currDispNumber, setCurrDispNumber] = useState(0);
 
-  const getFilterValues = (filterName: String) => {
-    // Extract the nested arrays from the filtered array
-    const extractedArrays = totalNfts.map(
-      (parentObject) => parentObject.data.attributes
-    );
+  // async function loadNfts() {
+  //   try {
+  //     const allMeta = await getAllMeta();
+  //     return allMeta.data;
+  //   } catch (err) {
+  //     console.log(err);
+  //     return initialItems;
+  //   }
+  // }
 
-    const flattenedArray = extractedArrays.flat();
+  // async function loadNewMeta() {
+  //   /* create a generic provider and query for unsold market items */
+  //   const provider = new ethers.providers.JsonRpcProvider(
+  //     'https://polygon-rpc.com/'
+  //   );
+  //   // const provider = new ethers.providers.JsonRpcProvider(node_url)
+  //   const contract = new ethers.Contract(
+  //     NftContractAddress,
+  //     DaturiansNFT.abi,
+  //     provider
+  //   );
+  //   try {
+  //     const minted = await contract.totalMinted.call();
+  //     const allMeta = await getAllMeta();
+  //     const tempDataArray = Array.from(
+  //       { length: minted - allMeta.data.length + 1 },
+  //       (_v, k) => k + allMeta.data.length
+  //     );
 
-    // Filter the parent array by a value in the nested array
-    const filteredArray = flattenedArray.filter(
-      (parentObject) => parentObject.trait_type === filterName
-    );
+  //     console.log(allMeta.data.length);
+  //     Promise.all(
+  //       tempDataArray.map(async (i) => {
+  //         // console.log(i);
+  //         const data = await getMetadataById(i.toString(), contract, minted);
+  //         // console.log(data);
+  //       })
+  //     );
+  //     return allMeta;
+  //   } catch (err) {
+  //     console.log(err);
+  //     return null;
+  //   }
+  // }
 
-    // // Use Array.filter() and Set to return only the unique values
-    const distinctValues = Array.from(
-      new Set(filteredArray.map((object) => object.value))
-    );
-    console.log(distinctValues);
-  };
-
-  async function loadNfts() {
-    /* create a generic provider and query for unsold market items */
-    const provider = new ethers.providers.JsonRpcProvider(
-      'https://polygon-rpc.com/'
-    );
-    // const provider = new ethers.providers.JsonRpcProvider(node_url)
-    const contract = new ethers.Contract(
-      NftContractAddress,
-      DaturiansNFT.abi,
-      provider
-    );
-    // get minted number
-    try {
-      const minted = await contract.totalMinted.call();
-      const allMeta = await getAllMeta();
-      // setNfts(allMeta.data);
-      // console.log(allMeta.data);
-      return [allMeta.data, contract, minted];
-    } catch (err) {
-      console.log(err);
-      return initialItems;
-    }
-  }
-
-  async function loadNewMeta(contract: any, minted: number) {
-    const allMeta = await getAllMeta();
-    const tempDataArray = Array.from(
-      { length: minted - allMeta.data.length + 1 },
-      (_v, k) => k + allMeta.data.length
-    );
-
-    console.log(allMeta.data.length);
-    Promise.all(
-      tempDataArray.map(async (i) => {
-        // console.log(i);
-        const data = await getMetadataById(i.toString(), contract, minted);
-        console.log(data);
-      })
-    );
-    return allMeta;
-  }
+  // const promise2 = getFilteredMeta();
+  // promise2.then((data2) => {
+  //   console.log(data2);
+  // });
 
   useEffect(() => {
+    async function loadNfts() {
+      /* create a generic provider and query for unsold market items */
+      const provider = new ethers.providers.JsonRpcProvider(
+        'https://polygon-rpc.com/'
+      );
+      // const provider = new ethers.providers.JsonRpcProvider(node_url)
+      const contract = new ethers.Contract(
+        NftContractAddress,
+        DaturiansNFT.abi,
+        provider
+      );
+      // get minted number
+      try {
+        const minted = await contract.totalMinted.call();
+        // const minted = 20;
+        const tempDataArray = Array.from({ length: minted }, (_x, i) => i + 1);
+        const items = tempDataArray.map((i: any) => {
+          const item = {
+            tokenId: i,
+            image: `${i.toString()}.png`,
+            name: `Daturian #${i.toString()}`,
+            description: '',
+          };
+
+          return item;
+        });
+        const newItems = items.sort((n1, n2) => {
+          if (n1.tokenId > n2.tokenId) {
+            return -1;
+          }
+          if (n1.tokenId < n2.tokenId) {
+            return 1;
+          }
+          return 0;
+        });
+        return newItems;
+      } catch (err) {
+        console.log(err);
+        return initialItems;
+      }
+    }
     const promise = loadNfts();
     promise.then((data) => {
       // setTotalNfts(data[0]);
 
-      console.log(data[0]);
+      // console.log(data[0]);
       // const sorted = sortNfts(sortType.type);
-      setTotalNfts(data[0]);
-      setNfts(data[0]);
-      console.log(totalNfts);
-      getFilterValues('Type');
+      setTotalNfts(data);
+      setNfts(data);
+      // console.log(totalNfts);
+      // getFilterValues('Type');
       // getFilterValues('Faction');
 
       // only load if there are not uploaded jsons:
-      if (data[0].length < data[2]) {
-        const promise2 = loadNewMeta(data[1], data[2]);
-        promise2.then((data2) => {
-          // console.log('totalNfts and data2', totalNfts.length, data2.length);
-          // if (totalNfts.length < data2.data.length) {
-          // const sorted = sortNfts(sortType.type);
-          setTotalNfts(data2.data);
-          setNfts(data2.data);
-          console.log('load new metadata happened');
-          // }
-          // console.log(data2.data);
-
-          // console.log(data2);
-        });
-      }
+      // if (data[0].length < data[2]) {
+      //   const promise2 = loadNewMeta();
+      //   promise2.then((data2) => {
+      //     setTotalNfts(data2.data);
+      //     setNfts(data2.data);
+      //     // console.log('load new metadata happened');
+      //   });
+      // }
     });
-  }, [totalNfts]);
+  }, []);
+
+  useEffect(() => {
+    const promise3 = getFilteredMeta('filterName=Type&distinct=true');
+    promise3.then((data2) => {
+      const newItems = data2.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      console.log(newItems);
+      filterTypeValues = newItems;
+    });
+    const promise4 = getFilteredMeta('filterName=Location&distinct=true');
+    promise4.then((data3) => {
+      const newItems = data3.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterLocationValues = newItems;
+    });
+    const promise5 = getFilteredMeta('filterName=Family&distinct=true');
+    promise5.then((data3) => {
+      const newItems = data3.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterFamilyValues = newItems;
+    });
+    const promise6 = getFilteredMeta('filterName=Occupation&distinct=true');
+    promise6.then((data3) => {
+      const newItems = data3.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterOccupationValues = newItems;
+    });
+  }, []);
 
   // whenever search value gets updated, we will update patience list
   useEffect(() => {
@@ -187,45 +310,89 @@ const Collection = () => {
     setNfts(newNfts);
   }, [query, totalNfts]);
 
-  // whenever sort value is updated, change order
+  // // whenever sort value is updated, change order
+  // useEffect(() => {
+  //   // getFilterValues('Type');
+  //   const sortNfts = (sort_type: number) => {
+  //     let newNfts: MetadataItems = [];
+  //     // if newest
+  //     if (sort_type === 2) {
+  //       newNfts = nfts.sort((n1, n2) => {
+  //         if (n1.tokenId > n2.tokenId) {
+  //           return -1;
+  //         }
+  //         if (n1.tokenId < n2.tokenId) {
+  //           return 1;
+  //         }
+  //         return 0;
+  //       });
+  //     }
+  //     // if oldest
+  //     if (sort_type === 3) {
+  //       newNfts = nfts.sort((n1, n2) => {
+  //         if (n1.tokenId > n2.tokenId) {
+  //           return 1;
+  //         }
+  //         if (n1.tokenId < n2.tokenId) {
+  //           return -1;
+  //         }
+  //         return 0;
+  //       });
+  //     }
+  //     return newNfts;
+  //   };
+  //   // @ts-ignore
+  //   const sortedNfts = sortNfts(sortType.type);
+  //   console.log(sortedNfts);
+  //   setNfts(sortedNfts);
+  //   // console.log(nfts);
+  //   // console.log(totalNfts);
+  // }, []);
+
+  // whenever filter value is updated, change filters
   useEffect(() => {
-    // getFilterValues('Type');
-    const sortNfts = (sort_type: number) => {
-      let newNfts: MetadataItems = [];
-      // if newest
-      if (sort_type === 2) {
-        newNfts = nfts.sort((n1, n2) => {
-          if (n1.tokenId > n2.tokenId) {
-            return 1;
-          }
-          if (n1.tokenId < n2.tokenId) {
-            return -1;
-          }
-
-          return 0;
-        });
+    const filterNfts = () => {
+      let newQuery = '';
+      const myQueries = [
+        filterType.slice(1),
+        filterLocation.slice(1),
+        filterFamily.slice(1),
+        filterOccupation.slice(1),
+      ];
+      // always slice out the first element
+      for (let i = 0; i < myQueries.length; i += 1) {
+        if (myQueries[i]!.length > 0) {
+          newQuery += `&search=${myQueries[i]!.concat().join(',')}`;
+        }
       }
-      // if oldest
-      if (sort_type === 3) {
-        newNfts = nfts.sort((n1, n2) => {
-          if (n1.tokenId > n2.tokenId) {
-            return -1;
-          }
-          if (n1.tokenId < n2.tokenId) {
-            return 1;
-          }
-          return 0;
-        });
-      }
-      return newNfts;
+      // console.log(newQuery);
+      const promise3 = getFilteredMeta(`filterName=Type${newQuery}`);
+      promise3.then((data2) => {
+        setNfts(data2.data);
+      });
+      // }
     };
-    // @ts-ignore
-    const sortedNfts = sortNfts(sortType.type);
-
-    setNfts(sortedNfts);
-    // console.log(nfts);
-    // console.log(totalNfts);
-  }, [sortType, nfts, totalNfts]);
+    // if no filters, display all
+    if (
+      filterType.length === 1 &&
+      filterLocation.length === 1 &&
+      filterFamily.length === 1 &&
+      filterOccupation.length === 1
+    ) {
+      setNfts(totalNfts);
+    } else {
+      // @ts-ignore
+      filterNfts();
+    }
+    setCurrDispNumber(nfts.length);
+  }, [
+    filterType,
+    filterLocation,
+    filterFamily,
+    filterOccupation,
+    totalNfts,
+    nfts.length,
+  ]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     await e.preventDefault();
@@ -270,19 +437,47 @@ const Collection = () => {
               </form>
             </div>
             <div className="sort-field">
+              <h2>Total: {currDispNumber}</h2>
               <SortFilter
                 // @ts-ignore
                 sortType={sortType}
                 setSortType={setSortType}
                 sortStates={sortStates}
               ></SortFilter>
-              {/* <div>
-                <GenericFilter
-                  filterType={}
-                  setFilterType={}
-                  filterStates={}
-                ></GenericFilter>
-              </div> */}
+              <div>
+                <div>
+                  <GenericFilter
+                    filterName={'Type'}
+                    filterValues={filterTypeValues}
+                    filterType={filterType}
+                    setFilterType={setFilterType}
+                  ></GenericFilter>
+                </div>
+                <div>
+                  <GenericFilter
+                    filterName={'Location'}
+                    filterValues={filterLocationValues}
+                    filterType={filterLocation}
+                    setFilterType={setFilterLocation}
+                  ></GenericFilter>
+                </div>
+                <div>
+                  <GenericFilter
+                    filterName={'Family'}
+                    filterValues={filterFamilyValues}
+                    filterType={filterFamily}
+                    setFilterType={setFilterFamily}
+                  ></GenericFilter>
+                </div>
+                <div>
+                  <GenericFilter
+                    filterName={'Occupation'}
+                    filterValues={filterOccupationValues}
+                    filterType={filterOccupation}
+                    setFilterType={setFilterOccupation}
+                  ></GenericFilter>
+                </div>
+              </div>
             </div>
           </div>
           {!totalNfts.length ? (

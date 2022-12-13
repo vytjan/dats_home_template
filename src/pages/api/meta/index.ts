@@ -12,16 +12,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Potential Responses
   const handleCase: ResponseFuncs = {
     // RESPONSE FOR GET REQUESTS
-    GET: async (res2: NextApiResponse) => {
+    // @ts-ignore
+    GET: async (req2: NextApiRequest, res2: NextApiResponse) => {
       // @ts-ignore
       const { Meta } = await connectionMeta(); // connect to database
       // @ts-ignore
-      const response = await Meta.find().sort({ tokenId: -1 }).catch(catcher);
+      const response = await Meta.find()
+        .sort({ tokenId: -1 })
+        .select('tokenId name image description')
+        .catch(catcher);
       // res2.statusCode= 200;
 
-      res2.json(response);
-      console.log(res2);
-      // res2.send();
+      res2.status(200).json(response);
+      // console.log(res2);
+      // res2.send(response);
       // return res2;
     },
   };
