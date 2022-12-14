@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { connectionMeta } from '../../../../utils/connection';
+import { connectionMeta, connectionScore } from '../../../../utils/connection';
 import { ResponseFuncs } from '../../../../utils/types';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const handleCase: ResponseFuncs = {
     // RESPONSE FOR GET REQUESTS
     GET: async (req2: NextApiRequest, res2: NextApiResponse) => {
-      const { filterName, search, distinct } = req2.query;
+      const { filterName, search, distinct, sort, limit } = req2.query;
       const { Meta } = await connectionMeta(); // connect to database
       if (filterName && search) {
         // console.log(search.split(',').length);
@@ -82,6 +82,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         // get distinct values of the filter type
         // @ts-ignore
         const response = await Meta.aggregate(agg).catch(catcher);
+        // console.log(response);
+        res2.json(response);
+        return res2;
+      }
+      if (sort && limit) {
+        let sortType = -1;
+        if (sort === 'asc') {
+          sortType = 1;
+        }
+        const { Score } = await connectionScore(); // connect to database
+        // @ts-ignore
+        const response = await Score.find()
+          .sort({ _id: 1, score: sortType })
+          .limit(limit)
+          .select('score tokenId')
+          .catch(catcher);
         // console.log(response);
         res2.json(response);
         return res2;

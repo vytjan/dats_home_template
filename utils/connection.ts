@@ -75,3 +75,25 @@ export const connectionMeta = async () => {
   console.log(Meta);
   return { conn, Meta };
 };
+
+// connection function meta
+export const connectionScore = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_META}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  // OUR META SCHEMA
+  const SortSchema = new mongoose.Schema({
+    faction: String,
+    my_type: String,
+    score: Number,
+  });
+  // MetaSchema.index({ tokenId: 1 }, { unique: true });
+  // OUR META MODEL
+  const Score = mongoose.models.Score || mongoose.model('Score', SortSchema);
+  console.log(Score);
+  return { conn, Score };
+};

@@ -54,6 +54,7 @@ export type MetadataItems = {
   name: string;
   description: string;
   // data: string;
+  score: number;
 }[];
 
 const initialItems: MetadataItems = [
@@ -63,14 +64,15 @@ const initialItems: MetadataItems = [
     name: 'Daturian',
     description: 'Daturian description',
     // data: '',
+    score: 0,
   },
 ];
 
 const sortStates = [
-  { name: 'Top rank', type: 0, unavailable: true },
-  { name: 'Bottom rank', type: 1, unavailable: true },
-  { name: 'Newest', type: 2, unavailable: false },
-  { name: 'Oldest', type: 3, unavailable: false },
+  { name: 'Top rank', type: 1, unavailable: false },
+  { name: 'Bottom rank', type: 2, unavailable: false },
+  { name: 'Newest', type: 3, unavailable: false },
+  { name: 'Oldest', type: 4, unavailable: false },
 ];
 
 let filterTypeValues = [{ name: '', type: 0 }];
@@ -80,6 +82,8 @@ let filterLocationValues = [{ name: '', type: 0 }];
 let filterFamilyValues = [{ name: '', type: 0 }];
 
 let filterOccupationValues = [{ name: '', type: 0 }];
+
+let scores = [{ score: 0, tokenId: 0 }];
 
 // const initialItems: MetadataItems = [
 //   {
@@ -127,15 +131,7 @@ const Collection = () => {
   ]);
   const [currDispNumber, setCurrDispNumber] = useState(0);
 
-  // async function loadNfts() {
-  //   try {
-  //     const allMeta = await getAllMeta();
-  //     return allMeta.data;
-  //   } catch (err) {
-  //     console.log(err);
-  //     return initialItems;
-  //   }
-  // }
+  // const scores = [];
 
   // async function loadNewMeta() {
   //   /* create a generic provider and query for unsold market items */
@@ -155,16 +151,18 @@ const Collection = () => {
   //       { length: minted - allMeta.data.length + 1 },
   //       (_v, k) => k + allMeta.data.length
   //     );
-
-  //     console.log(allMeta.data.length);
-  //     Promise.all(
-  //       tempDataArray.map(async (i) => {
-  //         // console.log(i);
-  //         const data = await getMetadataById(i.toString(), contract, minted);
-  //         // console.log(data);
-  //       })
-  //     );
-  //     return allMeta;
+  //     if (minted > allMeta.length) {
+  //       console.log(allMeta.data.length);
+  //       Promise.all(
+  //         tempDataArray.map(async (i) => {
+  //           // console.log(i);
+  //           const data = await getMetadataById(i.toString(), contract, minted);
+  //           console.log(data);
+  //         })
+  //       );
+  //       return allMeta;
+  //     }
+  //     return null;
   //   } catch (err) {
   //     console.log(err);
   //     return null;
@@ -175,6 +173,23 @@ const Collection = () => {
   // promise2.then((data2) => {
   //   console.log(data2);
   // });
+
+  function addScores(nftData: MetadataItems) {
+    const newNfts = nftData.map((item: any) => {
+      item.score = scores.find((obj) => {
+        return obj.tokenId === item.tokenId;
+      })?.score;
+      // });
+      return item;
+    });
+    console.log(newNfts);
+    return newNfts;
+  }
+
+  // async function getScores(){
+  //   const scores = await getFilteredMeta(`sort=desc&limit=${minted}`);
+  //   return scores;
+  // }
 
   useEffect(() => {
     async function loadNfts() {
@@ -191,7 +206,10 @@ const Collection = () => {
       // get minted number
       try {
         const minted = await contract.totalMinted.call();
+        const scoresRes = await getFilteredMeta(`sort=desc&limit=${minted}`);
+        scores = scoresRes.data;
         // const minted = 20;
+        // console.log(scores);
         const tempDataArray = Array.from({ length: minted }, (_x, i) => i + 1);
         const items = tempDataArray.map((i: any) => {
           const item = {
@@ -199,20 +217,13 @@ const Collection = () => {
             image: `${i.toString()}.png`,
             name: `Daturian #${i.toString()}`,
             description: '',
+            score: 0,
+            // score: scores[i].score,
           };
 
           return item;
         });
-        const newItems = items.sort((n1, n2) => {
-          if (n1.tokenId > n2.tokenId) {
-            return -1;
-          }
-          if (n1.tokenId < n2.tokenId) {
-            return 1;
-          }
-          return 0;
-        });
-        return newItems;
+        return items;
       } catch (err) {
         console.log(err);
         return initialItems;
@@ -220,27 +231,57 @@ const Collection = () => {
     }
     const promise = loadNfts();
     promise.then((data) => {
+      // console.log(data[1].data[1].score);
+      // // map scores to nfts
+      // const items = data[0].map((item, idx) => {
+      //   item.score = data[1].data[idx].score;
+      //   // });
+      //   return item;
+      // });
+      // console.log(items);
+      // const newItems = data[0].sort((n1, n2) => {
+      //   if (n1.tokenId > n2.tokenId) {
+      //     return -1;
+      //   }
+      //   if (n1.tokenId < n2.tokenId) {
+      //     return 1;
+      //   }
+      //   return 0;
+      // });
+      // return newItems;
       // setTotalNfts(data[0]);
 
       // console.log(data[0]);
       // const sorted = sortNfts(sortType.type);
-      setTotalNfts(data);
-      setNfts(data);
+      // console.log(scores);
+      const newData = addScores(data);
+      setTotalNfts(newData);
+      setNfts(newData);
       // console.log(totalNfts);
       // getFilterValues('Type');
       // getFilterValues('Faction');
 
       // only load if there are not uploaded jsons:
       // if (data[0].length < data[2]) {
-      //   const promise2 = loadNewMeta();
-      //   promise2.then((data2) => {
-      //     setTotalNfts(data2.data);
-      //     setNfts(data2.data);
-      //     // console.log('load new metadata happened');
-      //   });
+      // const promise2 = loadNewMeta();
+      // promise2.then((data2) => {
+      //   setTotalNfts(data2.data);
+      //   setNfts(data2.data);
+      //   // console.log('load new metadata happened');
+      // });
       // }
     });
   }, []);
+
+  // whenever
+  useEffect(() => {
+    const newNfts = totalNfts.filter((value) =>
+      value.name.toLowerCase().includes(query.toLowerCase())
+    );
+    // console.log(newNfts);
+    const newNfts2 = addScores(newNfts);
+    setNfts(newNfts2);
+  }, [query, totalNfts]);
 
   useEffect(() => {
     const promise3 = getFilteredMeta('filterName=Type&distinct=true');
@@ -307,47 +348,85 @@ const Collection = () => {
       value.name.toLowerCase().includes(query.toLowerCase())
     );
     // console.log(newNfts);
-    setNfts(newNfts);
+    // map again the scores:
+    const newData = addScores(newNfts);
+    setNfts(newData);
   }, [query, totalNfts]);
 
   // // whenever sort value is updated, change order
-  // useEffect(() => {
-  //   // getFilterValues('Type');
-  //   const sortNfts = (sort_type: number) => {
-  //     let newNfts: MetadataItems = [];
-  //     // if newest
-  //     if (sort_type === 2) {
-  //       newNfts = nfts.sort((n1, n2) => {
-  //         if (n1.tokenId > n2.tokenId) {
-  //           return -1;
-  //         }
-  //         if (n1.tokenId < n2.tokenId) {
-  //           return 1;
-  //         }
-  //         return 0;
-  //       });
-  //     }
-  //     // if oldest
-  //     if (sort_type === 3) {
-  //       newNfts = nfts.sort((n1, n2) => {
-  //         if (n1.tokenId > n2.tokenId) {
-  //           return 1;
-  //         }
-  //         if (n1.tokenId < n2.tokenId) {
-  //           return -1;
-  //         }
-  //         return 0;
-  //       });
-  //     }
-  //     return newNfts;
-  //   };
-  //   // @ts-ignore
-  //   const sortedNfts = sortNfts(sortType.type);
-  //   console.log(sortedNfts);
-  //   setNfts(sortedNfts);
-  //   // console.log(nfts);
-  //   // console.log(totalNfts);
-  // }, []);
+  useEffect(() => {
+    async function sortNfts(sort_type: number) {
+      let newNfts: MetadataItems = [];
+      // if top rank
+      if (sort_type === 1) {
+        newNfts = nfts.sort((n1, n2) => {
+          if (n1.score > n2.score) {
+            return -1;
+          }
+          if (n1.score < n2.score) {
+            return 1;
+          }
+          return 0;
+        });
+        return newNfts;
+      }
+      // if bottom rank
+      if (sort_type === 2) {
+        newNfts = nfts.sort((n1, n2) => {
+          if (n1.score > n2.score) {
+            return 1;
+          }
+          if (n1.score < n2.score) {
+            return -1;
+          }
+          return 0;
+        });
+        return newNfts;
+      }
+      // if newest
+      if (sort_type === 3) {
+        newNfts = nfts.sort((n1, n2) => {
+          if (n1.tokenId > n2.tokenId) {
+            return -1;
+          }
+          if (n1.tokenId < n2.tokenId) {
+            return 1;
+          }
+          return 0;
+        });
+        return newNfts;
+      }
+      // if oldest
+      if (sort_type === 4) {
+        newNfts = nfts.sort((n1, n2) => {
+          if (n1.tokenId > n2.tokenId) {
+            return 1;
+          }
+          if (n1.tokenId < n2.tokenId) {
+            return -1;
+          }
+          return 0;
+        });
+        return newNfts;
+      }
+      return nfts;
+    }
+
+    // };
+    // @ts-ignore
+    const promise = sortNfts(sortType.type);
+    promise.then((data) => {
+      console.log(sortType);
+      const sortedNfts = data;
+      setNfts(sortedNfts);
+    });
+    // console.log(sortedNfts);
+    // const newNfts2 = addScores(newNfts2)
+
+    // setNfts(sortedNfts);
+    // console.log(nfts);
+    // console.log(totalNfts);
+  }, [nfts, setSortType, sortType]);
 
   // whenever filter value is updated, change filters
   useEffect(() => {
@@ -368,7 +447,8 @@ const Collection = () => {
       // console.log(newQuery);
       const promise3 = getFilteredMeta(`filterName=Type${newQuery}`);
       promise3.then((data2) => {
-        setNfts(data2.data);
+        const newData = addScores(data2.data);
+        setNfts(newData);
       });
       // }
     };
@@ -379,7 +459,8 @@ const Collection = () => {
       filterFamily.length === 1 &&
       filterOccupation.length === 1
     ) {
-      setNfts(totalNfts);
+      const newNfts2 = addScores(totalNfts);
+      setNfts(newNfts2);
     } else {
       // @ts-ignore
       filterNfts();
@@ -400,7 +481,8 @@ const Collection = () => {
       value.name.toLowerCase().includes(query.toLowerCase())
     );
     // console.log(newNfts);
-    setNfts(newNfts);
+    const newNfts2 = addScores(newNfts);
+    setNfts(newNfts2);
   };
 
   const handleKeyUp = (event: any) => {
@@ -2920,6 +3002,7 @@ const Collection = () => {
                           <NFT
                             key={nft.tokenId.toString()}
                             tokenId={nft.tokenId}
+                            score={nft.score}
                           />
                         </LazyLoad>
                       </div>

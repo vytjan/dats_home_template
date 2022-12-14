@@ -57,7 +57,7 @@ const SingleNft = () => {
     const promise = getId(id);
     promise.then((meta2) => {
       // console.log(meta2);
-      if (meta2 !== null) {
+      if (meta2.data && meta2.data.length > 0) {
         setMeta(meta2.data[0]);
       }
     });

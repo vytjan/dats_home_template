@@ -8,11 +8,13 @@ export type MetadataItem = {
   image: string;
   name: string;
   description: string;
-  data: string;
+  // data: string;
+  score: number;
 };
 
 export type INFTProps = {
   tokenId: number;
+  score: number;
 };
 
 const NFT = (props: INFTProps) => {
@@ -35,6 +37,7 @@ const NFT = (props: INFTProps) => {
         name: meta.data.name,
         description: meta.data.description,
         data: meta.data,
+        score: 0,
       };
       return item;
     } catch (err) {
@@ -84,7 +87,7 @@ const NFT = (props: INFTProps) => {
                 style={{ height: '26px' }}
                 className="rank text-base font-semibold"
               >
-                <b>Rank:</b> <span>2021</span>
+                <b>Rank:</b> <span>{props.score}</span>
               </p>
             </div>
           </a>
