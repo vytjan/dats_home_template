@@ -17,6 +17,7 @@ export default function SortFilter(props: FilterProps) {
       <Listbox
         value={props.sortType}
         onChange={(e) => {
+          // console.log(e);
           props.setSortType(e);
         }}
       >

@@ -1552,3 +1552,15 @@ div .single-nft-placeholder {
   height: 350;
 }
 }
+.generic-filter {
+  position: relative;
+}
+.generic-filter > {
+  position: absolute;
+  z-index: 1;
+}
+
+.filter-block {
+  position: relative;
+  
+}

@@ -16,41 +16,40 @@ const SingleNft = () => {
   const [meta, setMeta] = useState<any>([]);
   // console.log(currId);
 
-  const provider = new ethers.providers.JsonRpcProvider(
-    'https://polygon-rpc.com/'
-  );
-  // const provider = new ethers.providers.JsonRpcProvider(node_url)
-  const contract = new ethers.Contract(
-    NftContractAddress,
-    DaturiansNFT.abi,
-    provider
-  );
-
-  async function getId(newId: any) {
-    // console.log(newId);
-    if (newId && typeof newId === 'string') {
-      if (!currId) {
-        setId(newId);
-      }
-      if (currId) {
-        if (currId.length < 1) {
+  useEffect(() => {
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https://polygon-rpc.com/'
+    );
+    // const provider = new ethers.providers.JsonRpcProvider(node_url)
+    const contract = new ethers.Contract(
+      NftContractAddress,
+      DaturiansNFT.abi,
+      provider
+    );
+    async function getId(newId: any) {
+      // console.log(newId);
+      if (newId && typeof newId === 'string') {
+        if (!currId) {
           setId(newId);
         }
+        if (currId) {
+          if (currId.length < 1) {
+            setId(newId);
+          }
+        }
+      }
+
+      try {
+        const minted = await contract.totalMinted.call();
+        const myMeta = await getMetadataById(newId, contract, minted);
+        console.log(myMeta);
+        return myMeta;
+      } catch (err) {
+        console.log(err);
+        return null;
       }
     }
 
-    try {
-      const minted = await contract.totalMinted.call();
-      const myMeta = await getMetadataById(newId, contract, minted);
-      console.log(myMeta);
-      return myMeta;
-    } catch (err) {
-      console.log(err);
-      return null;
-    }
-  }
-
-  useEffect(() => {
     if (!router.isReady) return;
     // console.log(router.query);
     const { id } = router.query;
@@ -63,7 +62,7 @@ const SingleNft = () => {
     });
     // console.log(id);
     // codes using router.query
-  }, [router.isReady]);
+  }, []);
 
   return (
     <Section>
@@ -85,6 +84,7 @@ const SingleNft = () => {
                 <img
                   className="object-cover content-center home-logo"
                   src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
+                  alt="mobile-logo.png"
                 />
               </div>
             </div>

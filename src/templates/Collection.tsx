@@ -14,41 +14,7 @@ import { HeaderMenu } from './HeaderMenu';
 import NFT from './Nft';
 import SortFilter from './SortField';
 
-// export type MetadataItems = {
-//   tokenId: number;
-//   image: string;
-//   name: string;
-//   description: string;
-//   data: {
-//     id: number;
-//     name: string;
-//     description: string;
-//     image: string;
-//     edition: number;
-//     attributes: [
-//       {
-//         trait_type: string;
-//         value: string;
-//         display_type: string;
-//       }
-//     ];
-//     extras: [
-//       {
-//         trait_type: string;
-//         value: string;
-//       }
-//     ];
-//   };
-// }[];
-
-// export type MetadataItems = {
-//   tokenId: number;
-//   image: string;
-//   name: string;
-//   description: string;
-// }[];
-
-export type MetadataItems = {
+type MetadataItems = {
   tokenId: number;
   image: string;
   name: string;
@@ -56,6 +22,14 @@ export type MetadataItems = {
   // data: string;
   score: number;
 }[];
+
+type SortStateTypes =
+  | {
+      name: string;
+      type: number;
+      unavailable: boolean;
+    }
+  | undefined;
 
 const initialItems: MetadataItems = [
   {
@@ -69,10 +43,10 @@ const initialItems: MetadataItems = [
 ];
 
 const sortStates = [
-  { name: 'Top rank', type: 1, unavailable: false },
-  { name: 'Bottom rank', type: 2, unavailable: false },
-  { name: 'Newest', type: 3, unavailable: false },
-  { name: 'Oldest', type: 4, unavailable: false },
+  { name: 'Top rank', type: 0, unavailable: false },
+  { name: 'Bottom rank', type: 1, unavailable: false },
+  { name: 'Newest', type: 2, unavailable: false },
+  { name: 'Oldest', type: 3, unavailable: false },
 ];
 
 let filterTypeValues = [{ name: '', type: 0 }];
@@ -83,42 +57,29 @@ let filterFamilyValues = [{ name: '', type: 0 }];
 
 let filterOccupationValues = [{ name: '', type: 0 }];
 
-let scores = [{ score: 0, tokenId: 0 }];
+let filterEyesValues = [{ name: '', type: 0 }];
 
-// const initialItems: MetadataItems = [
-//   {
-//     tokenId: 0,
-//     image: '0.jpg',
-//     name: 'Daturian',
-//     description: 'Daturian description',
-//     // data: {
-//     //   id: 0,
-//     //   name: 'Daturian',
-//     //   description: 'Daturian description',
-//     //   image: '0.jpg',
-//     //   edition: 0,
-//     //   attributes: [
-//     //     {
-//     //       trait_type: 'a',
-//     //       value: 'b',
-//     //       display_type: 'c',
-//     //     },
-//     //   ],
-//     //   extras: [
-//     //     {
-//     //       trait_type: 'a',
-//     //       value: 'b',
-//     //     },
-//     //   ],
-//     // },
-//   },
-// ];
+let filterFactionValues = [{ name: '', type: 0 }];
+
+let filterFlowersValues = [{ name: '', type: 0 }];
+
+let filterAccessoriesValues = [{ name: '', type: 0 }];
+
+let filterGeneticsValues = [{ name: '', type: 0 }];
+
+let scores = [{ score: 0, tokenId: 0 }];
 
 const Collection = () => {
   const [totalNfts, setTotalNfts] = useState<MetadataItems>([]);
-  const [nfts, setNfts] = useState<MetadataItems>([]);
+  const [nfts, setNfts] = useState<{
+    nftData: MetadataItems;
+    sortType: SortStateTypes;
+  }>({
+    nftData: [],
+    sortType: sortStates[0],
+  });
   const [query, setQuery] = useState('');
-  const [sortType, setSortType] = useState(sortStates[2]);
+  // const [sortType, setSortType] = useState(sortStates[2]);
   const [filterType, setFilterType] = useState([filterTypeValues[0]?.name]);
   const [filterFamily, setFilterFamily] = useState([
     filterFamilyValues[0]?.name,
@@ -126,53 +87,32 @@ const Collection = () => {
   const [filterOccupation, setFilterOccupation] = useState([
     filterOccupationValues[0]?.name,
   ]);
+  const [filterFaction, setFilterFaction] = useState([
+    filterFactionValues[0]?.name,
+  ]);
+  const [filterFlowers, setFilterFlowers] = useState([
+    filterFlowersValues[0]?.name,
+  ]);
+  const [filterAccessories, setFilterAccessories] = useState([
+    filterAccessoriesValues[0]?.name,
+  ]);
+  const [filterGenetics, setFilterGenetics] = useState([
+    filterGeneticsValues[0]?.name,
+  ]);
   const [filterLocation, setFilterLocation] = useState([
     filterLocationValues[0]?.name,
   ]);
+  const [filterEyes, setFilterEyes] = useState([filterEyesValues[0]?.name]);
   const [currDispNumber, setCurrDispNumber] = useState(0);
+  const [loadingScreen, setLoadingScreen] = useState(false);
 
-  // const scores = [];
-
-  // async function loadNewMeta() {
-  //   /* create a generic provider and query for unsold market items */
-  //   const provider = new ethers.providers.JsonRpcProvider(
-  //     'https://polygon-rpc.com/'
-  //   );
-  //   // const provider = new ethers.providers.JsonRpcProvider(node_url)
-  //   const contract = new ethers.Contract(
-  //     NftContractAddress,
-  //     DaturiansNFT.abi,
-  //     provider
-  //   );
-  //   try {
-  //     const minted = await contract.totalMinted.call();
-  //     const allMeta = await getAllMeta();
-  //     const tempDataArray = Array.from(
-  //       { length: minted - allMeta.data.length + 1 },
-  //       (_v, k) => k + allMeta.data.length
-  //     );
-  //     if (minted > allMeta.length) {
-  //       console.log(allMeta.data.length);
-  //       Promise.all(
-  //         tempDataArray.map(async (i) => {
-  //           // console.log(i);
-  //           const data = await getMetadataById(i.toString(), contract, minted);
-  //           console.log(data);
-  //         })
-  //       );
-  //       return allMeta;
-  //     }
-  //     return null;
-  //   } catch (err) {
-  //     console.log(err);
-  //     return null;
-  //   }
-  // }
-
-  // const promise2 = getFilteredMeta();
-  // promise2.then((data2) => {
-  //   console.log(data2);
-  // });
+  const setSortCallback = (value: {
+    name: string;
+    type: number;
+    unavailable: boolean;
+  }) => {
+    setNfts({ ...nfts, sortType: value });
+  };
 
   function addScores(nftData: MetadataItems) {
     const newNfts = nftData.map((item: any) => {
@@ -182,14 +122,9 @@ const Collection = () => {
       // });
       return item;
     });
-    console.log(newNfts);
+    // console.log(newNfts);
     return newNfts;
   }
-
-  // async function getScores(){
-  //   const scores = await getFilteredMeta(`sort=desc&limit=${minted}`);
-  //   return scores;
-  // }
 
   useEffect(() => {
     async function loadNfts() {
@@ -209,12 +144,15 @@ const Collection = () => {
         const scoresRes = await getFilteredMeta(`sort=desc&limit=${minted}`);
         scores = scoresRes.data;
         // const minted = 20;
-        // console.log(scores);
+        const ipfsUrl =
+          'https://daturians.mypinata.cloud/ipfs/Qmc6GR4znHrxpFKCWDYkn8eeLgGHahKBA7VT4PTc5xENcH/';
+
         const tempDataArray = Array.from({ length: minted }, (_x, i) => i + 1);
         const items = tempDataArray.map((i: any) => {
           const item = {
             tokenId: i,
-            image: `${i.toString()}.png`,
+            image: `${ipfsUrl + String(i)}.png`,
+            // image: `${i.toString()}.png`,
             name: `Daturian #${i.toString()}`,
             description: '',
             score: 0,
@@ -231,35 +169,10 @@ const Collection = () => {
     }
     const promise = loadNfts();
     promise.then((data) => {
-      // console.log(data[1].data[1].score);
-      // // map scores to nfts
-      // const items = data[0].map((item, idx) => {
-      //   item.score = data[1].data[idx].score;
-      //   // });
-      //   return item;
-      // });
-      // console.log(items);
-      // const newItems = data[0].sort((n1, n2) => {
-      //   if (n1.tokenId > n2.tokenId) {
-      //     return -1;
-      //   }
-      //   if (n1.tokenId < n2.tokenId) {
-      //     return 1;
-      //   }
-      //   return 0;
-      // });
-      // return newItems;
-      // setTotalNfts(data[0]);
-
-      // console.log(data[0]);
-      // const sorted = sortNfts(sortType.type);
-      // console.log(scores);
       const newData = addScores(data);
+
       setTotalNfts(newData);
-      setNfts(newData);
-      // console.log(totalNfts);
-      // getFilterValues('Type');
-      // getFilterValues('Faction');
+      setNfts({ nftData: newData, sortType: sortStates[0] });
 
       // only load if there are not uploaded jsons:
       // if (data[0].length < data[2]) {
@@ -273,16 +186,6 @@ const Collection = () => {
     });
   }, []);
 
-  // whenever
-  useEffect(() => {
-    const newNfts = totalNfts.filter((value) =>
-      value.name.toLowerCase().includes(query.toLowerCase())
-    );
-    // console.log(newNfts);
-    const newNfts2 = addScores(newNfts);
-    setNfts(newNfts2);
-  }, [query, totalNfts]);
-
   useEffect(() => {
     const promise3 = getFilteredMeta('filterName=Type&distinct=true');
     promise3.then((data2) => {
@@ -295,7 +198,7 @@ const Collection = () => {
           };
         }
       );
-      console.log(newItems);
+      // console.log(newItems);
       filterTypeValues = newItems;
     });
     const promise4 = getFilteredMeta('filterName=Location&distinct=true');
@@ -340,6 +243,76 @@ const Collection = () => {
       // console.log(newItems);
       filterOccupationValues = newItems;
     });
+    const promise7 = getFilteredMeta('filterName=Eyes&distinct=true');
+    promise7.then((data4) => {
+      const newItems = data4.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterEyesValues = newItems;
+    });
+    const promise8 = getFilteredMeta('filterName=Faction&distinct=true');
+    promise8.then((data4) => {
+      const newItems = data4.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterFactionValues = newItems;
+    });
+    const promise9 = getFilteredMeta('filterName=Flower&distinct=true');
+    promise9.then((data4) => {
+      const newItems = data4.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterFlowersValues = newItems;
+    });
+    const promise10 = getFilteredMeta('filterName=Accessories&distinct=true');
+    promise10.then((data4) => {
+      const newItems = data4.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterAccessoriesValues = newItems;
+    });
+    const promise11 = getFilteredMeta('filterName=Ears&distinct=true');
+    promise11.then((data4) => {
+      const newItems = data4.data.map(
+        (obj: { _id: { value: string } }, index: number) => {
+          return {
+            type: index,
+            // eslint-disable-next-line no-underscore-dangle
+            name: obj._id.value,
+          };
+        }
+      );
+      // console.log(newItems);
+      filterGeneticsValues = newItems;
+    });
   }, []);
 
   // whenever search value gets updated, we will update patience list
@@ -350,83 +323,56 @@ const Collection = () => {
     // console.log(newNfts);
     // map again the scores:
     const newData = addScores(newNfts);
-    setNfts(newData);
+    // console.log('search effect');
+    setNfts({ ...nfts, nftData: newData });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, totalNfts]);
 
   // // whenever sort value is updated, change order
   useEffect(() => {
-    async function sortNfts(sort_type: number) {
+    function sortNfts(sort_type: {
+      name: string;
+      type: number;
+      unavailable: boolean;
+    }) {
+      // console.log(sort_type.type);
+      // const oldNfts = JSON.parse(JSON.stringify(nfts));
       let newNfts: MetadataItems = [];
+      const oldNfts = nfts.nftData;
+      // console.log(sort_type);
       // if top rank
-      if (sort_type === 1) {
-        newNfts = nfts.sort((n1, n2) => {
-          if (n1.score > n2.score) {
-            return -1;
-          }
-          if (n1.score < n2.score) {
-            return 1;
-          }
-          return 0;
-        });
-        return newNfts;
+      if (sort_type.type === 0) {
+        newNfts = oldNfts.sort((a, b) => (a.score > b.score ? -1 : 1));
       }
       // if bottom rank
-      if (sort_type === 2) {
-        newNfts = nfts.sort((n1, n2) => {
-          if (n1.score > n2.score) {
-            return 1;
-          }
-          if (n1.score < n2.score) {
-            return -1;
-          }
-          return 0;
-        });
-        return newNfts;
+      if (sort_type.type === 1) {
+        newNfts = oldNfts.sort((a, b) => (a.score > b.score ? 1 : -1));
       }
       // if newest
-      if (sort_type === 3) {
-        newNfts = nfts.sort((n1, n2) => {
-          if (n1.tokenId > n2.tokenId) {
-            return -1;
-          }
-          if (n1.tokenId < n2.tokenId) {
-            return 1;
-          }
-          return 0;
-        });
-        return newNfts;
+      if (sort_type.type === 2) {
+        newNfts = oldNfts.sort((a, b) => (a.tokenId > b.tokenId ? -1 : 1));
       }
       // if oldest
-      if (sort_type === 4) {
-        newNfts = nfts.sort((n1, n2) => {
-          if (n1.tokenId > n2.tokenId) {
-            return 1;
-          }
-          if (n1.tokenId < n2.tokenId) {
-            return -1;
-          }
-          return 0;
-        });
-        return newNfts;
+      if (sort_type.type === 3) {
+        // console.log('sort 3');
+        newNfts = oldNfts.sort((a, b) => (a.tokenId > b.tokenId ? 1 : -1));
       }
-      return nfts;
+      return newNfts;
     }
 
-    // };
     // @ts-ignore
-    const promise = sortNfts(sortType.type);
-    promise.then((data) => {
-      console.log(sortType);
-      const sortedNfts = data;
-      setNfts(sortedNfts);
-    });
-    // console.log(sortedNfts);
+    setLoadingScreen(true);
+    const promise = sortNfts(nfts.sortType!);
+    // promise.then((data) => {
+    // const sortedNfts = data;
+    const sortedNfts = promise;
+    setNfts({ ...nfts, nftData: [...sortedNfts] });
+    setLoadingScreen(false);
+    // });
     // const newNfts2 = addScores(newNfts2)
-
     // setNfts(sortedNfts);
-    // console.log(nfts);
-    // console.log(totalNfts);
-  }, [nfts, setSortType, sortType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nfts.sortType, totalNfts]);
 
   // whenever filter value is updated, change filters
   useEffect(() => {
@@ -437,6 +383,11 @@ const Collection = () => {
         filterLocation.slice(1),
         filterFamily.slice(1),
         filterOccupation.slice(1),
+        filterEyes.slice(1),
+        filterFaction.slice(1),
+        filterFlowers.slice(1),
+        filterAccessories.slice(1),
+        filterGenetics.slice(1),
       ];
       // always slice out the first element
       for (let i = 0; i < myQueries.length; i += 1) {
@@ -444,35 +395,48 @@ const Collection = () => {
           newQuery += `&search=${myQueries[i]!.concat().join(',')}`;
         }
       }
-      // console.log(newQuery);
       const promise3 = getFilteredMeta(`filterName=Type${newQuery}`);
       promise3.then((data2) => {
         const newData = addScores(data2.data);
-        setNfts(newData);
+        // setNfts([]);
+        setNfts({ ...nfts, nftData: newData });
+        setLoadingScreen(false);
       });
-      // }
     };
     // if no filters, display all
     if (
       filterType.length === 1 &&
       filterLocation.length === 1 &&
       filterFamily.length === 1 &&
-      filterOccupation.length === 1
+      filterOccupation.length === 1 &&
+      filterEyes.length === 1 &&
+      filterFaction.length === 1 &&
+      filterFlowers.length === 1 &&
+      filterAccessories.length === 1 &&
+      filterGenetics.length === 1
     ) {
       const newNfts2 = addScores(totalNfts);
-      setNfts(newNfts2);
+      setNfts({ ...nfts, nftData: newNfts2 });
+      // console.log('setting newNfts');
     } else {
       // @ts-ignore
+      setLoadingScreen(true);
       filterNfts();
     }
-    setCurrDispNumber(nfts.length);
+    setCurrDispNumber(nfts.nftData.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filterType,
     filterLocation,
     filterFamily,
     filterOccupation,
+    filterEyes,
+    filterFaction,
+    filterFlowers,
+    filterAccessories,
+    filterGenetics,
     totalNfts,
-    nfts.length,
+    nfts.nftData.length,
   ]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -482,7 +446,7 @@ const Collection = () => {
     );
     // console.log(newNfts);
     const newNfts2 = addScores(newNfts);
-    setNfts(newNfts2);
+    setNfts({ ...nfts, nftData: newNfts2 });
   };
 
   const handleKeyUp = (event: any) => {
@@ -503,7 +467,7 @@ const Collection = () => {
       <div className="flex justify-center">
         <div className="grid-cols-1 gap-5 max-auto px-3">
           <h1 className="text-3xl text-center">{AppConfig.collectionTitle}</h1>
-          <div className="attributes-filter">
+          <div className="attributes-filter grid sm:grid-cols-5 md:grid-cols-3 gap-1">
             <div className="search-field sm:grid-cols-5 md:grid-cols-3 gap-1">
               <h2 className="search-text">{`Search:`}</h2>
               <form
@@ -522,2491 +486,117 @@ const Collection = () => {
               <h2>Total: {currDispNumber}</h2>
               <SortFilter
                 // @ts-ignore
-                sortType={sortType}
-                setSortType={setSortType}
+                sortType={nfts.sortType}
+                setSortType={setSortCallback}
                 sortStates={sortStates}
               ></SortFilter>
-              <div>
-                <div>
-                  <GenericFilter
-                    filterName={'Type'}
-                    filterValues={filterTypeValues}
-                    filterType={filterType}
-                    setFilterType={setFilterType}
-                  ></GenericFilter>
-                </div>
-                <div>
-                  <GenericFilter
-                    filterName={'Location'}
-                    filterValues={filterLocationValues}
-                    filterType={filterLocation}
-                    setFilterType={setFilterLocation}
-                  ></GenericFilter>
-                </div>
-                <div>
-                  <GenericFilter
-                    filterName={'Family'}
-                    filterValues={filterFamilyValues}
-                    filterType={filterFamily}
-                    setFilterType={setFilterFamily}
-                  ></GenericFilter>
-                </div>
-                <div>
-                  <GenericFilter
-                    filterName={'Occupation'}
-                    filterValues={filterOccupationValues}
-                    filterType={filterOccupation}
-                    setFilterType={setFilterOccupation}
-                  ></GenericFilter>
-                </div>
-              </div>
             </div>
           </div>
-          {!totalNfts.length ? (
+          {!totalNfts.length || loadingScreen ? (
             <h1 className="px-20 py-10 text-2l font-semibold text-center">
-              Loading Daturians NFT
+              Loading
             </h1>
           ) : (
             <>
-              {nfts.length < 1 ? (
+              {nfts.nftData.length < 1 ? (
                 <h1 className="px-20 py-10 text-3xl">
                   No Daturians match your search. Sorry...
                 </h1>
               ) : (
                 <div>
-                  <div className="all-filters">
-                    <div className="attributes-filter">
-                      {/* location */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Location{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Dobi desert
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                // checked
-                                id="default-radio-5"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-5"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Member City
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Ruins of Old Member City
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Sibyl Park
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Chillden
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                S.E.E.D
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Sibyl
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Dronia
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Pompadronia
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Pompa
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Herbarium
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Fanghorn
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Darkhorn
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Faustenburg
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                X12SPA-TF
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Satellites of Datura
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                  <div className="grid grid-cols-5">
+                    <div className="col-span-1">
+                      <div>
+                        <GenericFilter
+                          filterName={'Type'}
+                          filterValues={filterTypeValues}
+                          filterType={filterType}
+                          setFilterType={setFilterType}
+                        ></GenericFilter>
                       </div>
-                      {/* family */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Family{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Juzephinos Family
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                // checked
-                                id="default-radio-5"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-5"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Greatoldsmartens Dynasty
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The NewWavers Clan
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Milksalots Tribe
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The OpenDudes Syndicate
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Millenialums
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Gonnacatchers Mob
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Kingstons Ring
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Le Cool Familia
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Order of Ozarksons
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                      <div>
+                        <GenericFilter
+                          filterName={'Location'}
+                          filterValues={filterLocationValues}
+                          filterType={filterLocation}
+                          setFilterType={setFilterLocation}
+                        ></GenericFilter>
                       </div>
-                      {/* occupation */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Occupation{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Seed thief
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                // checked
-                                id="default-radio-5"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-5"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Entertainer
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Architect
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Space Explorer
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Solar urticariatus
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Pilot
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Dew collector
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Ear removal specialist
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Secret keeper
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Astronaut
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                A revert-me-backer
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Insectologist
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Leaf Roller
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Puzzler
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Transponster
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Animalogist
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Storyteller
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Bullshit removal specialist
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Oracle
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Curling master
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Councilmember
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Antique collector
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Artist
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Shampoo thief
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Gardener
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Boulanger
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Coffee grinder
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Dreamer
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Tailor
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Student
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Accountant
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Grafitti artist
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Comedian
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Bard
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                City keeper
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Undecided
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Gondolier
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Rebel
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Scientist
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                      <div>
+                        <GenericFilter
+                          filterName={'Family'}
+                          filterValues={filterFamilyValues}
+                          filterType={filterFamily}
+                          setFilterType={setFilterFamily}
+                        ></GenericFilter>
                       </div>
-                      {/* genetics */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Genetics{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Juzephinos Family mark
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                // checked
-                                id="default-radio-5"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-5"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Bigfoots
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                The Iron Wolf Tribe
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Leafers
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Azul
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Explorers
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Liberal
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                      <div>
+                        <GenericFilter
+                          filterName={'Occupation'}
+                          filterValues={filterOccupationValues}
+                          filterType={filterOccupation}
+                          setFilterType={setFilterOccupation}
+                        ></GenericFilter>
                       </div>
-                      {/* health */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Health{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                0-20
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                // checked
-                                id="default-radio-5"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-5"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                20-40
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                40-60
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                60-80
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-6"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-6"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                80-100
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* eyes */}
-                      <button
-                        id="dropdownRadioHelperButton"
-                        data-dropdown-toggle="dropdownRadioHelper"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Eyes{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioHelper"
-                        className="hidden z-10 w-60 bg-white rounded divide-y divide-gray-100 shadow"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                          aria-labelledby="dropdownRadioHelperButton"
-                        >
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-4"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-xs">
-                                <label
-                                  htmlFor="helper-radio-4"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Cyclops</div>
-                                  <p
-                                    id="helper-radio-text-4"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Able to see the future
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-5"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-5"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Cuegle</div>
-                                  <p
-                                    id="helper-radio-text-5"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Able to see your sins
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Pumpkin</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Bakes pies better than your grandma
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Sleepy</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Makes dreams come true
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Bunny</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can turn itself into a carrot
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Demon</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can set anyone on fire
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Chill</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can automatically stream chillhop at will
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Tired</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Soaks up energy
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Angry</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can provoke a fight
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Balloon</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can inflate itself
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Teardrop</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Turns tears into wine
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Out</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Makes you wonder around without purpose
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Hmm</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Inflicts philosophical damage
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>What</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can make flora talk
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Pretty</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Able to turn everything to gold
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Joy</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Makes mushrooms sing
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Happy</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can see your biggest dreams
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Java</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can create paralel universes
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Joker</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can make anyone laugh till they cry
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Monocle</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Is able to timetravel
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Glasses</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can see through objects
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Glasses_star</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can make anyone fall in love
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Sleeping_mask</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Is able to live both in dreams and the real
-                                    world
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Pirate</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Is able to see the souls of lost Daturians
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex p-2 rounded hover:bg-gray-100">
-                              <div className="flex items-center h-5">
-                                <input
-                                  id="helper-radio-6"
-                                  name="helper-radio"
-                                  type="radio"
-                                  value=""
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                                />
-                              </div>
-                              <div className="ml-2 text-sm">
-                                <label
-                                  htmlFor="helper-radio-6"
-                                  className="font-medium text-gray-900"
-                                >
-                                  <div>Goggles</div>
-                                  <p
-                                    id="helper-radio-text-6"
-                                    className="text-xs font-normal text-gray-500"
-                                  >
-                                    Can create a snow storm
-                                  </p>
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
+                      <div>
+                        <GenericFilter
+                          filterName={'Eyes'}
+                          filterValues={filterEyesValues}
+                          filterType={filterEyes}
+                          setFilterType={setFilterEyes}
+                        ></GenericFilter>
                       </div>
                       {/* faction */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Faction{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Natural
-                              </label>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                // checked
-                                id="default-radio-5"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-5"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Tech
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                      <div>
+                        <GenericFilter
+                          filterName={'Faction'}
+                          filterValues={filterFactionValues}
+                          filterType={filterFaction}
+                          setFilterType={setFilterFaction}
+                        ></GenericFilter>
                       </div>
                       {/* flowers */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Flowers{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Natural
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                      <div>
+                        <GenericFilter
+                          filterName={'Flowers'}
+                          filterValues={filterFlowersValues}
+                          filterType={filterFlowers}
+                          setFilterType={setFilterFlowers}
+                        ></GenericFilter>
                       </div>
                       {/* accessories */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Accessories{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Natural
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                      <div>
+                        <GenericFilter
+                          filterName={'Accessories'}
+                          filterValues={filterAccessoriesValues}
+                          filterType={filterAccessories}
+                          setFilterType={setFilterAccessories}
+                        ></GenericFilter>
                       </div>
-                      {/* type */}
-                      <button
-                        id="dropdownRadioBgHoverButton"
-                        data-dropdown-toggle="dropdownRadioBgHover"
-                        className="text-blue bg-primary-100 hover:bg-green font-medium rounded-lg text-xs px-4 py-2.5 text-center inline-flex items-center"
-                        type="button"
-                      >
-                        Type{' '}
-                        <svg
-                          className="ml-2 w-4 h-4"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                      <div
-                        id="dropdownRadioBgHover"
-                        className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="p-3 space-y-1 text-sm text-gray-700"
-                          aria-labelledby="dropdownRadioBgHoverButton"
-                        >
-                          <li>
-                            <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                              <input
-                                id="default-radio-4"
-                                type="radio"
-                                value=""
-                                name="default-radio"
-                                className="w-4 h-4 text-blue-600 bg-gray-100"
-                              />
-                              <label
-                                htmlFor="default-radio-4"
-                                className="ml-2 w-full text-sm font-medium text-gray-900 rounded"
-                              >
-                                Natural
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+                      {/* genetics */}
+                      <div>
+                        <GenericFilter
+                          filterName={'Genetics'}
+                          filterValues={filterGeneticsValues}
+                          filterType={filterGenetics}
+                          setFilterType={setFilterGenetics}
+                        ></GenericFilter>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-                    {nfts.map((nft, index) => (
-                      <div className="widget-wrapper" key={index}>
-                        <LazyLoad height={350} key={index}>
-                          <NFT
-                            key={nft.tokenId.toString()}
-                            tokenId={nft.tokenId}
-                            score={nft.score}
-                          />
-                        </LazyLoad>
-                      </div>
-                    ))}
+                    <div className="grid col-span-4 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                      {nfts.nftData.map((nft, index) => (
+                        <div className="widget-wrapper" key={index}>
+                          <LazyLoad height={350} key={index}>
+                            <NFT
+                              key={nft.tokenId.toString()}
+                              tokenId={nft.tokenId}
+                              score={nft.score}
+                              image={nft.image}
+                            />
+                          </LazyLoad>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
