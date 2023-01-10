@@ -469,12 +469,12 @@ const Collection = () => {
           <h1 className="text-3xl text-center">{AppConfig.collectionTitle}</h1>
           <div className="attributes-filter grid sm:grid-cols-5 md:grid-cols-3 gap-1">
             <div className="search-field sm:grid-cols-5 md:grid-cols-3 gap-1">
-              <h2 className="search-text">{`Search:`}</h2>
               <form
                 onSubmit={handleSubmit}
                 className="search rounded col-span-4"
               >
                 <input
+                  className="bg-secondary-100 shadow-md"
                   placeholder="Search for Daturian ID"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -505,7 +505,7 @@ const Collection = () => {
               ) : (
                 <div>
                   <div className="grid grid-cols-5">
-                    <div className="col-span-1">
+                    <div className="col-span-1 filters">
                       <div>
                         <GenericFilter
                           filterName={'Type'}

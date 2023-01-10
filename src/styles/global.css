@@ -1564,3 +1564,17 @@ div .single-nft-placeholder {
   position: relative;
   
 }
+.filters {
+  margin-left: 10px;
+}
+.generic-filter {
+  margin-top: 15px;
+}
+.sort-field {
+  align-items: center;
+  margin: auto;
+}
+.sort-field h2 {
+  margin-right: 20px;
+}
+
