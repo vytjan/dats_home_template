@@ -104,17 +104,25 @@ button:disabled .btn-road-percent-ongoing {
   color: #4247CD;
 }
 .gallery-text {
-  display: flex;
+ /* display: flex;*/
 }
 .id {
   width: 100%;
   text-align: start;
   font-size: 12px;
+  height: 26px;
+}
+.score {
+  width: 70%;
+  /*text-align: center;*/
+  font-size: 12px;
+  /*height: 26px;*/
 }
 .rank {
   width: 70%;
-  text-align: end;
+  /*text-align: end;*/
   font-size: 12px;
+  /*height: 26px;*/
 }
 .search {
   width: 90%;
@@ -139,6 +147,7 @@ button:disabled .btn-road-percent-ongoing {
 .rank span {
   color: #FF4360;
 }
+
 .btn-hero {
   width: 90% !important;
 }

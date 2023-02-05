@@ -10,6 +10,29 @@ import { AppConfig, NftContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
 import { HeaderMenu } from './HeaderMenu';
 
+// const geneticsMapping = {
+//   pure: 'Both parents and grandparents of this Daturian come from the same family tree and are trying to protect the legacy of this family traditions.',
+//   mixed:
+//     'The parents of this Daturian belong to [body family] and [ear family] and are forming new genetic variations.',
+//   earrings_red:
+//     'Only a couple of currently living Daturians still carry this family gene. It is a well-known fact that the Iron Wolf Tribe was always focused on finding the most suitable planets for Daturians to live in. Most of the Tribe members traveled on an expedition thousands of years ago and Daturians are still waiting for the members of this family to come back with good news.',
+//   the_juzephinos_family_mark:
+//     'This Daturian was blessed by his family for being awesome.',
+//   the_kingston_catchers:
+//     "Lately the Gonnacatchers Mob are becoming more and more united with the Kingstons Ring - creating a whole new set of traits for new generations. It's poetic that the most royal family on 1270 Datura is joining forces and creating families with the most savage one.",
+//   bigfoots:
+//     "The Bigfoot family is shrouded in legends and mystery. While the family doesn't exist anymore - there are still living Daturians who have traits of this ancient family tree. It is believed that The Bigfoots came from a mystical land called the Middle-earth. You can easily identify a Bigfoot Daturian by their hairy ears.",
+//   the_iron_wolf_tribe:
+//     'Only a couple of currently living Daturians still carry this family gene. It is a well-known fact that the Iron Wolf Tribe was always focused on finding the most suitable planets for Daturians to live in. Most of the Tribe members traveled on an expedition thousands of years ago and Daturians are still waiting for the members of this family to come back with good news.',
+//   leafers:
+//     "Some Daturians take such good care of their plants that they're becoming plant-like creatures themselves. There's been only a couple of Daturians who underwent this change but it is widely believed that at some point in Daturian evolution - they will become one with nature.",
+//   azul: 'Blue genes are the oldest and rarest among all Daturians. It is a great privilege for any Daturian to carry this gene. The roots of the Azul family date back to the blue period in Daturian history and they are considered to be the Adam and Eve of their species.',
+//   explorers:
+//     'Astronauts and space explorers spend so much time in the open space that solar radiation has changed their genetics. If you see a Daturian with purple ears - you can be sure that their parents have spent a considerable amount of time searching for new lands.',
+//   liberal:
+//     'This Daturian has chosen to surgically remove the ears and leave the family traditions behind.',
+// };
+
 const SingleNft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
@@ -42,23 +65,28 @@ const SingleNft = () => {
       try {
         const minted = await contract.totalMinted.call();
         const myMeta = await getMetadataById(newId, contract, minted);
-        console.log(myMeta);
+        // console.log(myMeta);
         return myMeta;
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.log(err);
         return null;
       }
     }
-
+    // console.log(router);
     if (!router.isReady) return;
     // console.log(router.query);
     const { id } = router.query;
     const promise = getId(id);
     promise.then((meta2) => {
       // console.log(meta2);
-      if (meta2.data && meta2.data.length > 0) {
-        setMeta(meta2.data[0]);
-      }
+      // console.log(meta2.data[0]);
+      // if (meta2.data) {
+      //   const newMeta = meta2.data[0];
+      //   newMeta.data.attributes.append
+
+      setMeta(meta2.data[0]);
+      // }
     });
     // console.log(id);
     // codes using router.query
@@ -189,7 +217,7 @@ const SingleNft = () => {
                     <div className="p-4 col-span-1">
                       <h1>
                         {meta.data.attributes[3].trait_type}:{' '}
-                        {meta.data.attributes[3].value}
+                        {meta.data.attributes[3].value.split(' x ')[0]}
                       </h1>
                       <br />
                       <p className="font-light">{meta.data.extras[1].value}</p>
@@ -197,7 +225,13 @@ const SingleNft = () => {
                     <div className="p-4 col-span-1">
                       <img
                         className="object-cover content-center family-crest"
-                        src={`${router.basePath}/assets/images/gallery/families/The-Milksalots-Tribe.png`}
+                        alt="family.png"
+                        src={`${
+                          router.basePath
+                        }/assets/images/gallery/families/${meta.data.attributes[3].value
+                          .split(' x ')[0]
+                          .split(' ')
+                          .join('-')}.png`}
                       />
                     </div>
                   </div>
@@ -208,7 +242,12 @@ const SingleNft = () => {
                     <div className="p-4 col-span-1">
                       <img
                         className="object-cover content-center family-crest"
-                        src={`${router.basePath}/assets/images/gallery/locations/Chillden.png`}
+                        src={`${
+                          router.basePath
+                        }/assets/images/gallery/locations/${meta.data.attributes[2].value
+                          .split(' ')
+                          .join('-')}.png`}
+                        alt="location.png"
                       />
                     </div>
                     <div className="p-4 col-span-1">
@@ -235,10 +274,7 @@ const SingleNft = () => {
               <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 col-span-1">
-                    <h1>
-                      {meta.data.attributes[3].trait_type}:{' '}
-                      {meta.data.attributes[3].value}
-                    </h1>
+                    <h1>Genetics: {meta.data.attributes[3].value}</h1>
                     <br />
                     <p className="font-light">{meta.data.extras[1].value}</p>
                   </div>
@@ -246,6 +282,7 @@ const SingleNft = () => {
                     <img
                       className="object-cover content-center family-crest"
                       src={`${router.basePath}/assets/images/gallery/families/Mix-Blood.png`}
+                      alt="family.png"
                     />
                   </div>
                 </div>
@@ -288,7 +325,13 @@ const SingleNft = () => {
                 <div className="p-4 col-span-1">
                   <img
                     className="object-cover content-center flower-image"
-                    src={`${router.basePath}/assets/images/floraweek/russula.png`}
+                    src={`${
+                      router.basePath
+                    }/assets/images/floraweek/${meta.data.attributes[9].value
+                      .toLowerCase()
+                      .split(' ')
+                      .join('_')}.png`}
+                    alt="flora.png"
                   />
                 </div>
               </div>
@@ -297,12 +340,13 @@ const SingleNft = () => {
               <img
                 className="object-cover content-center"
                 src={`${router.basePath}/assets/images/datura_map.png`}
+                alt="datura_map.png"
               />
             </div>
             <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
                 <h1>View on Opensea:</h1>
-                <a href="https://opensea.io/collection/daturiansnft">
+                <a href={AppConfig.openseaCollectionUrl + meta.tokenId}>
                   <img
                     className="opensea-icon"
                     src={`${router.basePath}/assets/images/icons/opensea.svg`}

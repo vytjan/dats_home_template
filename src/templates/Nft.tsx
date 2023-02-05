@@ -7,11 +7,13 @@ export type MetadataItem = {
   description: string;
   // data: string;
   score: number;
+  rank: number;
 };
 
 export type INFTProps = {
   tokenId: number;
   score: number;
+  rank: number;
   image: string;
 };
 
@@ -75,17 +77,14 @@ const NFT = (props: INFTProps) => {
               width="350"
             ></img>
             <div className="p-4 gallery-text">
-              <p
-                style={{ height: '26px' }}
-                className="id text-base font-semibold"
-              >
+              <p className="id text-base font-semibold">
                 <b>Id:</b> {props.tokenId}
               </p>
-              <p
-                style={{ height: '26px' }}
-                className="rank text-base font-semibold"
-              >
-                <b>Rank:</b> <span>{props.score}</span>
+              <p className="score text-base font-semibold">
+                <b>Rarity score:</b> <span>{props.score}</span>
+              </p>
+              <p className="rank text-base font-semibold">
+                <b>Rank:</b> <span>{props.rank}</span>
               </p>
             </div>
           </a>

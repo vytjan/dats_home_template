@@ -133,7 +133,9 @@ export const getMetadataById = async (
       if (result2.data.length === 0) {
         // if there is no record of current NFT, load it to mongodb
         const res3 = await uploadCurrentMeta(currId, contract);
-        return res3;
+        console.log(res3);
+        const res4 = await axios.get(`/api/meta/${currId}`);
+        return res4;
       }
       return result2;
     } catch (error: any) {

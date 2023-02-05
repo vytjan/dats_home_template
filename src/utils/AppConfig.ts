@@ -11,6 +11,8 @@ export const AppConfig = {
   collectionTitle: 'Daturians NFT Collection',
   collectionDescription: 'Daturians NFT OG collection of 8020 unique NFTs.',
   locale: 'en',
+  openseaCollectionUrl:
+    'https://opensea.io/assets/matic/0x1ac9c10a6164fdbc64107a1ee50d8270ce569e8e/',
 };
 
 export const NftContractAddress = '0x1AC9c10A6164FDBc64107a1eE50D8270cE569e8e';

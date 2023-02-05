@@ -9,7 +9,6 @@ import { Section } from '../layout/Section';
 import { getFilteredMeta } from '../pages/api/filterApi';
 import { AppConfig, NftContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
-import GenericFilter from './GenericFilter';
 import { HeaderMenu } from './HeaderMenu';
 import NFT from './Nft';
 import SortFilter from './SortField';
@@ -20,7 +19,7 @@ type MetadataItems = {
   name: string;
   description: string;
   // data: string;
-  score: number;
+  score: { score: number; rank: number; tokenId: string };
 }[];
 
 type SortStateTypes =
@@ -38,7 +37,7 @@ const initialItems: MetadataItems = [
     name: 'Daturian',
     description: 'Daturian description',
     // data: '',
-    score: 0,
+    score: { score: 0, rank: 0, tokenId: '0' },
   },
 ];
 
@@ -49,25 +48,25 @@ const sortStates = [
   { name: 'Oldest', type: 3, unavailable: false },
 ];
 
-let filterTypeValues = [{ name: '', type: 0 }];
+// const filterTypeValues = [{ name: '', type: 0 }];
 
-let filterLocationValues = [{ name: '', type: 0 }];
+// const filterLocationValues = [{ name: '', type: 0 }];
 
-let filterFamilyValues = [{ name: '', type: 0 }];
+// const filterFamilyValues = [{ name: '', type: 0 }];
 
-let filterOccupationValues = [{ name: '', type: 0 }];
+// const filterOccupationValues = [{ name: '', type: 0 }];
 
-let filterEyesValues = [{ name: '', type: 0 }];
+// const filterEyesValues = [{ name: '', type: 0 }];
 
-let filterFactionValues = [{ name: '', type: 0 }];
+// const filterFactionValues = [{ name: '', type: 0 }];
 
-let filterFlowersValues = [{ name: '', type: 0 }];
+// const filterFlowersValues = [{ name: '', type: 0 }];
 
-let filterAccessoriesValues = [{ name: '', type: 0 }];
+// const filterAccessoriesValues = [{ name: '', type: 0 }];
 
-let filterGeneticsValues = [{ name: '', type: 0 }];
+// const filterGeneticsValues = [{ name: '', type: 0 }];
 
-let scores = [{ score: 0, tokenId: 0 }];
+let scores = [{ score: 0, tokenId: 0, rank: 0 }];
 
 const Collection = () => {
   const [totalNfts, setTotalNfts] = useState<MetadataItems>([]);
@@ -80,30 +79,30 @@ const Collection = () => {
   });
   const [query, setQuery] = useState('');
   // const [sortType, setSortType] = useState(sortStates[2]);
-  const [filterType, setFilterType] = useState([filterTypeValues[0]?.name]);
-  const [filterFamily, setFilterFamily] = useState([
-    filterFamilyValues[0]?.name,
-  ]);
-  const [filterOccupation, setFilterOccupation] = useState([
-    filterOccupationValues[0]?.name,
-  ]);
-  const [filterFaction, setFilterFaction] = useState([
-    filterFactionValues[0]?.name,
-  ]);
-  const [filterFlowers, setFilterFlowers] = useState([
-    filterFlowersValues[0]?.name,
-  ]);
-  const [filterAccessories, setFilterAccessories] = useState([
-    filterAccessoriesValues[0]?.name,
-  ]);
-  const [filterGenetics, setFilterGenetics] = useState([
-    filterGeneticsValues[0]?.name,
-  ]);
-  const [filterLocation, setFilterLocation] = useState([
-    filterLocationValues[0]?.name,
-  ]);
-  const [filterEyes, setFilterEyes] = useState([filterEyesValues[0]?.name]);
-  const [currDispNumber, setCurrDispNumber] = useState(0);
+  // const [filterType, setFilterType] = useState([filterTypeValues[0]?.name]);
+  // const [filterFamily, setFilterFamily] = useState([
+  //   filterFamilyValues[0]?.name,
+  // ]);
+  // const [filterOccupation, setFilterOccupation] = useState([
+  //   filterOccupationValues[0]?.name,
+  // ]);
+  // const [filterFaction, setFilterFaction] = useState([
+  //   filterFactionValues[0]?.name,
+  // ]);
+  // const [filterFlowers, setFilterFlowers] = useState([
+  //   filterFlowersValues[0]?.name,
+  // ]);
+  // const [filterAccessories, setFilterAccessories] = useState([
+  //   filterAccessoriesValues[0]?.name,
+  // ]);
+  // const [filterGenetics, setFilterGenetics] = useState([
+  //   filterGeneticsValues[0]?.name,
+  // ]);
+  // const [filterLocation, setFilterLocation] = useState([
+  //   filterLocationValues[0]?.name,
+  // ]);
+  // const [filterEyes, setFilterEyes] = useState([filterEyesValues[0]?.name]);
+  // const [currDispNumber, setCurrDispNumber] = useState(0);
   const [loadingScreen, setLoadingScreen] = useState(false);
 
   const setSortCallback = (value: {
@@ -118,11 +117,12 @@ const Collection = () => {
     const newNfts = nftData.map((item: any) => {
       item.score = scores.find((obj) => {
         return obj.tokenId === item.tokenId;
-      })?.score;
+      });
+      // ?.index;
       // });
       return item;
     });
-    // console.log(newNfts);
+    console.log(newNfts);
     return newNfts;
   }
 
@@ -142,7 +142,17 @@ const Collection = () => {
       try {
         const minted = await contract.totalMinted.call();
         const scoresRes = await getFilteredMeta(`sort=desc&limit=${minted}`);
-        scores = scoresRes.data;
+        const newScores = scoresRes.data;
+        const newScoresSorted = newScores.sort((a: any, b: any) =>
+          a.score > b.score ? -1 : 1
+        );
+        scores = newScoresSorted.map((item: any, index: any) => ({
+          rank: index + 1,
+          score: parseFloat(item.score.toFixed(2)),
+          tokenId: item.tokenId,
+          // ...item,
+        }));
+        console.log(scores);
         // const minted = 20;
         const ipfsUrl =
           'https://daturians.mypinata.cloud/ipfs/Qmc6GR4znHrxpFKCWDYkn8eeLgGHahKBA7VT4PTc5xENcH/';
@@ -155,7 +165,7 @@ const Collection = () => {
             // image: `${i.toString()}.png`,
             name: `Daturian #${i.toString()}`,
             description: '',
-            score: 0,
+            score: { score: 0, rank: 0, tokenId: '0' },
             // score: scores[i].score,
           };
 
@@ -172,7 +182,8 @@ const Collection = () => {
       const newData = addScores(data);
 
       setTotalNfts(newData);
-      setNfts({ nftData: newData, sortType: sortStates[0] });
+      setNfts({ nftData: newData, sortType: sortStates[2] });
+      // setCurrDispNumber(nfts.nftData.length);
 
       // only load if there are not uploaded jsons:
       // if (data[0].length < data[2]) {
@@ -186,136 +197,136 @@ const Collection = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const promise3 = getFilteredMeta('filterName=Type&distinct=true');
-    promise3.then((data2) => {
-      const newItems = data2.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterTypeValues = newItems;
-    });
-    const promise4 = getFilteredMeta('filterName=Location&distinct=true');
-    promise4.then((data3) => {
-      const newItems = data3.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterLocationValues = newItems;
-    });
-    const promise5 = getFilteredMeta('filterName=Family&distinct=true');
-    promise5.then((data3) => {
-      const newItems = data3.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterFamilyValues = newItems;
-    });
-    const promise6 = getFilteredMeta('filterName=Occupation&distinct=true');
-    promise6.then((data3) => {
-      const newItems = data3.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterOccupationValues = newItems;
-    });
-    const promise7 = getFilteredMeta('filterName=Eyes&distinct=true');
-    promise7.then((data4) => {
-      const newItems = data4.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterEyesValues = newItems;
-    });
-    const promise8 = getFilteredMeta('filterName=Faction&distinct=true');
-    promise8.then((data4) => {
-      const newItems = data4.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterFactionValues = newItems;
-    });
-    const promise9 = getFilteredMeta('filterName=Flower&distinct=true');
-    promise9.then((data4) => {
-      const newItems = data4.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterFlowersValues = newItems;
-    });
-    const promise10 = getFilteredMeta('filterName=Accessories&distinct=true');
-    promise10.then((data4) => {
-      const newItems = data4.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterAccessoriesValues = newItems;
-    });
-    const promise11 = getFilteredMeta('filterName=Ears&distinct=true');
-    promise11.then((data4) => {
-      const newItems = data4.data.map(
-        (obj: { _id: { value: string } }, index: number) => {
-          return {
-            type: index,
-            // eslint-disable-next-line no-underscore-dangle
-            name: obj._id.value,
-          };
-        }
-      );
-      // console.log(newItems);
-      filterGeneticsValues = newItems;
-    });
-  }, []);
+  // useEffect(() => {
+  //   const promise3 = getFilteredMeta('filterName=Type&distinct=true');
+  //   promise3.then((data2) => {
+  //     const newItems = data2.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterTypeValues = newItems;
+  //   });
+  //   const promise4 = getFilteredMeta('filterName=Location&distinct=true');
+  //   promise4.then((data3) => {
+  //     const newItems = data3.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterLocationValues = newItems;
+  //   });
+  //   const promise5 = getFilteredMeta('filterName=Family&distinct=true');
+  //   promise5.then((data3) => {
+  //     const newItems = data3.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterFamilyValues = newItems;
+  //   });
+  //   const promise6 = getFilteredMeta('filterName=Occupation&distinct=true');
+  //   promise6.then((data3) => {
+  //     const newItems = data3.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterOccupationValues = newItems;
+  //   });
+  //   const promise7 = getFilteredMeta('filterName=Eyes&distinct=true');
+  //   promise7.then((data4) => {
+  //     const newItems = data4.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterEyesValues = newItems;
+  //   });
+  //   const promise8 = getFilteredMeta('filterName=Faction&distinct=true');
+  //   promise8.then((data4) => {
+  //     const newItems = data4.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterFactionValues = newItems;
+  //   });
+  //   const promise9 = getFilteredMeta('filterName=Flower&distinct=true');
+  //   promise9.then((data4) => {
+  //     const newItems = data4.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterFlowersValues = newItems;
+  //   });
+  //   const promise10 = getFilteredMeta('filterName=Accessories&distinct=true');
+  //   promise10.then((data4) => {
+  //     const newItems = data4.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterAccessoriesValues = newItems;
+  //   });
+  //   const promise11 = getFilteredMeta('filterName=Ears&distinct=true');
+  //   promise11.then((data4) => {
+  //     const newItems = data4.data.map(
+  //       (obj: { _id: { value: string } }, index: number) => {
+  //         return {
+  //           type: index,
+  //           // eslint-disable-next-line no-underscore-dangle
+  //           name: obj._id.value,
+  //         };
+  //       }
+  //     );
+  //     // console.log(newItems);
+  //     filterGeneticsValues = newItems;
+  //   });
+  // }, []);
 
-  // whenever search value gets updated, we will update patience list
+  // whenever search value gets updated, we will update nfts list
   useEffect(() => {
     const newNfts = totalNfts.filter((value) =>
       value.name.toLowerCase().includes(query.toLowerCase())
@@ -325,6 +336,7 @@ const Collection = () => {
     const newData = addScores(newNfts);
     // console.log('search effect');
     setNfts({ ...nfts, nftData: newData });
+    // setCurrDispNumber(nfts.nftData.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, totalNfts]);
 
@@ -342,11 +354,15 @@ const Collection = () => {
       // console.log(sort_type);
       // if top rank
       if (sort_type.type === 0) {
-        newNfts = oldNfts.sort((a, b) => (a.score > b.score ? -1 : 1));
+        newNfts = oldNfts.sort((a, b) =>
+          a.score.score > b.score.score ? -1 : 1
+        );
       }
       // if bottom rank
       if (sort_type.type === 1) {
-        newNfts = oldNfts.sort((a, b) => (a.score > b.score ? 1 : -1));
+        newNfts = oldNfts.sort((a, b) =>
+          a.score.score > b.score.score ? 1 : -1
+        );
       }
       // if newest
       if (sort_type.type === 2) {
@@ -375,69 +391,69 @@ const Collection = () => {
   }, [nfts.sortType, totalNfts]);
 
   // whenever filter value is updated, change filters
-  useEffect(() => {
-    const filterNfts = () => {
-      let newQuery = '';
-      const myQueries = [
-        filterType.slice(1),
-        filterLocation.slice(1),
-        filterFamily.slice(1),
-        filterOccupation.slice(1),
-        filterEyes.slice(1),
-        filterFaction.slice(1),
-        filterFlowers.slice(1),
-        filterAccessories.slice(1),
-        filterGenetics.slice(1),
-      ];
-      // always slice out the first element
-      for (let i = 0; i < myQueries.length; i += 1) {
-        if (myQueries[i]!.length > 0) {
-          newQuery += `&search=${myQueries[i]!.concat().join(',')}`;
-        }
-      }
-      const promise3 = getFilteredMeta(`filterName=Type${newQuery}`);
-      promise3.then((data2) => {
-        const newData = addScores(data2.data);
-        // setNfts([]);
-        setNfts({ ...nfts, nftData: newData });
-        setLoadingScreen(false);
-      });
-    };
-    // if no filters, display all
-    if (
-      filterType.length === 1 &&
-      filterLocation.length === 1 &&
-      filterFamily.length === 1 &&
-      filterOccupation.length === 1 &&
-      filterEyes.length === 1 &&
-      filterFaction.length === 1 &&
-      filterFlowers.length === 1 &&
-      filterAccessories.length === 1 &&
-      filterGenetics.length === 1
-    ) {
-      const newNfts2 = addScores(totalNfts);
-      setNfts({ ...nfts, nftData: newNfts2 });
-      // console.log('setting newNfts');
-    } else {
-      // @ts-ignore
-      setLoadingScreen(true);
-      filterNfts();
-    }
-    setCurrDispNumber(nfts.nftData.length);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    filterType,
-    filterLocation,
-    filterFamily,
-    filterOccupation,
-    filterEyes,
-    filterFaction,
-    filterFlowers,
-    filterAccessories,
-    filterGenetics,
-    totalNfts,
-    nfts.nftData.length,
-  ]);
+  // useEffect(() => {
+  //   const filterNfts = () => {
+  //     let newQuery = '';
+  //     const myQueries = [
+  //       filterType.slice(1),
+  //       filterLocation.slice(1),
+  //       filterFamily.slice(1),
+  //       filterOccupation.slice(1),
+  //       filterEyes.slice(1),
+  //       filterFaction.slice(1),
+  //       filterFlowers.slice(1),
+  //       filterAccessories.slice(1),
+  //       filterGenetics.slice(1),
+  //     ];
+  //     // always slice out the first element
+  //     for (let i = 0; i < myQueries.length; i += 1) {
+  //       if (myQueries[i]!.length > 0) {
+  //         newQuery += `&search=${myQueries[i]!.concat().join(',')}`;
+  //       }
+  //     }
+  //     const promise3 = getFilteredMeta(`filterName=Type${newQuery}`);
+  //     promise3.then((data2) => {
+  //       const newData = addScores(data2.data);
+  //       // setNfts([]);
+  //       setNfts({ ...nfts, nftData: newData });
+  //       setLoadingScreen(false);
+  //     });
+  //   };
+  //   // if no filters, display all
+  //   if (
+  //     filterType.length === 1 &&
+  //     filterLocation.length === 1 &&
+  //     filterFamily.length === 1 &&
+  //     filterOccupation.length === 1 &&
+  //     filterEyes.length === 1 &&
+  //     filterFaction.length === 1 &&
+  //     filterFlowers.length === 1 &&
+  //     filterAccessories.length === 1 &&
+  //     filterGenetics.length === 1
+  //   ) {
+  //     const newNfts2 = addScores(totalNfts);
+  //     setNfts({ ...nfts, nftData: newNfts2 });
+  //     // console.log('setting newNfts');
+  //   } else {
+  //     // @ts-ignore
+  //     setLoadingScreen(true);
+  //     filterNfts();
+  //   }
+  //   setCurrDispNumber(nfts.nftData.length);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [
+  //   filterType,
+  //   filterLocation,
+  //   filterFamily,
+  //   filterOccupation,
+  //   filterEyes,
+  //   filterFaction,
+  //   filterFlowers,
+  //   filterAccessories,
+  //   filterGenetics,
+  //   totalNfts,
+  //   nfts.nftData.length,
+  // ]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     await e.preventDefault();
@@ -447,6 +463,7 @@ const Collection = () => {
     // console.log(newNfts);
     const newNfts2 = addScores(newNfts);
     setNfts({ ...nfts, nftData: newNfts2 });
+    // setCurrDispNumber(nfts.nftData.length);
   };
 
   const handleKeyUp = (event: any) => {
@@ -483,7 +500,7 @@ const Collection = () => {
               </form>
             </div>
             <div className="sort-field">
-              <h2>Total: {currDispNumber}</h2>
+              <h2>Total: {nfts.nftData.length}</h2>
               <SortFilter
                 // @ts-ignore
                 sortType={nfts.sortType}
@@ -505,7 +522,7 @@ const Collection = () => {
               ) : (
                 <div>
                   <div className="grid grid-cols-5">
-                    <div className="col-span-1 filters">
+                    {/* <div className="col-span-1 filters">
                       <div>
                         <GenericFilter
                           filterName={'Type'}
@@ -546,7 +563,7 @@ const Collection = () => {
                           setFilterType={setFilterEyes}
                         ></GenericFilter>
                       </div>
-                      {/* faction */}
+                    
                       <div>
                         <GenericFilter
                           filterName={'Faction'}
@@ -555,7 +572,7 @@ const Collection = () => {
                           setFilterType={setFilterFaction}
                         ></GenericFilter>
                       </div>
-                      {/* flowers */}
+                      
                       <div>
                         <GenericFilter
                           filterName={'Flowers'}
@@ -564,7 +581,7 @@ const Collection = () => {
                           setFilterType={setFilterFlowers}
                         ></GenericFilter>
                       </div>
-                      {/* accessories */}
+                      
                       <div>
                         <GenericFilter
                           filterName={'Accessories'}
@@ -573,7 +590,7 @@ const Collection = () => {
                           setFilterType={setFilterAccessories}
                         ></GenericFilter>
                       </div>
-                      {/* genetics */}
+                      
                       <div>
                         <GenericFilter
                           filterName={'Genetics'}
@@ -582,15 +599,16 @@ const Collection = () => {
                           setFilterType={setFilterGenetics}
                         ></GenericFilter>
                       </div>
-                    </div>
-                    <div className="grid col-span-4 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                    </div> */}
+                    <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                       {nfts.nftData.map((nft, index) => (
                         <div className="widget-wrapper" key={index}>
                           <LazyLoad height={350} key={index}>
                             <NFT
                               key={nft.tokenId.toString()}
                               tokenId={nft.tokenId}
-                              score={nft.score}
+                              score={nft.score.score}
+                              rank={nft.score.rank}
                               image={nft.image}
                             />
                           </LazyLoad>
