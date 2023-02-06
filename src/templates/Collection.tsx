@@ -122,7 +122,7 @@ const Collection = () => {
       // });
       return item;
     });
-    console.log(newNfts);
+    // console.log(newNfts);
     return newNfts;
   }
 
@@ -152,7 +152,7 @@ const Collection = () => {
           tokenId: item.tokenId,
           // ...item,
         }));
-        console.log(scores);
+        // console.log(scores);
         // const minted = 20;
         const ipfsUrl =
           'https://daturians.mypinata.cloud/ipfs/Qmc6GR4znHrxpFKCWDYkn8eeLgGHahKBA7VT4PTc5xENcH/';
@@ -173,6 +173,7 @@ const Collection = () => {
         });
         return items;
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.log(err);
         return initialItems;
       }
