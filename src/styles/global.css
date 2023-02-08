@@ -1555,6 +1555,13 @@ div. responsive-wrapper @media (min-width: 767px) {
 	display: flex;
 }
 
+.my-daturians {
+  background-color: #4247CD;
+}
+.my-daturians .btn-hero {
+  width: 100% !important;
+}
+
 /*single nft placeholder in the gallery*/
 div .single-nft-placeholder {
   width: 350;

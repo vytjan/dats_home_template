@@ -18,6 +18,11 @@ const NftGallery = () => {
       <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+          <div className="my-daturians bg-primary-100 rounded-md col-span-4">
+            <Button regular={false} hero={true}>
+              {`My Daturians`}
+            </Button>
+          </div>
           <div className="bg-primary-100 rounded-md col-span-2">
             <Link href="/gallery/this_collection">
               <a>
