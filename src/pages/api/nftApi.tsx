@@ -18,7 +18,11 @@ import axios, { AxiosRequestConfig } from 'axios';
 //   return generatedResponse; // return without waiting for process of
 // }
 
-const uploadCurrentMeta = async (currId: number, contract: any) => {
+const uploadCurrentMeta = async (
+  currId: number,
+  collection: String,
+  contract: any
+) => {
   try {
     const tokenUri = await contract.tokenURI(currId);
 
@@ -83,12 +87,16 @@ const uploadCurrentMeta = async (currId: number, contract: any) => {
       // };
 
       try {
-        const response3 = await axios.post(`/api/meta/${currId}`, item, {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        });
+        const response3 = await axios.post(
+          `/api/${collection}/${currId}`,
+          item,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+          }
+        );
         return response3;
       } catch (e) {
         console.error(e);
@@ -110,6 +118,7 @@ const uploadCurrentMeta = async (currId: number, contract: any) => {
 
 export const getMetadataById = async (
   id: String,
+  collection: String,
   contract: any,
   currMinted: Number
 ) => {
@@ -126,18 +135,32 @@ export const getMetadataById = async (
       //     id: currId,
       //   },
       // };
-
-      const result2 = await axios.get(`/api/meta/${currId}`);
+      // if (collection === 'signature') {
+      //   const result2 = await axios.get(`/api/signature/${currId}`);
+      //   console.log(result2);
+      //   // console.log(result2.data);
+      //   if (result2.data.length === 0) {
+      //     // if there is no record of current NFT, load it to mongodb
+      //     const res3 = await uploadCurrentMeta(currId, collection, contract);
+      //     console.log(res3);
+      //     const res4 = await axios.get(`/api/signature/${currId}`);
+      //     return res4;
+      //   }
+      //   return result2;
+      // }
+      // if (collection === 'main') {
+      const result2 = await axios.get(`/api/${collection}/${currId}`);
       console.log(result2);
       // console.log(result2.data);
       if (result2.data.length === 0) {
         // if there is no record of current NFT, load it to mongodb
-        const res3 = await uploadCurrentMeta(currId, contract);
+        const res3 = await uploadCurrentMeta(currId, collection, contract);
         console.log(res3);
-        const res4 = await axios.get(`/api/meta/${currId}`);
+        const res4 = await axios.get(`/api/${collection}/${currId}`);
         return res4;
       }
       return result2;
+      // }
     } catch (error: any) {
       // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
       return error.response.data;
@@ -174,9 +197,8 @@ export const getMetadataById = async (
   // return item
 };
 
-export const getAllMeta = async () =>
+export const getAllMeta = async (collection: String) =>
   // id: String,
-  // contract: any,
   // currMinted: Number
   {
     // first check if meta json is already in mongodb
@@ -192,7 +214,7 @@ export const getAllMeta = async () =>
         },
       };
 
-      const result2 = await axios.get(`/api/meta/`, config);
+      const result2 = await axios.get(`/api/${collection}/`, config);
       // console.log(result2);
       // console.log(result2.data.length);
       // if (result2.data.length === 0) {

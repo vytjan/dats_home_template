@@ -68,7 +68,7 @@ const sortStates = [
 
 let scores = [{ score: 0, tokenId: 0, rank: 0 }];
 
-const Collection = () => {
+const DaturiansMainCollection = () => {
   const [totalNfts, setTotalNfts] = useState<MetadataItems>([]);
   const [nfts, setNfts] = useState<{
     nftData: MetadataItems;
@@ -627,4 +627,4 @@ const Collection = () => {
   );
 };
 
-export default Collection;
+export default DaturiansMainCollection;

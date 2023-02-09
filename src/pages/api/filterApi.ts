@@ -66,7 +66,7 @@ export const getFilteredMeta = async (query: string) => {
     };
 
     const result2 = await axios.get(`/api/filter?${query}`, config);
-    console.log(result2);
+    // console.log(result2);
     return result2;
   } catch (error: any) {
     // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")

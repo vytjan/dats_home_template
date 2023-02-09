@@ -408,6 +408,8 @@ const geneticsMapSpecial = [
   },
 ];
 
+const collection = 'meta';
+
 const SingleNft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
@@ -439,7 +441,12 @@ const SingleNft = () => {
 
       try {
         const minted = await contract.totalMinted.call();
-        const myMeta = await getMetadataById(newId, contract, minted);
+        const myMeta = await getMetadataById(
+          newId,
+          collection,
+          contract,
+          minted
+        );
         // console.log(myMeta);
         return myMeta;
       } catch (err) {

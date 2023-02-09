@@ -19,12 +19,16 @@ const NftGallery = () => {
       <div className="flex justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           <div className="my-daturians bg-primary-100 rounded-md col-span-4">
-            <Button regular={false} hero={true}>
-              {`My Daturians`}
-            </Button>
+            <Link href="/gallery/my_daturians">
+              <a>
+                <Button regular={false} hero={true}>
+                  {`My Daturians`}
+                </Button>
+              </a>
+            </Link>
           </div>
           <div className="bg-primary-100 rounded-md col-span-2">
-            <Link href="/gallery/this_collection">
+            <Link href="/gallery/daturians">
               <a>
                 <div className="hover column">
                   <div className="collections">
@@ -46,7 +50,7 @@ const NftGallery = () => {
             </Link>
           </div>
           <div className="bg-primary-100 rounded-md col-span-2">
-            <Link href="/gallery/this_collection">
+            <Link href="/gallery/signatures">
               <a>
                 <div className="hover column">
                   <div className="collections">
@@ -68,7 +72,7 @@ const NftGallery = () => {
             </Link>
           </div>
           <div className="bg-primary-100 rounded-md col-span-2">
-            <Link href="/gallery/this_collection">
+            <Link href="/gallery/ukrainians">
               <a>
                 <div className="hover column">
                   <div className="collections">
@@ -90,7 +94,7 @@ const NftGallery = () => {
             </Link>
           </div>
           <div className="bg-primary-100 rounded-md col-span-2">
-            <Link href="/gallery/this_collection">
+            <Link href="/gallery/cafe">
               <a>
                 <div className="hover column">
                   <div className="collections">

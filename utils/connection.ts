@@ -97,3 +97,132 @@ export const connectionScore = async () => {
   console.log(Score);
   return { conn, Score };
 };
+
+// signature coll connection
+// OUR META SCHEMA
+export const connSignatureMeta = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_META}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  const SignatureMetaSchema = new mongoose.Schema(
+    {
+      tokenId: { type: Number, unique: true },
+      image: String,
+      name: String,
+      description: String,
+      data: {
+        id: Number,
+        name: String,
+        description: String,
+        image: String,
+        edition: Number,
+        attributes: [
+          {
+            trait_type: String,
+            value: String,
+            display_type: String,
+          },
+        ],
+        extras: [
+          {
+            trait_type: String,
+            value: String,
+          },
+        ],
+      },
+    },
+    { autoIndex: true }
+  );
+  // MetaSchema.index({ tokenId: 1 }, { unique: true });
+  // OUR META MODEL
+  const SignatureMeta =
+    mongoose.models.SignatureMeta ||
+    mongoose.model('SignatureMeta', SignatureMetaSchema);
+  console.log(SignatureMeta);
+  return { conn, SignatureMeta };
+};
+
+// Ukraine coll connection
+// OUR META SCHEMA
+export const connUkraineMeta = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_META}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  const UkraineMetaSchema = new mongoose.Schema(
+    {
+      tokenId: { type: Number, unique: true },
+      image: String,
+      name: String,
+      description: String,
+      data: {
+        id: Number,
+        name: String,
+        description: String,
+        image: String,
+        edition: Number,
+        attributes: [
+          {
+            trait_type: String,
+            value: String,
+          },
+        ],
+      },
+    },
+    { autoIndex: true }
+  );
+  // MetaSchema.index({ tokenId: 1 }, { unique: true });
+  // OUR META MODEL
+  const UkraineMeta =
+    mongoose.models.UkraineMeta ||
+    mongoose.model('UkraineMeta', UkraineMetaSchema);
+  console.log(UkraineMeta);
+  return { conn, UkraineMeta };
+};
+
+// cafe coll connection
+// OUR META SCHEMA
+export const connCafeMeta = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_META}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  const CafeMetaSchema = new mongoose.Schema(
+    {
+      tokenId: { type: Number, unique: true },
+      image: String,
+      name: String,
+      description: String,
+      data: {
+        id: Number,
+        name: String,
+        description: String,
+        image: String,
+        edition: Number,
+        attributes: [
+          {
+            trait_type: String,
+            value: String,
+          },
+        ],
+      },
+    },
+    { autoIndex: true }
+  );
+  // MetaSchema.index({ tokenId: 1 }, { unique: true });
+  // OUR META MODEL
+  const CafeMeta =
+    mongoose.models.CafeMeta || mongoose.model('CafeMeta', CafeMetaSchema);
+  console.log(CafeMeta);
+  return { conn, CafeMeta };
+};
