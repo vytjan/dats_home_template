@@ -12,13 +12,13 @@ const NftGallery = () => {
   return (
     <Section>
       <Meta
-        title={AppConfig.seedTitle}
-        description={AppConfig.seedDescription}
+        title={AppConfig.galleryTitle}
+        description={AppConfig.galleryDescription}
       />
       <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-          <div className="my-daturians bg-primary-100 rounded-md col-span-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-4 pt-4">
+          <div className="my-daturians bg-primary-100 rounded-md sm:col-span-2 lg:col-span-4">
             <Link href="/gallery/mynfts">
               <a>
                 <Button regular={false} hero={true}>
@@ -34,7 +34,7 @@ const NftGallery = () => {
                   <div className="collections">
                     <figure>
                       <img
-                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        className="gallery_home_img sm:text-left sm:items-center sm:justify-between"
                         src={`${router.basePath}/assets/images/gallery/daturian.png`}
                         height="100%"
                         width="100%"
@@ -56,7 +56,7 @@ const NftGallery = () => {
                   <div className="collections">
                     <figure>
                       <img
-                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        className="gallery_home_img sm:text-left sm:items-center sm:justify-between"
                         src={`${router.basePath}/assets/images/gallery/signature_daturian.png`}
                         height="100%"
                         width="100%"
@@ -78,7 +78,7 @@ const NftGallery = () => {
                   <div className="collections">
                     <figure>
                       <img
-                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        className="gallery_home_img sm:text-left sm:items-center sm:justify-between"
                         src={`${router.basePath}/assets/images/gallery/ukrainian_daturian.png`}
                         height="100%"
                         width="100%"
@@ -100,7 +100,7 @@ const NftGallery = () => {
                   <div className="collections">
                     <figure>
                       <img
-                        className="hero_img sm:text-left sm:items-center sm:justify-between"
+                        className="gallery_home_img sm:text-left sm:items-center sm:justify-between"
                         src={`${router.basePath}/assets/images/gallery/collab_daturian.png`}
                         height="100%"
                         width="100%"

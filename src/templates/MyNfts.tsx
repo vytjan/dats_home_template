@@ -364,7 +364,7 @@ const MyNFTs = () => {
             <>
               {!loadingState && !nfts.nftData.length ? (
                 <h2 className="px-20 py-10 text-3xl">
-                  No Daturians NFT in your wallet
+                  {"You don't own a Daturian yet... :("}
                 </h2>
               ) : (
                 <>
@@ -389,7 +389,7 @@ const MyNFTs = () => {
               {/* Signature Daturians */}
               {!loadingState && !signatureNfts.nftData.length ? (
                 <h2 className="px-20 py-10 text-3xl">
-                  No Signature Daturians in your wallet
+                  {"It seems you don't own any Signature Daturian..."}
                 </h2>
               ) : (
                 <>
@@ -415,7 +415,7 @@ const MyNFTs = () => {
               {/* Cafe Daturians */}
               {!loadingState && !cafeNfts.nftData.length ? (
                 <h2 className="px-20 py-10 text-3xl">
-                  No Daturians Cafe NFT in your wallet
+                  {`No coffee lover Daturians in your wallet :(`}
                 </h2>
               ) : (
                 <>
@@ -441,7 +441,7 @@ const MyNFTs = () => {
               {/* Daturians4Ukraine */}
               {!loadingState && !uaNfts.nftData.length ? (
                 <h2 className="px-20 py-10 text-3xl">
-                  No Daturians4Ukraine NFT in your wallet
+                  No Daturians4Ukraine NFT in your wallet...
                 </h2>
               ) : (
                 <>

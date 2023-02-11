@@ -210,10 +210,10 @@ const SingleSignatureNft = () => {
                 <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
                   <div className="p-4 inline-flex">
                     <p className="text-2l font-semibold">
-                      {`${meta.data.extras[5].trait_type}: `}
+                      {`${meta.data.extras[6].trait_type}: `}
                     </p>
                     <div>
-                      <p className="font-light">{meta.data.extras[5].value}</p>
+                      <p className="font-light">{meta.data.extras[6].value}</p>
                     </div>
                   </div>
                 </div>

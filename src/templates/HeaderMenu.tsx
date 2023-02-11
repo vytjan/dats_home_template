@@ -46,12 +46,12 @@ const HeaderMenu = () => {
           <Menu.Items as="div">
             <Menu.Item>
               <li className="">
-                <Link href="/about">
+                <Link href="/">
                   <a>
                     <div className="hover column mobile-about">
                       <figure>
                         <Button regular={false} hero={true}>
-                          About
+                          Home
                         </Button>
                       </figure>
                     </div>
@@ -61,7 +61,7 @@ const HeaderMenu = () => {
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                <Link href="/about" className="inactive-link">
+                <Link href="/" className="inactive-link">
                   <a>
                     <div className="hover column mobile-merch">
                       <div>
@@ -132,7 +132,7 @@ const HeaderMenu = () => {
         <div className="hidden w-full lg:block md:w-auto" id="navbar-default">
           <ul className="flex flex-col p-4 mt-4 rounded-lg  lg:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li className="body-li">
-              <Link href="/about">
+              <Link href="/">
                 <a
                   href="#"
                   className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
@@ -146,7 +146,7 @@ const HeaderMenu = () => {
                           src={`${router.basePath}/assets/images/icons/about.svg`}
                           alt="about"
                         />
-                        About
+                        Home
                       </div>
                     </div>
                   </div>
@@ -154,7 +154,7 @@ const HeaderMenu = () => {
               </Link>
             </li>
             <li className="body-li">
-              <Link href="/about" className="inactive-link">
+              <Link href="/" className="inactive-link">
                 <a>
                   <div className="navigation-bar">
                     <div>

@@ -52,12 +52,12 @@ const Hero = () => {
               <Menu.Items as="div">
                 <Menu.Item>
                   <li className="">
-                    <Link href="/about">
+                    <Link href="/">
                       <a>
                         <div className="hover column mobile-about">
                           <figure>
                             <Button regular={false} hero={true}>
-                              About
+                              Home
                             </Button>
                           </figure>
                         </div>
@@ -141,7 +141,7 @@ const Hero = () => {
             >
               <div className="grid grid-cols-5 p-4 sm:items-center sm:justify-between gap-5">
                 <li className="hero-li">
-                  <Link href="/about">
+                  <Link href="/">
                     <a>
                       <div className="hover column">
                         <div>
@@ -154,7 +154,7 @@ const Hero = () => {
                               alt="hero1"
                             />
                             <Button regular={false} hero={true}>
-                              About
+                              Home
                             </Button>
                           </figure>
                         </div>
@@ -163,7 +163,7 @@ const Hero = () => {
                   </Link>
                 </li>
                 <li className="hero-li">
-                  <Link href="/about" className="inactive-link">
+                  <Link href="/" className="inactive-link">
                     <a>
                       <div className="hover column merch-hero">
                         <div>
