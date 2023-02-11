@@ -25,9 +25,9 @@ const providerOptions = {
     package: WalletConnectProvider,
     options: {
       chainId: MintConfig.NETWORK.ID,
-      infuraId: MintConfig.INFURA_ID,
+      infuraId: process.env.INFURA_ID,
       rpc: {
-        137: MintConfig.NETWORK_URL,
+        137: process.env.INFURA_NETWORK_URL,
       },
     },
     network: 'matic',
@@ -93,8 +93,8 @@ const MintDapp = () => {
     setFeedback(`Minting ${MintConfig.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      // .mint(mintAmount)
-      .whitelistedMint(mintAmount)
+      .mint(mintAmount)
+      // .whitelistedMint(mintAmount)
       .send({
         gas: String(totalGasLimit),
         maxPriorityFeePerGas: String(maxPriorityFee),
@@ -110,7 +110,7 @@ const MintDapp = () => {
       .then((receipt: any) => {
         console.log(receipt);
         setFeedback(
-          `Congrats, the ${MintConfig.NFT_NAME} is yours! Visit Opensea.io to view it.`
+          `Congrats, the ${MintConfig.NFT_NAME} is yours! Visit Daturians Gallery to explory their story.`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
@@ -154,7 +154,7 @@ const MintDapp = () => {
   }, [blockchain.account]);
 
   const connectToWallet = useCallback(async () => {
-    web3Modal.clearCachedProvider();
+    // web3Modal.clearCachedProvider();
     web3Modal
       .connect()
       .then((connectedProvider) => {

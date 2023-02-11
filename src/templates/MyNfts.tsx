@@ -207,7 +207,7 @@ const MyNFTs = () => {
     setAddress(userAddress);
 
     // load my nfts
-    const promise = loadNfts(address);
+    const promise = loadNfts(userAddress);
     promise.then((data) => {
       // console.log(data);
       const newData = addScores(data[0]);
@@ -217,7 +217,7 @@ const MyNFTs = () => {
       setNfts({ nftData: newData2 });
       // load Ukraine nfts
       const promise2 = loadOtherNfts(
-        address,
+        userAddress,
         UkraineContractAddress,
         Daturians4Ukraine.abi,
         ipfsUrls.ukraine
@@ -229,7 +229,7 @@ const MyNFTs = () => {
 
         setUaNfts({ nftData: newUaData });
         const promise3 = loadOtherNfts(
-          address,
+          userAddress,
           SignatureContractAddress,
           DaturiansGreenhouse.abi,
           ipfsUrls.signature
@@ -239,7 +239,7 @@ const MyNFTs = () => {
 
           setSignatureNfts({ nftData: newSignatureData });
           const promise4 = loadOtherNfts(
-            address,
+            userAddress,
             CafeContractAddress,
             DaturiansCafe.abi,
             ipfsUrls.cafe
@@ -352,10 +352,10 @@ const MyNFTs = () => {
       <div className="flex justify-center">
         <div className="grid-cols-1 gap-5 max-auto px-3">
           {address.length === 0 ? (
-            <div className="w-1/2 flex flex-col pb-12">
+            <div className="w flex flex-col pb-12">
               <button
                 onClick={connectToWallet}
-                className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg"
+                className="font-bold mt-4 bg-dark text-white rounded p-4 shadow-lg connect-button"
               >
                 Connect wallet
               </button>
@@ -368,9 +368,7 @@ const MyNFTs = () => {
                 </h2>
               ) : (
                 <>
-                  <h1 className="text-3xl text-center">
-                    {AppConfig.collectionTitle}
-                  </h1>
+                  <h1 className="text-3xl text-center">My Daturians</h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {nfts.nftData.map((nft, index) => (
                       <div className="widget-wrapper" key={index}>
@@ -396,7 +394,7 @@ const MyNFTs = () => {
               ) : (
                 <>
                   <h1 className="text-3xl text-center">
-                    {AppConfig.signatureCollTitle}
+                    Your Signature Daturians
                   </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {signatureNfts.nftData.map((nft, index) => (
@@ -422,7 +420,7 @@ const MyNFTs = () => {
               ) : (
                 <>
                   <h1 className="text-3xl text-center">
-                    {AppConfig.cafeCollTitle}
+                    Your Daturians Cafe NFTs
                   </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {cafeNfts.nftData.map((nft, index) => (
@@ -448,7 +446,7 @@ const MyNFTs = () => {
               ) : (
                 <>
                   <h1 className="text-3xl text-center">
-                    {AppConfig.ukraineCollTitle}
+                    Your Ukrainian Daturians
                   </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {uaNfts.nftData.map((nft, index) => (

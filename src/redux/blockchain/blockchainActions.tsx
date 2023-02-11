@@ -43,14 +43,14 @@ export const updateAccount = (account: any) => {
   return async (dispatch: any) => {
     dispatch(updateAccountRequest({ account }));
     dispatch(fetchData(account));
-    console.log(dispatch(fetchData(account)));
+    // console.log(dispatch(fetchData(account)));
     // dispatch(fetchData());
   };
 };
 
 export const connect = (connectedProvider: any) => {
   const router = Router;
-  console.log(router.basePath);
+  // console.log(router.basePath);
   return async (dispatch: any) => {
     dispatch(connectRequest());
     const abiResponse = await fetch(`${router.basePath}/config/abi.json`, {
@@ -68,18 +68,18 @@ export const connect = (connectedProvider: any) => {
     // });
     // const CONFIG = await configResponse.json();
     const CONFIG = MintConfig;
-    console.log('got config');
-    console.log(CONFIG);
+    // console.log('got config');
+    // console.log(CONFIG);
     // const web3Contract = new Contract(abi, CONFIG.CONTRACT_ADDRESS, undefined);
 
     // web3Contract.setProvider(connectedProvider);
     const web3 = new Web3(connectedProvider); // inits web3 with the provider
     web3.setProvider(connectedProvider);
-    console.log('web3', web3);
+    // console.log('web3', web3);
     try {
       // get my address
       const accounts = await web3.eth.getAccounts();
-      console.log('accounts', accounts);
+      // console.log('accounts', accounts);
 
       // get the network id
       const networkId = await web3.eth.net.getId();
@@ -111,8 +111,8 @@ export const connect = (connectedProvider: any) => {
               window.location.reload();
             });
           }
-        } catch (error) {
-          console.log('most likely not using metamask', error);
+        } catch (error: any) {
+          console.log('Most likely not using metamask', error);
         }
         // Add listeners end
       } else {
@@ -124,7 +124,7 @@ export const connect = (connectedProvider: any) => {
           })
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       // alert('Something went wrong, please contact the team');
       dispatch(connectFailed({ errorMsg: 'Something went wrong.' }));
