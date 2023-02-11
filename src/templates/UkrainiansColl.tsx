@@ -9,7 +9,7 @@ import { Section } from '../layout/Section';
 import { AppConfig, UkraineContractAddress } from '../utils/AppConfig';
 import Daturians4Ukraine from '../utils/artifacts/Daturians4Ukraine.json';
 import { HeaderMenu } from './HeaderMenu';
-import SignatureNft from './SignatureNft';
+import SignatureNFT from './SignatureNft';
 import SortFilter from './SortField';
 
 type MetadataItems = {
@@ -84,19 +84,6 @@ const SignaturesCollection = () => {
       // get minted number
       try {
         const minted = await contract.totalMinted.call();
-        // const scoresRes = await getFilteredMeta(`sort=desc&limit=${minted}`);
-        // const newScores = scoresRes.data;
-        // const newScoresSorted = newScores.sort((a: any, b: any) =>
-        //   a.score > b.score ? -1 : 1
-        // );
-        // scores = newScoresSorted.map((item: any, index: any) => ({
-        //   rank: index + 1,
-        //   score: parseFloat(item.score.toFixed(2)),
-        //   tokenId: item.tokenId,
-        //   // ...item,
-        // }));
-        // console.log(scores);
-        // const minted = 20;
         const ipfsUrl =
           'https://daturians.mypinata.cloud/ipfs/Qmbd165r7YAB7uLByZhyFGfAELhnDDsSEVzLUBXV5fixgH/';
 
@@ -105,11 +92,8 @@ const SignaturesCollection = () => {
           const item = {
             tokenId: i,
             image: `${ipfsUrl + String(i)}.png`,
-            // image: `${i.toString()}.png`,
             name: `Ukrainian #${i.toString()}`,
             description: '',
-            // score: { score: 0, rank: 0, tokenId: '0' },
-            // score: scores[i].score,
           };
 
           return item;
@@ -276,7 +260,7 @@ const SignaturesCollection = () => {
                       {nfts.nftData.map((nft, index) => (
                         <div className="widget-wrapper" key={index}>
                           <LazyLoad height={350} key={index}>
-                            <SignatureNft
+                            <SignatureNFT
                               key={nft.tokenId.toString()}
                               tokenId={nft.tokenId}
                               image={nft.image}

@@ -138,7 +138,7 @@ const DaturiansMainCollection = () => {
         DaturiansNFT.abi,
         provider
       );
-      // get minted number
+      // get minted number and add scores
       try {
         const minted = await contract.totalMinted.call();
         const scoresRes = await getFilteredMeta(`sort=desc&limit=${minted}`);
