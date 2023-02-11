@@ -1,7 +1,9 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 type IAttributesProps = {
   image: string;
+  imageLayers: string;
   imageAlt: string;
   size: number;
   description1: string;
@@ -21,19 +23,32 @@ const Attributes = (props: IAttributesProps) => {
         height={props.size}
       />
       <div className="about-title">
-        <h1>Attributes</h1>
-        <a href="https://gallery.daturians.com/">
-          <img
-            className="gallery-icon"
-            src={`${router.basePath}/assets/images/icons/gallery.svg`}
-            alt={props.imageAlt}
-            width={props.size}
-            height={props.size}
-          />
-        </a>
+        <Link href="/gallery">
+          <a>
+            <h1>Attributes</h1>
+          </a>
+        </Link>
+        <Link href="/gallery">
+          <a>
+            <img
+              className="gallery-icon"
+              src={`${router.basePath}/assets/images/icons/gallery.svg`}
+              alt={props.imageAlt}
+              width={props.size}
+              height={props.size}
+            />
+          </a>
+        </Link>
       </div>
       <p className="dat-paragraph">{props.description1}</p>
       <p>{props.description2}</p>
+      <img
+        className="attribute-img rounded-md"
+        src={`${router.basePath}${props.imageLayers}`}
+        alt={props.imageAlt}
+        width={props.size}
+        height={props.size}
+      />
     </div>
   );
 };

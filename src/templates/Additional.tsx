@@ -24,7 +24,7 @@ const Additional = (props: IAdditionalProps) => {
         <p className="dat-paragraph">{props.description}</p>
       </div>
       <div className="additional-images">
-        <Link href={props.urlUkraine}>
+        <Link href="/gallery/ukrainians/">
           <a>
             <img
               className="rounded-md additional-props"
@@ -35,7 +35,7 @@ const Additional = (props: IAdditionalProps) => {
             />
           </a>
         </Link>
-        <Link href={props.urlCafe}>
+        <Link href="/gallery/cafe/">
           <a>
             <img
               className="rounded-md additional-props"
@@ -46,7 +46,7 @@ const Additional = (props: IAdditionalProps) => {
             />
           </a>
         </Link>
-        <Link href={props.urlGreenhouse}>
+        <Link href="/gallery/signatures/">
           <a>
             <img
               className="rounded-md additional-props"

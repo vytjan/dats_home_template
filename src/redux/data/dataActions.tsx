@@ -46,7 +46,7 @@ export const fetchData = (_account: string) => {
           // cost,
         })
       );
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       dispatch(fetchDataFailed('Could not load data from contract.'));
     }

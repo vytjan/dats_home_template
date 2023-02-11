@@ -79,7 +79,7 @@ export const connect = (connectedProvider: any) => {
     try {
       // get my address
       const accounts = await web3.eth.getAccounts();
-      console.log('accounts', accounts);
+      // console.log('accounts', accounts);
 
       // get the network id
       const networkId = await web3.eth.net.getId();
@@ -111,8 +111,8 @@ export const connect = (connectedProvider: any) => {
               window.location.reload();
             });
           }
-        } catch (error) {
-          console.log('most likely not using metamask', error);
+        } catch (error: any) {
+          console.log('Most likely not using metamask', error);
         }
         // Add listeners end
       } else {
@@ -124,7 +124,7 @@ export const connect = (connectedProvider: any) => {
           })
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       // alert('Something went wrong, please contact the team');
       dispatch(connectFailed({ errorMsg: 'Something went wrong.' }));

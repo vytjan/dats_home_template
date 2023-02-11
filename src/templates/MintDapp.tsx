@@ -110,7 +110,7 @@ const MintDapp = () => {
       .then((receipt: any) => {
         console.log(receipt);
         setFeedback(
-          `Congrats, the ${MintConfig.NFT_NAME} is yours! Visit Opensea.io to view it.`
+          `Congrats, the ${MintConfig.NFT_NAME} is yours! Visit Daturians Gallery to explory their story.`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
@@ -154,7 +154,7 @@ const MintDapp = () => {
   }, [blockchain.account]);
 
   const connectToWallet = useCallback(async () => {
-    web3Modal.clearCachedProvider();
+    // web3Modal.clearCachedProvider();
     web3Modal
       .connect()
       .then((connectedProvider) => {
