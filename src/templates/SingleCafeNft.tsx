@@ -14,7 +14,6 @@ const SingleCafeNft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
   const [meta, setMeta] = useState<any>([]);
-  // console.log(currId);
 
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -27,7 +26,6 @@ const SingleCafeNft = () => {
       provider
     );
     async function getId(newId: any) {
-      // console.log(newId);
       if (newId && typeof newId === 'string') {
         if (!currId) {
           setId(newId);
@@ -42,29 +40,14 @@ const SingleCafeNft = () => {
       try {
         const minted = await contract.totalMinted.call();
         const myMeta = await getMetadataById(newId, 'cafe', contract, minted);
-        console.log(myMeta);
         return myMeta;
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(err);
+      } catch (err: any) {
         return null;
       }
     }
 
     // map occupation to activity
     function setActivity(metaObj: any) {
-      // const occupation = metaObj.data.attributes[4].value;
-      // const activity = occupations.find((obj) => obj.occ === occupation);
-      // // console.log(activity);
-      // if (activity) {
-      //   const randomElement =
-      //     activity.body[Math.floor(Math.random() * activity.body.length)];
-      //   metaObj.data.activity = randomElement;
-      // } else {
-      //   metaObj.data.activity = 'This daturian is doing nothing good.';
-      // }
-      // console.log(metaObj);
-      // console.log();
       metaObj.data.activity =
         'This Daturian is trying to taste all types of 1270 Datura coffee.';
       return metaObj;
@@ -77,19 +60,12 @@ const SingleCafeNft = () => {
     const promise = getId(id);
     promise.then((meta2) => {
       // console.log(meta2);
-      // console.log(meta2.data[0]);
-      // if (meta2.data) {
-      //   const newMeta = meta2.data[0];
-      //   newMeta.data.attributes.append
-      // const updateMeta = setGenetics(meta2.data[0]);
-      const updateMeta2 = setActivity(meta2.data[0]);
-      setMeta(updateMeta2);
-      // }
+      if (meta2.data.length > 0 && meta2.status === 200) {
+        const updateMeta2 = setActivity(meta2.data[0]);
+        setMeta(updateMeta2);
+      }
     });
-    // console.log(id);
-    // codes using router.query
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.isReady, currId, router.query]);
 
   return (
     <Section>
@@ -198,13 +174,14 @@ const SingleCafeNft = () => {
                     <div className="p-4 col-span-1">
                       <img
                         className="object-cover content-center family-crest"
-                        alt="family.png"
-                        src={`${
-                          router.basePath
-                        }/assets/images/gallery/families/${meta.data.attributes[1].value
-                          .split(' x ')[0]
-                          .split(' ')
-                          .join('-')}.png`}
+                        alt="collab.png"
+                        src={`${router.basePath}/assets/images/gallery/cafe.png`}
+                        // src={`${
+                        //   router.basePath
+                        // }/assets/images/gallery/families/${meta.data.attributes[1].value
+                        //   .split(' x ')[0]
+                        //   .split(' ')
+                        //   .join('-')}.png`}
                       />
                     </div>
                   </div>
@@ -240,13 +217,14 @@ const SingleCafeNft = () => {
                 <div className="p-4 col-span-1">
                   <img
                     className="object-cover content-center flower-image"
-                    src={`${
-                      router.basePath
-                    }/assets/images/floraweek/${meta.data.attributes[3].value
-                      .toLowerCase()
-                      .split(' ')
-                      .join('_')}.png`}
-                    alt="flora.png"
+                    src={`${router.basePath}/assets/images/gallery/in_progress.png`}
+                    // src={`${
+                    //   router.basePath
+                    // }/assets/images/floraweek/${meta.data.attributes[3].value
+                    //   .toLowerCase()
+                    //   .split(' ')
+                    //   .join('_')}.png`}
+                    alt="in_progress.png"
                   />
                 </div>
               </div>

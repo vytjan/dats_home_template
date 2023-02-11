@@ -82,7 +82,7 @@ export const UiFileInputButton: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     // console.log('useEffect nftsHeld: ', props.getNftsHeld);
-    console.log('useEffect, ', props.sumbissionCount);
+    // console.log('useEffect, ', props.sumbissionCount);
   }, [props.getNftsHeld, props.sumbissionCount]); // 👈️ add state variables you want to track
 
   return (

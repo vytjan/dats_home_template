@@ -14,7 +14,6 @@ const SingleSignatureNft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
   const [meta, setMeta] = useState<any>([]);
-  // console.log(currId);
 
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -42,81 +41,32 @@ const SingleSignatureNft = () => {
       try {
         const minted = await contract.totalMinted.call();
         const myMeta = await getMetadataById(newId, 'ua', contract, minted);
-        console.log(myMeta);
+        // console.log(myMeta);
         return myMeta;
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(err);
+      } catch (err: any) {
         return null;
       }
     }
 
     // map occupation to activity
     function setActivity(metaObj: any) {
-      // const occupation = metaObj.data.attributes[4].value;
-      // const activity = occupations.find((obj) => obj.occ === occupation);
-      // // console.log(activity);
-      // if (activity) {
-      //   const randomElement =
-      //     activity.body[Math.floor(Math.random() * activity.body.length)];
-      //   metaObj.data.activity = randomElement;
-      // } else {
-      //   metaObj.data.activity = 'This daturian is doing nothing good.';
-      // }
-      // console.log(metaObj);
-      // console.log();
       metaObj.data.activity =
         "Ukrainian Daturians fight for their own and the worlds's freedom.";
       return metaObj;
     }
-    // map genetics of the daturian
-    // function setGenetics(metaObj: any) {
-    //   const fam = metaObj.data.attributes[3].value.split(' x ');
-    //   if (fam.length === 1) {
-    //     const newEarsFam = earsFamilies.find(
-    //       (obj) => obj.title === metaObj.data.attributes[5].value
-    //     );
-    //     // if body === ears
-    //     if (newEarsFam?.family === fam[0]) {
-    //       // else pure blood
-    //       metaObj.data.genetics = 'Pure Blood';
-    //       metaObj.data.geneticsText = geneticsMapReg.pure;
-    //     } else {
-    //       metaObj.data.genetics = 'Mixed Blood';
-    //       metaObj.data.geneticsText = `The parents of this Daturian belong to ${fam[0]} and ${newEarsFam?.family} and are forming new genetic variations.`;
-    //     }
-    //   } else {
-    //     const newMetaGen = geneticsMapSpecial.find(
-    //       (obj) => obj.name === fam[1]
-    //     );
-    //     metaObj.data.genetics = newMetaGen?.name;
-    //     metaObj.data.geneticsText = newMetaGen?.text;
-    //   }
-    //   // console.log(newMetaGen);
-    //   // console.log(metaObj);
-    //   return metaObj;
-    // }
 
-    // console.log(router);
     if (!router.isReady) return;
     // console.log(router.query);
     const { id } = router.query;
     const promise = getId(id);
     promise.then((meta2) => {
       // console.log(meta2);
-      // console.log(meta2.data[0]);
-      // if (meta2.data) {
-      //   const newMeta = meta2.data[0];
-      //   newMeta.data.attributes.append
-      // const updateMeta = setGenetics(meta2.data[0]);
-      const updateMeta2 = setActivity(meta2.data[0]);
-      setMeta(updateMeta2);
-      // }
+      if (meta2.data.length > 0 && meta2.status === 200) {
+        const updateMeta2 = setActivity(meta2.data[0]);
+        setMeta(updateMeta2);
+      }
     });
-    // console.log(id);
-    // codes using router.query
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.isReady, currId, router.query]);
 
   return (
     <Section>
@@ -227,29 +177,6 @@ const SingleSignatureNft = () => {
                 </div>
               </div>
             </div>
-            {/* genetics */}
-            {/* <div className="col-span-2">
-              <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 col-span-1">
-                    <h1>Genetics: {meta.data.genetics}</h1>
-                    <br />
-                    <p className="font-light">{meta.data.geneticsText}</p>
-                  </div>
-                  <div className="p-4 col-span-1">
-                    <img
-                      className="object-cover content-center family-crest"
-                      src={`${
-                        router.basePath
-                      }/assets/images/gallery/families/${meta.data.genetics
-                        .split(' ')
-                        .join('-')}.png`}
-                      alt="family.png"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div> */}
             {/* Occupation */}
             <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
               <div className="p-4">

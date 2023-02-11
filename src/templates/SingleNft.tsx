@@ -414,7 +414,6 @@ const SingleNft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
   const [meta, setMeta] = useState<any>([]);
-  // console.log(currId);
 
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -449,9 +448,7 @@ const SingleNft = () => {
         );
         // console.log(myMeta);
         return myMeta;
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(err);
+      } catch (err: any) {
         return null;
       }
     }
@@ -468,8 +465,6 @@ const SingleNft = () => {
       } else {
         metaObj.data.activity = 'This daturian is doing nothing good.';
       }
-      // console.log(metaObj);
-      // console.log();
       return metaObj;
     }
     // map genetics of the daturian
@@ -495,31 +490,22 @@ const SingleNft = () => {
         metaObj.data.genetics = newMetaGen?.name;
         metaObj.data.geneticsText = newMetaGen?.text;
       }
-      // console.log(newMetaGen);
-      // console.log(metaObj);
       return metaObj;
     }
 
-    // console.log(router);
     if (!router.isReady) return;
     // console.log(router.query);
     const { id } = router.query;
     const promise = getId(id);
     promise.then((meta2) => {
       // console.log(meta2);
-      // console.log(meta2.data[0]);
-      // if (meta2.data) {
-      //   const newMeta = meta2.data[0];
-      //   newMeta.data.attributes.append
-      const updateMeta = setGenetics(meta2.data[0]);
-      const updateMeta2 = setActivity(updateMeta);
-      setMeta(updateMeta2);
-      // }
+      if (meta2.data.length > 0 && meta2.status === 200) {
+        const updateMeta = setGenetics(meta2.data[0]);
+        const updateMeta2 = setActivity(updateMeta);
+        setMeta(updateMeta2);
+      }
     });
-    // console.log(id);
-    // codes using router.query
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.isReady, currId, router.query]);
 
   return (
     <Section>
