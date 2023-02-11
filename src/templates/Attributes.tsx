@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 
 type IAttributesProps = {
   image: string;
+  imageLayers: string;
   imageAlt: string;
   size: number;
   description1: string;
@@ -34,6 +35,13 @@ const Attributes = (props: IAttributesProps) => {
       </div>
       <p className="dat-paragraph">{props.description1}</p>
       <p>{props.description2}</p>
+      <img
+        className="attribute-img rounded-md"
+        src={`${router.basePath}${props.imageLayers}`}
+        alt={props.imageAlt}
+        width={props.size}
+        height={props.size}
+      />
     </div>
   );
 };
