@@ -33,7 +33,7 @@ const Body = () => {
   // };
 
   const InstaProps = {
-    image: `/assets/images/instagram.png`,
+    image: `/assets/images/instagram.gif`,
     imageAlt: `instagram`,
     size: 100,
   };
@@ -133,6 +133,11 @@ const Body = () => {
       <HeaderArt></HeaderArt>
       <div className="flex-col">
         <div className="left-content grid grid-cols-3 gap-5 max-auto px-3">
+          <About
+            image={aboutProps.image}
+            imageAlt={aboutProps.imageAlt}
+            size={aboutProps.size}
+          ></About>
           <MediumWidget
             title={mediumProps.title}
             description={mediumProps.description}
@@ -141,11 +146,6 @@ const Body = () => {
             size={mediumProps.size}
             link={mediumProps.link}
           ></MediumWidget>
-          <About
-            image={aboutProps.image}
-            imageAlt={aboutProps.imageAlt}
-            size={aboutProps.size}
-          ></About>
           <Roadmap
             image={roadmapProps.image}
             imageAlt={roadmapProps.imageAlt}

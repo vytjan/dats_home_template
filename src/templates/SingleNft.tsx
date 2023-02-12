@@ -522,7 +522,7 @@ const SingleNft = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             {/* home */}
-            <div className="bg-primary-100 rounded-md grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
+            <div className="bg-primary-100 rounded-md grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4 single-nft-logo">
               <div className="rounded-md overflow-hidden">
                 <img
                   className="object-cover content-center home-logo"
@@ -531,16 +531,16 @@ const SingleNft = () => {
                 />
               </div>
             </div>
-            <div className="col-span-2">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 ">
+            <div className="sm:col-span-4 lg:col-span-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 ">
                 {/* name */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-1 sm:col-span-1">
                   <div className="p-4 ">
                     <p className="text-2l font-semibold">{meta.name}</p>
                   </div>
                 </div>
                 {/* health */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-2 sm:col-span-3">
                   <div className="p-4 w-full inline-flex">
                     <p className="text-2l font-semibold w-3/12">
                       {`${meta.data.attributes[7].trait_type}: `}
@@ -549,7 +549,7 @@ const SingleNft = () => {
                     <p className="font-light w-1/5">
                       {meta.data.attributes[7].value}
                     </p>
-                    <div className="relative pt-2 w-full rounded">
+                    <div className="relative pt-2 w-full rounded health">
                       <div className="h-2 text-xs flex rounded bg-white">
                         <div
                           style={{ width: `${meta.data.attributes[7].value}%` }}
@@ -575,7 +575,7 @@ const SingleNft = () => {
                   </div>
                 </div>
                 {/* faction */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-1 sm:col-span-1">
                   <div className="p-4 inline-flex">
                     <p className="text-2l font-semibold">
                       {`${meta.data.attributes[1].trait_type}: `}
@@ -588,7 +588,7 @@ const SingleNft = () => {
                   </div>
                 </div>
                 {/* type */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-1 sm:col-span-1">
                   <div className="p-4 inline-flex">
                     <p className="text-2l font-semibold">
                       {`${meta.data.attributes[0].trait_type}: `}
@@ -601,7 +601,7 @@ const SingleNft = () => {
                   </div>
                 </div>
                 {/* Character traits */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-1 sm:col-span-2">
                   <div className="p-4 inline-flex">
                     <p className="text-2l font-semibold">
                       {`${meta.data.extras[5].trait_type}: `}
@@ -615,7 +615,7 @@ const SingleNft = () => {
             </div>
 
             {/* image */}
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 sm:col-span-4 lg:col-span-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
               <div className="rounded-md overflow-hidden">
                 <img
                   className="object-cover content-center daturian"
@@ -624,11 +624,11 @@ const SingleNft = () => {
                 />
               </div>
             </div>
-            <div className="col-span-2">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+            <div className="sm:col-span-4 lg:col-span-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 {/* family */}
                 <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
                     <div className="p-4 col-span-1">
                       <h1>
                         {meta.data.attributes[3].trait_type}:{' '}
@@ -653,7 +653,7 @@ const SingleNft = () => {
                 </div>
                 {/* location */}
                 <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
                     <div className="p-4 col-span-1">
                       <img
                         className="object-cover content-center family-crest"
@@ -685,9 +685,9 @@ const SingleNft = () => {
               </div>
             </div>
             {/* genetics */}
-            <div className="col-span-2">
+            <div className="sm:col-span-4 lg:col-span-2">
               <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
                   <div className="p-4 col-span-1">
                     <h1>Genetics: {meta.data.genetics}</h1>
                     <br />
@@ -708,7 +708,7 @@ const SingleNft = () => {
               </div>
             </div>
             {/* Occupation */}
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-1 sm:col-span-2">
               <div className="p-4">
                 <h1>
                   {`${meta.data.attributes[4].trait_type}: `}
@@ -721,7 +721,7 @@ const SingleNft = () => {
               </div>
             </div>
             {/* Special ability */}
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-1 sm:col-span-2">
               <div className="p-4 ">
                 <h1>{`${meta.data.extras[3].trait_type}: `}</h1>
                 <p>&nbsp;</p>
@@ -731,8 +731,8 @@ const SingleNft = () => {
               </div>
             </div>
             {/* flower */}
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-2 sm:col-span-4">
+              <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
                 <div className="p-4 col-span-1">
                   <h1>
                     {meta.data.attributes[9].trait_type}:{' '}
@@ -755,14 +755,14 @@ const SingleNft = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 datura-map">
+            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
               <img
-                className="object-cover content-center"
+                className="content-center"
                 src={`${router.basePath}/assets/images/datura_map.png`}
                 alt="datura_map.png"
               />
             </div>
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 opensea-box gap-4 p-4">
+            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
                 <h1>View on Opensea:</h1>
                 <a href={AppConfig.openseaCollectionUrl + meta.tokenId}>
