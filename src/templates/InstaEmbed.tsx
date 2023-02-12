@@ -20,6 +20,7 @@ const InstaEmbed = (props: IInstaProps) => {
     >
       <a href="https://www.instagram.com/daturiansnft/">
         <img
+          className="rounded-md"
           src={`${router.basePath}${props.image}`}
           alt={props.imageAlt}
           width={size}

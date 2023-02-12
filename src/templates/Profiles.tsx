@@ -12,7 +12,7 @@ const profiles = [
   },
   {
     id: 1,
-    name: `SemiLunaria`,
+    name: `Lunaria`,
     description: `A loving mom, master of numerous traditional art techniques and the lady of the forest. Knows all medicinal herbs by heart.`,
     linkText: `Kotryna Semi`,
     linkUrl: `https://twitter.com/SemiLunaria`,
@@ -57,12 +57,12 @@ const profiles = [
   },
   {
     id: 6,
-    name: `Jr`,
-    description: `Loves connecting with people and tequila. Here to push WAGMI culture! Huge NBA nerd. Always here for the good vibes.`,
-    linkText: `Jr`,
+    name: `BigN`,
+    description: `Lives in a snowy biome and is the nicest mod you can find across all the metaverses.`,
+    linkText: `BigN`,
     linkUrl: `https://twitter.com/jrmaccss`,
-    imgUrl: `/assets/images/jr.png`,
-    imgAlt: `jr`,
+    imgUrl: `/assets/images/bigN.png`,
+    imgAlt: `bigN`,
   },
   {
     id: 7,
