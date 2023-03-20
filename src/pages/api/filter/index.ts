@@ -14,8 +14,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // RESPONSE FOR GET REQUESTS
     GET: async (req2: NextApiRequest, res2: NextApiResponse) => {
       const { filterName, search, distinct, sort, limit } = req2.query;
-      const { Meta } = await connectionMeta(); // connect to database
       if (filterName && search) {
+        const { Meta } = await connectionMeta(); // connect to database
         // console.log(search.split(',').length);
         // let newSearch = [];
         if (Array.isArray(search) && search.length > 0) {
@@ -53,6 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
       if (distinct && filterName) {
+        const { Meta } = await connectionMeta(); // connect to database
         const agg = [
           {
             $unwind: {
