@@ -153,7 +153,7 @@ button:disabled .btn-road-percent-ongoing {
   color: #FF4360;
 }
 
-.btn-hero {
+.btn-hero, btn-migrate {
   width: 90% !important;
 }
 .btn {
@@ -170,18 +170,18 @@ button:disabled .btn-road-percent-ongoing {
   font-size: 14px;
   color: #D8DFFC;
 }
-.mint .btn-hero {
+.mint .btn-hero, .mint-migrate-container .migrate-selected {
   background-color: #4147D5;
   color: #F0F4F9;
 }
 .mint {
   border-radius: 0.375rem;
 }
-.minting .btn-hero {
+.minting .btn-hero, mint-migrate-container btn-hero {
   background-color: #4147D5 !important;
   color: #F1F4F9;
 }
-.minting .btn-hero:hover{
+.minting .btn-hero:hover, mint-migrate-container btn-hero:hover{
   background-color: #AAFC0D !important;
   color: #4147D5 !important;
 }
@@ -277,7 +277,7 @@ button:disabled .btn-road-percent-ongoing {
   display:block;
   text-align: center;
 }
-.navigation-bar .btn-hero{
+.navigation-bar .btn-hero, .mint-migrate-container btn-hero{
   width: 220px !important;
   display: inline-flex;
   justify-content: center;
@@ -643,7 +643,7 @@ button:disabled .btn-road-percent-ongoing {
   }
 }
 @media only screen and (max-width: 1279px) {
-  .navigation-bar .btn-hero {
+  .navigation-bar .btn-hero, .mint-migrate-container btn-hero {
     width: 160px !important;
   }
   .nav-icon {
@@ -1582,7 +1582,7 @@ div. responsive-wrapper @media (min-width: 767px) {
 .my-daturians {
   background-color: #4247CD;
 }
-.my-daturians .btn-hero {
+.my-daturians .btn-hero, .mint-migrate-container .btn-hero {
   width: 100% !important;
 }
 

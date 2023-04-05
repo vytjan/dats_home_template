@@ -56,6 +56,9 @@ const MintDapp = () => {
   const [isHovering, setIsHovered] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
+  // add the migrate/mint tab state
+  const [mintState, setMintState] = useState(true);
+
   const logImages = [
     `${router.basePath}/assets/images/encyclopedia.png`,
     `${router.basePath}/assets/images/encyclopedia_open.png`,
@@ -180,6 +183,15 @@ const MintDapp = () => {
   // }, [connect]);
 
   // console.log(web3Modal);
+
+  const clickMintState = () => {
+    setMintState(true);
+  };
+
+  const clickMigrateState = () => {
+    setMintState(false);
+  };
+
   return (
     <Section yPadding="py-2">
       <Meta
@@ -196,141 +208,178 @@ const MintDapp = () => {
           </div>
         </Popup>
         <div className="grid-cols-3 gap-5 max-auto px-3">
-          {/* <div className="flex flex-col pb-12 mint-container"> */}
-          <div className="top-logo flex justify-center">
-            <img
-              className="styled-logo"
-              alt={'logo'}
-              src={`${router.basePath}/assets/images/logo.svg`}
-            />
-            <p className="mint-number">
-              {data.totalSupply} / {MintConfig.MAX_SUPPLY}
-            </p>
-          </div>
-          <p className="mint-description flex justify-center">
-            <a
-              className="contract-address"
-              target="_blank"
-              href={MintConfig.SCAN_LINK}
-              rel="noreferrer"
-            >
-              {truncate(MintConfig.CONTRACT_ADDRESS, 42)}
-            </a>
-          </p>
-          <div>
-            <img
-              src={isHovering ? logImages[1] : logImages[0]}
-              alt="book"
-              className="book"
-            />
-            <a href="">
-              {!connectedState ? (
-                <div className="flex justify-center mint-state">
-                  <button
-                    className="font-bold mt-4 bg-dark text-white rounded shadow-lg mint-button"
-                    onClick={(e) => {
-                      if (connectedState === false) {
-                        e.preventDefault();
-                        connectToWallet();
-                        setIsHovered(true);
-                      } else {
-                        e.preventDefault();
-                        console.log('already connected');
-                      }
-                    }}
-                  >
-                    {`Connect wallet`}
-                  </button>
-                </div>
-              ) : (
-                <div className="flex justify-center dingles">
-                  <button></button>
-                </div>
-              )}
-            </a>
-          </div>
-          <div className="responsive-wrapper">
-            <div>
-              {Number(data.totalSupply) >= MintConfig.MAX_SUPPLY ? (
-                <>
-                  <p className="text-title">{`The sale has ended.`}</p>
-                  <p className="mint-find-description">
-                    You can still find {MintConfig.NFT_NAME} on
-                  </p>
-                  <a
-                    className="opensea"
-                    target="_blank"
-                    href={MintConfig.MARKETPLACE_LINK}
-                    rel="noreferrer"
-                  >
-                    {MintConfig.MARKETPLACE}
-                  </a>
-                </>
-              ) : (
-                <>
-                  {blockchain.account === '' ||
-                  blockchain.smartContract === null ? (
-                    <div className="flex justify-center">
-                      {blockchain.errorMsg !== '' ? (
-                        <>
-                          <p className="mint-description mint-error">
-                            {blockchain.errorMsg}
-                          </p>
-                        </>
-                      ) : null}
-                    </div>
-                  ) : (
-                    <div className="justify-center">
-                      <div className="flex justify-center">
-                        <p className="mint-description">{feedback}</p>
-                        <div className="mint-numbers">
-                          <button
-                            className="btn btn-regular mint-styled-button-round"
-                            disabled={!!claimingNft}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              decrementMintAmount();
-                            }}
-                          >
-                            -
-                          </button>
-                          <p className="mint-description">{mintAmount}</p>
-                          <button
-                            className="btn btn-regular mint-styled-button-round"
-                            disabled={!!claimingNft}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              incrementMintAmount();
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                      <div className="main-mint-btn">
-                        <button
-                          className="btn btn-regular mint-styled-button"
-                          disabled={!!claimingNft}
-                          onClick={(e: any) => {
-                            e.preventDefault();
-                            claimNFTs();
-                            getData();
-                          }}
-                        >
-                          {claimingNft ? 'MINTING' : 'MINT'}
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
+          <div className="mint-migrate-container grid grid-cols-6 flex justify-center">
+            <div className="col-start-3 col-span-1">
+              <button
+                className={
+                  mintState
+                    ? 'btn btn-base btn-primary btn-hero migrate-selected'
+                    : 'btn btn-base btn-primary btn-hero'
+                }
+                onClick={clickMintState}
+              >
+                Mint
+              </button>
+            </div>
+            <div className="col-span-1">
+              <button
+                className={
+                  !mintState
+                    ? 'btn btn-base btn-primary btn-hero migrate-selected'
+                    : 'btn btn-base btn-primary btn-hero'
+                }
+                onClick={clickMigrateState}
+              >
+                Migrate
+              </button>
             </div>
           </div>
-          <div className="flex justify-center">
-            <p className="disclaimer">
-              {`We recommend that you don't lower the gas limit. If you do, go for automatic 'high' option on MetaMask.`}
-            </p>
-          </div>
+          {mintState ? (
+            <div className="flex flex-col pb-12 mint-container">
+              <div className="top-logo flex justify-center">
+                <img
+                  className="styled-logo"
+                  alt={'logo'}
+                  src={`${router.basePath}/assets/images/logo.svg`}
+                />
+                <p className="mint-number">
+                  {data.totalSupply} / {MintConfig.MAX_SUPPLY}
+                </p>
+              </div>
+              <p className="mint-description flex justify-center">
+                <a
+                  className="contract-address"
+                  target="_blank"
+                  href={MintConfig.SCAN_LINK}
+                  rel="noreferrer"
+                >
+                  {truncate(MintConfig.CONTRACT_ADDRESS, 42)}
+                </a>
+              </p>
+              <div>
+                <img
+                  src={isHovering ? logImages[1] : logImages[0]}
+                  alt="book"
+                  className="book"
+                />
+                <a href="">
+                  {!connectedState ? (
+                    <div className="flex justify-center mint-state">
+                      <button
+                        className="font-bold mt-4 bg-dark text-white rounded shadow-lg mint-button"
+                        onClick={(e) => {
+                          if (connectedState === false) {
+                            e.preventDefault();
+                            connectToWallet();
+                            setIsHovered(true);
+                          } else {
+                            e.preventDefault();
+                            console.log('already connected');
+                          }
+                        }}
+                      >
+                        {`Connect wallet`}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center dingles">
+                      <button></button>
+                    </div>
+                  )}
+                </a>
+              </div>
+              <div className="responsive-wrapper">
+                <div>
+                  {Number(data.totalSupply) >= MintConfig.MAX_SUPPLY ? (
+                    <>
+                      <p className="text-title">{`The sale has ended.`}</p>
+                      <p className="mint-find-description">
+                        You can still find {MintConfig.NFT_NAME} on
+                      </p>
+                      <a
+                        className="opensea"
+                        target="_blank"
+                        href={MintConfig.MARKETPLACE_LINK}
+                        rel="noreferrer"
+                      >
+                        {MintConfig.MARKETPLACE}
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      {blockchain.account === '' ||
+                      blockchain.smartContract === null ? (
+                        <div className="flex justify-center">
+                          {blockchain.errorMsg !== '' ? (
+                            <>
+                              <p className="mint-description mint-error">
+                                {blockchain.errorMsg}
+                              </p>
+                            </>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div className="justify-center">
+                          <div className="flex justify-center">
+                            <p className="mint-description">{feedback}</p>
+                            <div className="mint-numbers">
+                              <button
+                                className="btn btn-regular mint-styled-button-round"
+                                disabled={!!claimingNft}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  decrementMintAmount();
+                                }}
+                              >
+                                -
+                              </button>
+                              <p className="mint-description">{mintAmount}</p>
+                              <button
+                                className="btn btn-regular mint-styled-button-round"
+                                disabled={!!claimingNft}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  incrementMintAmount();
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                          <div className="main-mint-btn">
+                            <button
+                              className="btn btn-regular mint-styled-button"
+                              disabled={!!claimingNft}
+                              onClick={(e: any) => {
+                                e.preventDefault();
+                                claimNFTs();
+                                getData();
+                              }}
+                            >
+                              {claimingNft ? 'MINTING' : 'MINT'}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <p className="disclaimer">
+                  {`We recommend that you don't lower the gas limit. If you do, go for automatic 'high' option on MetaMask.`}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <div className="grid-cols-3 gap-5 max-auto px-3">
+                {/* migration iframe container */}
+                <iframe />
+              </div>
+            </div>
+          )}
+
           {/* </div> */}
         </div>
       </div>
