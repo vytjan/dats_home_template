@@ -207,7 +207,7 @@ const MintDapp = () => {
             </div>
           </div>
         </Popup>
-        <div className="grid-cols-3 gap-5 max-auto px-3">
+        <div className="grid-container grid-cols-5 gap-5 px-3">
           <div className="mint-migrate-container grid grid-cols-6 flex justify-center">
             <div className="col-start-3 col-span-1">
               <button
@@ -372,11 +372,12 @@ const MintDapp = () => {
               </div>
             </div>
           ) : (
-            <div className="flex justify-center">
-              <div className="grid-cols-3 gap-5 max-auto px-3">
-                {/* migration iframe container */}
-                <iframe />
-              </div>
+            <div className="flex flex-col pb-12">
+              <iframe
+                className="bridge"
+                src="https://daturians-bridge.netlify.app"
+                title="Daturians NFT bridge tab"
+              ></iframe>
             </div>
           )}
 
