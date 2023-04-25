@@ -47,6 +47,7 @@ export const fetchData = (_account: string) => {
         })
       );
     } catch (err: any) {
+      // eslint-disable-next-line no-console
       console.log(err);
       dispatch(fetchDataFailed('Could not load data from contract.'));
     }

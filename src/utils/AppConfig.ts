@@ -57,7 +57,7 @@ export const MintConfig = {
   GAS_PRICE: 10000000,
   GAS_LIMIT: 3000000,
   MAX_PRIORITY_FEE: 55000000000,
-  MAX_FEE_PER_GAS: 60000000000,
+  MAX_FEE_PER_GAS: 600000000000,
   MARKETPLACE: 'Opensea',
   MARKETPLACE_LINK: 'https://opensea.io/collection/daturiansnft',
   SHOW_BACKGROUND: true,

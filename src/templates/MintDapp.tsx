@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { useRouter } from 'next/router';
 import Popup from 'reactjs-popup';
+import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
 import { useAppSelector } from '../hooks';
@@ -73,6 +74,7 @@ const MintDapp = () => {
         setErrorMessage(false);
       }, 3000);
       // createWeb3Modal();
+      // eslint-disable-next-line no-console
       console.log(blockchain.errorMsg);
     } else if (blockchain.errorMsg !== '') {
       setErrorMessage(true);
@@ -82,23 +84,31 @@ const MintDapp = () => {
     }
   }, [blockchain, blockchain.errorMsg]);
 
-  const claimNFTs = () => {
+  const claimNFTs = async () => {
     const cost = MintConfig.WEI_COST;
     const gasLimit = MintConfig.GAS_LIMIT;
-    // const gasPrice = CONFIG.GAS_PRICE;
     const totalCostWei = String(cost * mintAmount);
     const totalGasLimit = String(gasLimit * mintAmount);
     const maxPriorityFee = String(MintConfig.MAX_PRIORITY_FEE);
-    const maxFeeGas = String(MintConfig.MAX_FEE_PER_GAS);
+
     setFeedback(`Minting ${MintConfig.NFT_NAME}...`);
     setClaimingNft(true);
+
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(
+        process.env.NEXT_PUBLIC_INFURA_NETWORK_URL!
+      )
+    );
+
+    const gasPrice = await web3.eth.getGasPrice();
+    const newGasPrice = Math.round(Number(gasPrice) * 1.4);
     blockchain.smartContract.methods
       .mint(mintAmount)
       // .whitelistedMint(mintAmount)
       .send({
         gas: String(totalGasLimit),
         maxPriorityFeePerGas: String(maxPriorityFee),
-        maxFeePerGas: String(maxFeeGas),
+        maxFeePerGas: String(newGasPrice),
         to: MintConfig.CONTRACT_ADDRESS,
         from: blockchain.account,
         value: totalCostWei,
@@ -108,14 +118,16 @@ const MintDapp = () => {
         setClaimingNft(false);
       })
       .then((receipt: any) => {
+        // eslint-disable-next-line no-console
         console.log(receipt);
         setFeedback(
-          `Congrats, the ${MintConfig.NFT_NAME} is yours! Visit Daturians Gallery to explory their story.`
+          `Congrats, the ${MintConfig.NFT_NAME} are yours! Visit the Gallery to explore their story.`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
       })
       .catch((e: any) => {
+        // eslint-disable-next-line no-console
         console.log(e);
         setFeedback('It seems that user cancelled the action.');
         setClaimingNft(false);
@@ -132,26 +144,83 @@ const MintDapp = () => {
 
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 10) {
-      newMintAmount = 10;
+    if (newMintAmount > 20) {
+      newMintAmount = 20;
     }
     setMintAmount(newMintAmount);
   };
 
   const getData = () => {
     if (blockchain.account !== '' && blockchain.smartContract !== null) {
-      // console.log(blockchain.account);
+      // eslint-disable-next-line no-console
+      console.log('account connected: ', blockchain.account);
       // console.log(blockchain.smartContract);
       dispatch(fetchData(blockchain.account));
       // console.log(data);
+      // console.log(blockchain.g);
     } else {
-      // console.log('blockchain not set');
+      // eslint-disable-next-line no-console
+      // console.log('account not set');
     }
   };
 
   useEffect(() => {
-    getData();
+    if (blockchain.account !== '' && blockchain.smartContract !== null) {
+      // eslint-disable-next-line no-console
+      console.log('account connected: ', blockchain.account);
+      // console.log(blockchain.smartContract);
+      dispatch(fetchData(blockchain.account));
+      // console.log(data);
+      // console.log(blockchain.g);
+    } else {
+      // eslint-disable-next-line no-console
+      // console.log('blockchain not set');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockchain.account]);
+
+  // check if there is an address connected
+  useEffect(() => {
+    const checkConnection = async () => {
+      // Check if browser is running Metamask
+      let web3;
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+      } else if (window.web3) {
+        web3 = new Web3(window.web3.currentProvider);
+      }
+
+      if (web3) {
+        // Check if User is already connected by retrieving the accounts
+        web3.eth
+          .getAccounts()
+          .then(async (addr) => {
+            // console.log(addr);
+            if (addr && addr.length > 0) {
+              if (addr[0]!.length > 0) {
+                dispatch(connect(window.web3.currentProvider));
+                getData();
+                setConnectedState(true);
+              }
+              // console.log(addr)
+            } else {
+              // setAddress('');
+            }
+            // Set User account into state
+          })
+          .catch(async (err) => {
+            // eslint-disable-next-line no-console
+            console.log(err);
+            setFeedback('It seems you closed the WalletConnect pop-up.');
+            setIsHovered(false);
+            setConnectedState(false);
+            setClaimingNft(false);
+          });
+      }
+    };
+    checkConnection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const connectToWallet = useCallback(async () => {
     // web3Modal.clearCachedProvider();
@@ -164,12 +233,14 @@ const MintDapp = () => {
         setConnectedState(true);
       })
       .catch((err: any) => {
+        // eslint-disable-next-line no-console
         console.log(err);
         setFeedback('It seems you closed the WalletConnect pop-up.');
         setIsHovered(false);
         setConnectedState(false);
         setClaimingNft(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Auto connect to the cached provider
@@ -235,6 +306,7 @@ const MintDapp = () => {
                         setIsHovered(true);
                       } else {
                         e.preventDefault();
+                        // eslint-disable-next-line no-console
                         console.log('already connected');
                       }
                     }}
