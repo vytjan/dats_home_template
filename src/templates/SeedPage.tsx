@@ -43,7 +43,7 @@ const SeedPage = () => {
         },
       };
       // const seed = { address: currAddress };
-      const result2 = await axios.get(`/api/seed/${currAddress}`, config);
+      const result2 = await axios.get(`/api/greenhouse/${currAddress}`, config);
       // console.log(result2);
       const subCount = result2.data.length;
       setSubmissions(subCount);
@@ -63,7 +63,7 @@ const SeedPage = () => {
         },
       };
       // const seed = { address: currAddress };
-      const result2 = await axios.get(`/api/seed`, config);
+      const result2 = await axios.get(`/api/greenhouse`, config);
       // console.log(result2.data);
       const slicedResult = result2.data;
       // if (result2.data.length > 5) {

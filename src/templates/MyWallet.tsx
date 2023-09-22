@@ -144,8 +144,8 @@ const MyWallet = (props: MyWalletProps) => {
           <div className="seed-art rounded-md">
             <img
               className="rounded-md"
-              src={`${router.basePath}/assets/images/seed_barrel.png`}
-              alt="Seed_Barrel.png"
+              src={`${router.basePath}/assets/images/seed_barrel_v2.jpg`}
+              alt="Seed_Barrel_V2.png"
             />
           </div>
           <button

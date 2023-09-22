@@ -12,3 +12,10 @@ export interface Seed {
   address: string;
   filename: string;
 }
+
+// Interface to define our Seed model on the frontend
+export interface Greenhouse {
+  _id?: number;
+  address: string;
+  filename: string;
+}

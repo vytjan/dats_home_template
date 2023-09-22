@@ -78,9 +78,9 @@ const HeaderMenu = () => {
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                <Link href="/mint">
+                <Link href="/" className="inactive-link">
                   <a>
-                    <div className="hover column">
+                    <div className="hover column mobile-merch">
                       <div>
                         <figure>
                           <Button regular={false} hero={true}>
@@ -118,7 +118,7 @@ const HeaderMenu = () => {
                       <div>
                         <figure>
                           <Button regular={false} hero={true}>
-                            Seed Barrel
+                            Seed Barrel V2
                           </Button>
                         </figure>
                       </div>
@@ -172,13 +172,13 @@ const HeaderMenu = () => {
               </Link>
             </li>
             <li className="body-li">
-              <Link href="/mint">
+              <Link href="/" className="inactive-link">
                 <a>
-                  <div className="navigation-bar mint">
+                  <div className="navigation-bar">
                     <div>
-                      <Button regular={false} hero={true}>
-                        Mint
-                      </Button>
+                      <div className="btn btn-hero merch">
+                        <div>Mint</div>
+                      </div>
                     </div>
                   </div>
                 </a>
@@ -213,7 +213,7 @@ const HeaderMenu = () => {
                           src={`${router.basePath}/assets/images/icons/barrel.svg`}
                           alt="barrel"
                         />
-                        Seed Barrel
+                        Seed Barrel V2
                       </div>
                     </div>
                   </div>

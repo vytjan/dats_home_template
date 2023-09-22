@@ -24,12 +24,12 @@ const s3 = new S3Client({
 });
 
 const upload = multer({
-  limits: { fileSize: oneMegabyteInBytes * 2 },
+  limits: { fileSize: oneMegabyteInBytes * 6 },
   storage: multerS3({
     // eslint-disable-next-line
     s3: s3,
     acl: 'public-read',
-    bucket: 'daturiansuploads',
+    bucket: 'greenhousesuploads',
     // contentType: multerS3.AUTO_CONTENT_TYPE,
     key(_req, _file, cb) {
       // console.log(file);
