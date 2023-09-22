@@ -30,7 +30,7 @@ export const uploadFileRequest = async (
     };
     // const seed = { filename: fileName, address: currAddress };
     const response2 = await axios.post(
-      '/api/seed',
+      '/api/greenhouse',
       JSON.stringify(procFileNames),
       config2
     );
@@ -51,7 +51,7 @@ export const uploadFileSuccessful = async (
     onUploadProgress: progressCallback,
     validateStatus: (_status) => true,
   };
-  const response = await axios.post('/api/seed', filenames, config);
+  const response = await axios.post('/api/greenhouse', filenames, config);
 
   return response.data;
 };

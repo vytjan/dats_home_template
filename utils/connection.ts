@@ -7,6 +7,7 @@ const { DATABASE_URL } = process.env;
 const { DATABASE_PASSWORD } = process.env;
 const { DATABASE_NAME_SEED } = process.env;
 const { DATABASE_NAME_META } = process.env;
+const { DATABASE_NAME_GREENHOUSE } = process.env;
 const { DATABASE_USERNAME } = process.env;
 
 // connection function
@@ -28,6 +29,29 @@ export const connection = async () => {
   const Seed = mongoose.models.Seed || mongoose.model('Seed', SeedSchema);
   console.log(Seed);
   return { conn, Seed };
+};
+
+// connection function
+export const connectionGreenhouse = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_GREENHOUSE}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  // OUR TODO SCHEMA
+  const GreenhouseSchema = new mongoose.Schema({
+    address: String,
+    filename: String,
+  });
+
+  // OUR SEED MODEL
+  const Greenhouse =
+    mongoose.models.Greenhouse ||
+    mongoose.model('Greenhouse', GreenhouseSchema);
+  console.log(Greenhouse);
+  return { conn, Greenhouse };
 };
 
 // connection function meta

@@ -84,9 +84,9 @@ const Hero = () => {
                 </Menu.Item>
                 <Menu.Item>
                   <li className="">
-                    <Link href="/mint">
+                    <Link href="/" className="inactive-link">
                       <a>
-                        <div className="hover column">
+                        <div className="hover column mobile-merch">
                           <div>
                             <figure>
                               <Button regular={false} hero={true}>
@@ -124,7 +124,7 @@ const Hero = () => {
                           <div>
                             <figure>
                               <Button regular={false} hero={true}>
-                                Seed Barrel
+                                Seed Barrel V2
                               </Button>
                             </figure>
                           </div>
@@ -185,9 +185,9 @@ const Hero = () => {
                   </Link>
                 </li>
                 <li className="hero-li">
-                  <Link href="/mint">
+                  <Link href="/" className="inactive-link">
                     <a>
-                      <div className="hover column minting">
+                      <div className="hover column merch-hero">
                         <div>
                           <figure>
                             <img
@@ -242,7 +242,7 @@ const Hero = () => {
                               alt="hero5"
                             />
                             <Button regular={false} hero={true}>
-                              Seed Barrel
+                              Seed Barrel V2
                             </Button>
                           </figure>
                         </div>
