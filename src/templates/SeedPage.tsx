@@ -6,16 +6,14 @@ import Popup from 'reactjs-popup';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { AppConfig } from '../utils/AppConfig';
-import { uploadFileRequest } from '../utils/upload.services';
 import { HeaderMenu } from './HeaderMenu';
 import MyWallet from './MyWallet';
 import SubmissionGallery from './SubmissionGallery';
-import { UiFileInputButton } from './UiFileInputButton';
 
-const popMessages = [
-  'Something went wrong with the upload, please try again.',
-  'Image file size cannot exceed 3MB. Only .jpg, .jpeg, .png images are allowed.',
-];
+// const popMessages = [
+//   'Something went wrong with the upload, please try again.',
+//   'Image file size cannot exceed 3MB. Only .jpg, .jpeg, .png images are allowed.',
+// ];
 
 const SeedPage = () => {
   type AllSubmissions = Awaited<ReturnType<typeof loadSubmissions>>;
@@ -28,7 +26,7 @@ const SeedPage = () => {
   );
   const [successfulUpload, setSuccessfulUpload] = useState(false);
   const [failedUpload, setFailedUpload] = useState(false);
-  const [popupMessage, setPopupMessage] = useState(0);
+  // const [popupMessage, setPopupMessage] = useState(0);
 
   const closeModalSuccess = () => setSuccessfulUpload(false);
   const closeModalFailure = () => setFailedUpload(false);
@@ -76,35 +74,35 @@ const SeedPage = () => {
     }
   };
 
-  const onChange = async (formData: FormData) => {
-    // console.log(formData);
-    try {
-      const response = await uploadFileRequest(formData, address, (event) => {
-        console.log(
-          `Current progress:`,
-          Math.round((event.loaded * 100) / event.total)
-        );
-        submissionCount(address);
-        // console.log(response);
-      });
+  // const onChange = async (formData: FormData) => {
+  //   // console.log(formData);
+  //   try {
+  //     const response = await uploadFileRequest(formData, address, (event) => {
+  //       console.log(
+  //         `Current progress:`,
+  //         Math.round((event.loaded * 100) / event.total)
+  //       );
+  //       submissionCount(address);
+  //       // console.log(response);
+  //     });
 
-      console.log('response', response);
-      // handle responses
-      if (response.status === 200) {
-        setSuccessfulUpload(true);
-      } else {
-        setFailedUpload(true);
-        setPopupMessage(1);
-      }
-      return response;
-    } catch (error: any) {
-      // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
-      // alert('Something went wrong, please try again.');
-      setFailedUpload(true);
-      setPopupMessage(0);
-      return error.response.data;
-    }
-  };
+  //     console.log('response', response);
+  //     // handle responses
+  //     if (response.status === 200) {
+  //       setSuccessfulUpload(true);
+  //     } else {
+  //       setFailedUpload(true);
+  //       setPopupMessage(1);
+  //     }
+  //     return response;
+  //   } catch (error: any) {
+  //     // console.error(error.response.data); // NOTE - use "error.response.data` (not "error")
+  //     // alert('Something went wrong, please try again.');
+  //     setFailedUpload(true);
+  //     setPopupMessage(0);
+  //     return error.response.data;
+  //   }
+  // };
 
   useEffect(() => {
     loadSubmissions();
@@ -138,6 +136,9 @@ const SeedPage = () => {
           ></MyWallet>
           {address.length > 0 ? (
             <div className="grid-cols-3 gap-5 max-auto px-3">
+              <h1 className="col-span-3 text-center">
+                Seed Barrel V2 is closed!!!
+              </h1>
               <Popup
                 open={successfulUpload}
                 closeOnDocumentClick
@@ -164,10 +165,11 @@ const SeedPage = () => {
                     &times;
                   </a>
                   <div className="header">
-                    <p>{popMessages[popupMessage]}</p>
+                    {/* <p>{popMessages[popupMessage]}</p> */}
                   </div>
                 </div>
               </Popup>
+              {/*
               {nftsHeld - submissions > 0 ? (
                 <UiFileInputButton
                   setSubmissionState={setSubmissionState}
@@ -185,6 +187,7 @@ const SeedPage = () => {
               ) : (
                 <p className="text-center">{`You don't have any more submissions!`}</p>
               )}
+              */}
               <SubmissionGallery
                 allSubmissions={loadedSubmissions}
               ></SubmissionGallery>
