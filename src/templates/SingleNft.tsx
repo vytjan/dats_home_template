@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { Meta } from '../layout/Meta';
@@ -9,6 +10,10 @@ import { getMetadataById } from '../pages/api/nftApi';
 import { AppConfig, NftContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
 import { HeaderMenu } from './HeaderMenu';
+
+const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
+  ssr: false,
+});
 
 const occupations = [
   {
@@ -755,11 +760,14 @@ const SingleNft = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
-              <img
+            <div className=" content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
+              {/* <img
                 className="content-center"
                 src={`${router.basePath}/assets/images/datura_map.png`}
                 alt="datura_map.png"
+              /> */}
+              <DaturaMapContainer
+                svgUrl={`${router.basePath}/assets/images/datura_map.svg`}
               />
             </div>
             <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 opensea-box gap-4 p-4">
