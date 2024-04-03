@@ -9,6 +9,7 @@ const { DATABASE_NAME_SEED } = process.env;
 const { DATABASE_NAME_META } = process.env;
 const { DATABASE_NAME_GREENHOUSE } = process.env;
 const { DATABASE_USERNAME } = process.env;
+const { DATABASE_NAME_GREENHOUSEMETA } = process.env;
 
 // connection function
 export const connection = async () => {
@@ -249,4 +250,46 @@ export const connCafeMeta = async () => {
     mongoose.models.CafeMeta || mongoose.model('CafeMeta', CafeMetaSchema);
   console.log(CafeMeta);
   return { conn, CafeMeta };
+};
+
+// greenhouse coll connection
+// OUR META SCHEMA
+export const connGreenhouseMeta = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_GREENHOUSEMETA}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  const GreenhouseMetaSchema = new mongoose.Schema(
+    {
+      tokenId: { type: Number, unique: true },
+      image: String,
+      name: String,
+      description: String,
+      data: {
+        id: Number,
+        name: String,
+        description: String,
+        image: String,
+        edition: Number,
+        attributes: [
+          {
+            trait_type: String,
+            value: String,
+            display_type: String,
+          },
+        ],
+      },
+    },
+    { autoIndex: true }
+  );
+  // MetaSchema.index({ tokenId: 1 }, { unique: true });
+  // OUR META MODEL
+  const GreenhouseMeta =
+    mongoose.models.GreenhouseMeta ||
+    mongoose.model('GreenhouseMeta', GreenhouseMetaSchema);
+  console.log(GreenhouseMeta);
+  return { conn, GreenhouseMeta };
 };

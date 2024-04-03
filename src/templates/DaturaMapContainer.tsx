@@ -21,9 +21,9 @@ interface SetViewOnClickProps {
   zoom: number;
 }
 
-const droniaIcon: Icon = icon({
-  iconUrl: `${router.basePath}/assets/images/gallery/locations/Dronia.png`,
-  iconSize: [200, 200], // replace with the size of your icon
+const markerIcon: Icon = icon({
+  iconUrl: `${router.basePath}/assets/images/marker-icon.png`,
+  iconSize: [50, 50], // replace with the size of your icon
 });
 
 const DaturaMapContainer: React.FC<DaturaMapContainerProps> = ({ svgUrl }) => {
@@ -65,7 +65,7 @@ const DaturaMapContainer: React.FC<DaturaMapContainerProps> = ({ svgUrl }) => {
     >
       <SetViewOnClick center={center} zoom={zoom} />
       <ImageOverlay url={svgUrl} bounds={bounds} />
-      <Marker position={[19, -20]} icon={droniaIcon}>
+      <Marker position={[19, -20]} icon={markerIcon}>
         <Popup>Dronia is blah blah.</Popup>
         <Tooltip>Dronia</Tooltip>
       </Marker>
