@@ -2,15 +2,20 @@ import { useEffect, useState } from 'react';
 
 // import { ethers } from 'ethers';
 // import { Dropdown } from 'flowbite-react';
+import dynamic from 'next/dynamic';
 import LazyLoad from 'react-lazyload';
 
+import { GreenhouseCoords } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
+import { getAllMeta } from '../pages/api/nftApi';
 import { AppConfig } from '../utils/AppConfig';
 // import Daturians4Ukraine from '../utils/artifacts/Daturians4Ukraine.json';
 import { HeaderMenu } from './HeaderMenu';
 import SignatureNFT from './SignatureNft';
 import SortFilter from './SortField';
+
+// import { uploadMockCoordinates } from '../pages/api/nftApi';
 // import { match } from 'assert';
 // import e from 'express';
 // import image from 'next/image';
@@ -23,7 +28,7 @@ type MetadataItems = {
   name: string;
   description: string;
   // data: string;
-  // score: { score: number; rank: number; tokenId: string };
+  // coords: { tokenId: number; name: string; coordinates: {x: number, y: number} };
 }[];
 
 type SortStateTypes =
@@ -45,6 +50,10 @@ type SortStateTypes =
 //   },
 // ];
 
+const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
+  ssr: false,
+});
+
 const sortStates = [
   // { name: 'Top rank', type: 0, unavailable: false },
   // { name: 'Bottom rank', type: 1, unavailable: false },
@@ -63,6 +72,7 @@ const GreenhousesCollection = () => {
     nftData: [],
     sortType: sortStates[0],
   });
+  const [greenhousesCoords, setCoords] = useState<GreenhouseCoords>([]);
   const [query, setQuery] = useState('');
   const [loadingScreen, setLoadingScreen] = useState(false);
 
@@ -121,12 +131,26 @@ const GreenhousesCollection = () => {
       });
       return items;
     }
+    // load the coordinates from the db/upload them
+    async function loadCoords() {
+      const coords = await getAllMeta('ghcoords');
+      return coords;
+    }
     const promise = loadNfts();
     promise.then((data) => {
+      // TODO only for the initial coordinates uploads once there will be a normal smart contract deployed
+      // data.forEach(item => {
+      //   uploadMockCoordinates(item.tokenId);
+      // });
       // const newData = addScores(data);
 
       setTotalNfts(data);
       setNfts({ nftData: data, sortType: sortStates[0] });
+      const promise2 = loadCoords();
+      promise2.then((data2) => {
+        console.log(data2.data);
+        setCoords(data2.data);
+      });
       // setCurrDispNumber(nfts.nftData.length);
 
       // only load if there are not uploaded jsons:
@@ -233,6 +257,18 @@ const GreenhousesCollection = () => {
       <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
         <div className="grid-cols-1 gap-5 max-auto px-3">
+          {!greenhousesCoords.length ? (
+            <h1 className="px-20 py-10 text-2l font-semibold text-center">
+              Loading
+            </h1>
+          ) : (
+            <div className=" content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
+              <DaturaMapContainer
+                greenhouses={greenhousesCoords}
+                currentGreenhouse={null}
+              />
+            </div>
+          )}
           <h1 className="text-3xl text-center">
             {AppConfig.greenhouseCollTitle}
           </h1>
@@ -269,7 +305,7 @@ const GreenhousesCollection = () => {
             <>
               {nfts.nftData.length < 1 ? (
                 <h1 className="px-20 py-10 text-3xl">
-                  No Daturians match your search. Sorry...
+                  No Greenhouses match your search. Sorry...
                 </h1>
               ) : (
                 <div>

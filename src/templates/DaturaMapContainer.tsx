@@ -1,12 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 
-import {
-  icon,
-  Icon,
-  LatLngBoundsLiteral,
-  LatLngExpression,
-  LatLngTuple,
-} from 'leaflet';
+import { icon, Icon, LatLngBoundsLiteral, LatLngExpression } from 'leaflet';
 import router from 'next/router';
 import {
   MapContainer,
@@ -16,14 +10,13 @@ import {
   useMap,
   Tooltip,
 } from 'react-leaflet';
+
 import 'leaflet/dist/leaflet.css';
+import { GreenhouseCoords, SingleCoordinates } from '../../utils/types';
 
 interface DaturaMapContainerProps {
-  svgUrl: string;
-  imageUrl: string;
-  imagePosition: [number, number];
-  greenhouseText: string;
-  greenhouseName: string;
+  greenhouses: GreenhouseCoords;
+  currentGreenhouse: SingleCoordinates | null;
 }
 
 interface SetViewOnClickProps {
@@ -32,22 +25,26 @@ interface SetViewOnClickProps {
 }
 
 const markerIcon: Icon = icon({
-  iconUrl: `${router.basePath}/assets/images/marker-icon.png`,
-  iconSize: [50, 50], // replace with the size of your icon
+  iconUrl: `${router.basePath}/assets/images/icons/pin.svg`,
+  iconSize: [20, 20], // replace with the size of your icon
+});
+
+const currentMarkerIcon: Icon = icon({
+  iconUrl: `${router.basePath}/assets/images/icons/YellowDot.svg`,
+  iconSize: [25, 25], // replace with the size of your icon
 });
 
 const DaturaMapContainer: React.FC<DaturaMapContainerProps> = ({
-  svgUrl,
-  imageUrl,
-  greenhouseText,
-  greenhouseName,
+  greenhouses,
+  currentGreenhouse,
 }) => {
-  const center: [number, number] = useMemo(() => [0, 0], []);
-  const zoom: number = 5; // replace with your initial zoom level
-  const minZoom: number = 2;
-  const maxZoom: number = 10;
+  const center: [number, number] = useMemo(() => [0.5, 0.5], []);
+  const zoom: number = 10; // replace with your initial zoom level
+  const minZoom: number = 10;
+  const maxZoom: number = 40;
+  const svgUrl = `${router.basePath}/assets/images/datura_map_fixed.svg`;
 
-  // 2180.9883 4608.1875
+  // normalize the coordinates from px to lang/lat
   function normalizeCoordinates(
     svgX: number,
     svgY: number,
@@ -84,25 +81,62 @@ const DaturaMapContainer: React.FC<DaturaMapContainerProps> = ({
     return null;
   };
 
+  // the bounds of the map, approximate long/lat values
   const bounds: LatLngBoundsLiteral = [
-    [-69.98, -69.98],
-    [68.95, 68.95],
+    [0, 0], // top-left corner of the map
+    [1, 1], // bottom-right corner of the map
   ];
 
-  const svgX = 2180.9883; // replace with the X coordinate from step 2
-  const svgY = 4608.1875; // replace with the Y coordinate from step 2
+  // width and height of the SVG map image
   const svgWidth = 8192.0; // replace with the width of your SVG image
   const svgHeight = 8139.0; // replace with the height of your SVG image
-  // const bounds = ...; // replace with the bounds of your map
 
-  const position: LatLngTuple = normalizeCoordinates(
-    svgX,
-    svgY,
-    svgWidth,
-    svgHeight,
-    bounds
-  );
-  console.log(position);
+  // the X and Y coordinates of the greenhouse on the SVG map
+  // const point = nor(greenhouseText);
+
+  // assemble the full list of greenhouses already minted
+  const greenhousesWithPositions = greenhouses.map((greenhouse) => {
+    const point = greenhouse.coordinates; // replace with the actual property name
+
+    if (point) {
+      const position = normalizeCoordinates(
+        point.x,
+        point.y,
+        svgWidth,
+        svgHeight,
+        bounds
+      );
+
+      return {
+        ...greenhouse,
+        position,
+      };
+    }
+
+    return {
+      ...greenhouse,
+      position: null,
+    };
+  });
+
+  // if in the single NFT view, mark the current greenhouse separately on the map
+  let currentNft = null;
+  if (currentGreenhouse !== null) {
+    if (currentGreenhouse.coordinates) {
+      const pointCurr = currentGreenhouse.coordinates;
+      const positionCurr = normalizeCoordinates(
+        pointCurr.x,
+        pointCurr.y,
+        svgWidth,
+        svgHeight,
+        bounds
+      );
+      currentNft = {
+        ...currentGreenhouse,
+        position: positionCurr,
+      };
+    }
+  }
 
   return (
     <MapContainer
@@ -118,16 +152,33 @@ const DaturaMapContainer: React.FC<DaturaMapContainerProps> = ({
     >
       <SetViewOnClick center={center} zoom={zoom} />
       <ImageOverlay url={svgUrl} bounds={bounds} />
-      <Marker position={position} icon={markerIcon}>
-        <Popup minWidth={200}>
-          <img className="object-fill" src={imageUrl} alt="greenhouse image" />
-          <p>
-            <b>{greenhouseName}</b>
-          </p>
-          <p>located in: {greenhouseText}</p>
-        </Popup>
-        <Tooltip>{greenhouseName}</Tooltip>
-      </Marker>
+      {greenhousesWithPositions.map(
+        (greenhouse, index) =>
+          greenhouse.position && (
+            <Marker
+              key={index}
+              position={greenhouse.position}
+              icon={markerIcon}
+            >
+              <Popup minWidth={200}>
+                <p>
+                  <b>{greenhouse.name}</b>
+                </p>
+              </Popup>
+              <Tooltip>{greenhouse.name}</Tooltip>
+            </Marker>
+          )
+      )}
+      {currentNft && currentNft.position && (
+        <Marker position={currentNft.position} icon={currentMarkerIcon}>
+          <Popup minWidth={200}>
+            <p>
+              <b>{currentNft.name}</b>
+            </p>
+          </Popup>
+          <Tooltip>{currentNft.name}</Tooltip>
+        </Marker>
+      )}
     </MapContainer>
   );
 };

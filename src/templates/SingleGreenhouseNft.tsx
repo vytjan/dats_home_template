@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import { GreenhouseCoords, SingleCoordinates } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
-import { getMockMetadataById } from '../pages/api/nftApi';
+import { getAllMeta, getMockMetadataById } from '../pages/api/nftApi';
 import { AppConfig } from '../utils/AppConfig';
 import { HeaderMenu } from './HeaderMenu';
 
@@ -19,6 +20,9 @@ const SingleGreenhouseNft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
   const [meta, setMeta] = useState<any>([]);
+  const [greenhousesCoords, setCoords] = useState<GreenhouseCoords>([]);
+  const [currentGreenhouseCoords, setCurrentCoords] =
+    useState<SingleCoordinates>(null);
 
   useEffect(() => {
     // const provider = new ethers.providers.JsonRpcProvider(
@@ -30,6 +34,11 @@ const SingleGreenhouseNft = () => {
     //   DaturiansNFT.abi,
     //   provider
     // );
+    async function loadCoords() {
+      const coords = await getAllMeta('ghcoords');
+      return coords;
+    }
+
     async function getId(newId: any) {
       // console.log(newId);
       if (newId && typeof newId === 'string') {
@@ -111,6 +120,22 @@ const SingleGreenhouseNft = () => {
         // const updateMeta2 = setActivity(updateMeta);
         // setMeta(updateMeta2);
         setMeta(meta2.data[0]);
+
+        // get all the coordinates of greenhouses
+        const promise2 = loadCoords();
+        promise2.then((data2) => {
+          console.log(data2.data);
+          setCoords(data2.data);
+          const index = data2.data.findIndex(
+            (element: { tokenId: number | undefined }) =>
+              element.tokenId === Number(id)
+          );
+
+          const selectedElement = data2.data.splice(index, 1)[0];
+          console.log(selectedElement);
+          setCurrentCoords(selectedElement);
+        });
+
         // console.log(meta);
       }
     });
@@ -266,11 +291,8 @@ const SingleGreenhouseNft = () => {
             </div>
             <div className=" content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
               <DaturaMapContainer
-                svgUrl={`${router.basePath}/assets/images/datura_map.svg`}
-                imageUrl={meta.image}
-                imagePosition={[0, 0]}
-                greenhouseText={meta.data.attributes[0].value}
-                greenhouseName={meta.name}
+                greenhouses={greenhousesCoords}
+                currentGreenhouse={currentGreenhouseCoords}
               />
             </div>
             <div className="bg-primary-100 content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 opensea-box gap-4 p-4">

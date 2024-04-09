@@ -19,3 +19,15 @@ export interface Greenhouse {
   address: string;
   filename: string;
 }
+
+export type GreenhouseCoords = {
+  coordinates: { x: number; y: number };
+  tokenId: string;
+  name: string;
+}[];
+
+export type SingleCoordinates = {
+  coordinates: { x: number; y: number };
+  tokenId: string;
+  name: string;
+} | null;

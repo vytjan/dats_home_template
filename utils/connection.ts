@@ -293,3 +293,31 @@ export const connGreenhouseMeta = async () => {
   console.log(GreenhouseMeta);
   return { conn, GreenhouseMeta };
 };
+
+// greenhouse coords connection
+// OUR META SCHEMA
+export const connGreenhouseCoords = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_GREENHOUSEMETA}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  const GreenhouseCoordsSchema = new mongoose.Schema(
+    {
+      tokenId: { type: Number, unique: true },
+      name: String,
+      id: Number,
+      coordinates: { x: Number, y: Number },
+    },
+    { autoIndex: true }
+  );
+  // MetaSchema.index({ tokenId: 1 }, { unique: true });
+  // OUR META MODEL
+  const GreenhouseCoords =
+    mongoose.models.GreenhouseCoords ||
+    mongoose.model('GreenhouseCoords', GreenhouseCoordsSchema);
+  console.log(GreenhouseCoords);
+  return { conn, GreenhouseCoords };
+};
