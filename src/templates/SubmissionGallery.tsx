@@ -19,12 +19,12 @@ const SubmissionGallery = (props: ISubmissionGalleryProps) => {
         <h1 className="px-20 py-10 text-2l font-semibold text-center">
           {`Some of FloraFam submissions:`}
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 rounded-md ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 rounded-xl ">
           {props.allSubmissions.map((nft) => (
             // eslint-disable-next-line no-underscore-dangle
             <div key={nft._id} className="submission-images">
               <img
-                className="rounded-md"
+                className="rounded-xl"
                 src={nft.filename}
                 alt={nft.filename}
               />

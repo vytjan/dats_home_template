@@ -262,14 +262,14 @@ const GreenhousesCollection = () => {
               Loading
             </h1>
           ) : (
-            <div className=" content-gallery rounded-md overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
+            <div className=" content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
               <DaturaMapContainer
                 greenhouses={greenhousesCoords}
                 currentGreenhouse={null}
               />
             </div>
           )}
-          <h1 className="text-3xl text-center">
+          <h1 className="text-3xl text-center pt-3.5">
             {AppConfig.greenhouseCollTitle}
           </h1>
           <div className="attributes-filter grid sm:grid-cols-5 md:grid-cols-3 gap-1">

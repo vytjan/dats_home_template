@@ -141,19 +141,20 @@ const MyWallet = (props: MyWalletProps) => {
     return (
       <div className="grid grid-cols-1 gap-5 max-auto px-3 mywallet">
         <div className="flex flex-col pb-12">
-          <div className="seed-art rounded-md">
-            <img
-              className="rounded-md"
-              src={`${router.basePath}/assets/images/seed_barrel_v2.jpg`}
-              alt="Seed_Barrel_V2.png"
-            />
-          </div>
+          
           <button
             onClick={connectToWallet}
             className="font-bold mt-4 bg-dark text-white rounded p-4 shadow-lg connect-button"
           >
             Connect wallet
           </button>
+          <div className="seed-art rounded-xl">
+            <img
+              className="rounded-xl"
+              src={`${router.basePath}/assets/images/seed_barrel.png`}
+              alt="Seed_Barrel_V2.png"
+            />
+          </div>
         </div>
       </div>
     );

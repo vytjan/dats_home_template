@@ -292,7 +292,7 @@ const MintDapp = () => {
             <img
               src={isHovering ? logImages[1] : logImages[0]}
               alt="book"
-              className="book"
+              className="pt-4"
             />
             <a href="">
               {!connectedState ? (

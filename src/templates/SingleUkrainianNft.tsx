@@ -83,25 +83,34 @@ const SingleSignatureNft = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             {/* home */}
-            <div className="bg-primary-100 rounded-md grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
-              <div className="rounded-md overflow-hidden">
+            <div>
+            </div>
+            <div className="col-span-2">
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 ">
+
+              </div>
+            </div>
+
+            {/* image */}
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
+              <div className="rounded-xl overflow-hidden">
                 <img
-                  className="object-cover content-center home-logo"
-                  src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
-                  alt="mobile-logo.png"
+                  className="object-cover rounded-xl content-center daturian"
+                  src={meta.image}
+                  alt={meta.image}
                 />
               </div>
             </div>
             <div className="col-span-2">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 ">
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 {/* name */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
                   <div className="p-4 ">
                     <p className="text-2l font-semibold">{meta.name}</p>
                   </div>
                 </div>
                 {/* health */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
                   <div className="p-4 w-full inline-flex">
                     <p className="text-2l font-semibold w-3/12">Health: </p>
 
@@ -131,23 +140,8 @@ const SingleSignatureNft = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* image */}
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
-              <div className="rounded-md overflow-hidden">
-                <img
-                  className="object-cover content-center daturian"
-                  src={meta.image}
-                  alt={meta.image}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 {/* location */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 col-span-1">
                       <img
@@ -168,55 +162,37 @@ const SingleSignatureNft = () => {
                     </div>
                   </div>
                 </div>
+                {/* flower */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="p-4 col-span-1">
+                      <h1>
+                        {meta.data.attributes[2].trait_type}:{' '}
+                        {meta.data.attributes[2].value}
+                      </h1>
+                    </div>
+                  </div>
+                </div>
                 {/* additional */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 p-4 flex">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 p-4 flex">
                   <div className="pulsating-circle"></div>
                   <p>
                     <b>What is {meta.name} doing:</b> {meta.data.activity}{' '}
                   </p>
                 </div>
-              </div>
-            </div>
-            {/* Occupation */}
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
-              <div className="p-4">
-                <h1>
-                  {`${meta.data.attributes[1].trait_type}: `}
-                  {meta.data.attributes[1].value}
-                </h1>
-              </div>
-            </div>
-            {/* flower */}
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 col-span-1">
-                  <h1>
-                    {meta.data.attributes[2].trait_type}:{' '}
-                    {meta.data.attributes[2].value}
-                  </h1>
-                </div>
-                <div className="p-4 col-span-1">
-                  <img
-                    className="object-cover content-center flower-image"
-                    src={`${
-                      router.basePath
-                    }/assets/images/floraweek/${meta.data.attributes[2].value
-                      .toLowerCase()
-                      .split(' ')
-                      .join('_')}.png`}
-                    alt="flora.png"
-                  />
+                {/* Occupation */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
+                  <div className="p-4">
+                    <h1>
+                      {`${meta.data.attributes[1].trait_type}: `}
+                      {meta.data.attributes[1].value}
+                    </h1>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 datura-map">
-              <img
-                className="object-cover content-center"
-                src={`${router.basePath}/assets/images/datura_map.png`}
-                alt="datura_map.png"
-              />
-            </div>
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 opensea-box gap-4 p-4">
+            
+            <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
                 <h1>View on Opensea:</h1>
                 <a href={AppConfig.ukraineOsUrl + meta.tokenId}>

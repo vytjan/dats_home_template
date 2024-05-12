@@ -82,8 +82,8 @@ const SingleCafeNft = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             {/* home */}
-            <div className="bg-primary-100 rounded-md grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
-              <div className="rounded-md overflow-hidden">
+            <div className="bg-primary-100 rounded-xl grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
+              <div className="rounded-xl overflow-hidden">
                 <img
                   className="object-cover content-center home-logo"
                   src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
@@ -94,20 +94,20 @@ const SingleCafeNft = () => {
             <div className="col-span-2">
               <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 ">
                 {/* name */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
                   <div className="p-4 ">
                     <p className="text-2l font-semibold">{meta.name}</p>
                   </div>
                 </div>
                 {/* health */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
                   <div className="p-4 w-full inline-flex">
-                    <p className="text-2l font-semibold w-3/12">{`Health: `}</p>
+                    <p className="text-2l font-semibold">{`Health: `}</p>
 
-                    <p className="font-light w-1/5">
+                    <p className="font-light">
                       0.1919<sup>caffeine</sup>
                     </p>
-                    <div className="relative pt-2 w-full rounded">
+                    <div className="relative pt-2 w-full rounded pl-5">
                       <div className="h-2 text-xs flex rounded bg-white">
                         <div
                           style={{ width: `66%` }}
@@ -132,8 +132,17 @@ const SingleCafeNft = () => {
                     </div>
                   </div>
                 </div>
+                {/* ID */}
+              <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
+              <div className="p-4">
+                <p className="text-2l font-semibold">
+                  {`${meta.data.attributes[2].trait_type}: `}
+                  {meta.data.attributes[2].value}
+                </p>
+              </div>
+            </div>
                 {/* type */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
                   <div className="p-4 inline-flex">
                     <p className="text-2l font-semibold">
                       {`${meta.data.attributes[0].trait_type}: `}
@@ -150,9 +159,9 @@ const SingleCafeNft = () => {
 
             {/* image */}
             <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
-              <div className="rounded-md overflow-hidden">
+              <div className="rounded-xl overflow-hidden">
                 <img
-                  className="object-cover content-center daturian"
+                  className="object-cover content-center daturian rounded-xl"
                   src={meta.image}
                   alt={meta.image}
                 />
@@ -161,7 +170,7 @@ const SingleCafeNft = () => {
             <div className="col-span-2">
               <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 {/* family */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 col-span-1">
                       <h1>
@@ -187,56 +196,26 @@ const SingleCafeNft = () => {
                   </div>
                 </div>
                 {/* additional */}
-                <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 p-4 flex">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 p-4 flex">
                   <div className="pulsating-circle"></div>
                   <p>
                     <b>What is {meta.name} doing:</b> {meta.data.activity}{' '}
                   </p>
                 </div>
-              </div>
-            </div>
-            {/* Collab ID */}
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-1">
-              <div className="p-4">
-                <h1>
-                  {`${meta.data.attributes[2].trait_type}: `}
-                  {meta.data.attributes[2].value}
-                </h1>
-                <p>&nbsp;</p>
-              </div>
-            </div>
-            {/* Coffee */}
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-2">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 col-span-1">
-                  <h1>
-                    {meta.data.attributes[3].trait_type}:{' '}
-                    {meta.data.attributes[3].value}
-                  </h1>
-                </div>
-                <div className="p-4 col-span-1">
-                  <img
-                    className="object-cover content-center flower-image"
-                    src={`${router.basePath}/assets/images/gallery/in_progress.png`}
-                    // src={`${
-                    //   router.basePath
-                    // }/assets/images/floraweek/${meta.data.attributes[3].value
-                    //   .toLowerCase()
-                    //   .split(' ')
-                    //   .join('_')}.png`}
-                    alt="in_progress.png"
-                  />
+                {/* Coffee */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 col-span-2">
+                      <h1>
+                        {meta.data.attributes[3].trait_type}:{' '}
+                        {meta.data.attributes[3].value}
+                      </h1>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 datura-map">
-              <img
-                className="object-cover content-center"
-                src={`${router.basePath}/assets/images/datura_map.png`}
-                alt="datura_map.png"
-              />
-            </div>
-            <div className="bg-primary-100 content-gallery rounded-md overflow-hidden col-span-3 opensea-box gap-4 p-4">
+            <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
                 <h1>View on Opensea:</h1>
                 <a href={AppConfig.cafeOsUrl + meta.tokenId}>

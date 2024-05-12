@@ -136,9 +136,9 @@ const SeedPage = () => {
           ></MyWallet>
           {address.length > 0 ? (
             <div className="grid-cols-3 gap-5 max-auto px-3">
-              <h1 className="col-span-3 text-center">
+              <h2 className="col-span-3 text-center barrel-closed">
                 Seed Barrel V2 is closed!!!
-              </h1>
+              </h2>
               <Popup
                 open={successfulUpload}
                 closeOnDocumentClick

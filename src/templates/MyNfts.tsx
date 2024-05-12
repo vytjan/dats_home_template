@@ -4,6 +4,7 @@ import { BigNumber, ethers } from 'ethers';
 import LazyLoad from 'react-lazyload';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
+import { useRouter } from 'next/router';
 
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
@@ -340,7 +341,7 @@ const MyNFTs = () => {
     };
     checkConnection();
   }, []);
-
+  const router = useRouter();
   return (
     <Section>
       <Meta
@@ -359,16 +360,87 @@ const MyNFTs = () => {
               >
                 Connect wallet
               </button>
+              <img
+                        className="my_gallery_img sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/gallery/my_gallery.png`}
+                        height="100%"
+                        width="100%"
+                        alt="Daturians"
+                      />
             </div>
           ) : (
             <>
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 pb-4">
+            {/* role image */}
+            <div className="bg-primary-100 rounded-xl grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
+              <div className="rounded-xl overflow-hidden">
+                <img
+                  className="object-cover content-center home-logo"
+                  src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
+                  alt="mobile-logo.png"
+                />
+              </div>
+            </div>
+            <div className="col-span-2">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 pt-4 ">
+                {/* Role name */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
+                  <div className="p-4 inline-flex">
+                    <p className="text-2l font-semibold">Role name:</p>
+                    <div>
+                      <p className="font-semibold rank-number">
+                        Artifact holder
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* Daturians owned */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-1">
+                  <div className="p-4 inline-flex">
+                    <p className="text-2l font-semibold">
+                      You own:
+                    </p>
+                    <div>
+                      <p className="font-light">
+                        x Daturians
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* location */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-3">
+                  <div className="p-4 inline-flex">
+                    <p className="text-2l font-semibold">
+                      Most of your Daturians live in:
+                    </p>
+                    <div>
+                    <p className="font-light">
+                      Darkhorn
+                    </p>
+                  </div>
+                  </div>
+                </div>  
+                {/* Character traits */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-3">
+                  <div className="p-4 inline-flex">
+                    <p className="text-2l font-semibold">
+                      Best ranked Daturian:
+                    </p>
+                    <div>
+                      <p className="font-semibold rank-number">121</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
               {!loadingState && !nfts.nftData.length ? (
-                <h2 className="daturians-alert py-10 text-xl">
+                <h3 className="daturians-alert py-4 text-xl">
                   {"You don't own a Daturian yet... :("}
-                </h2>
+                </h3>
               ) : (
                 <>
-                  <h1 className="text-3xl text-center">My Daturians</h1>
+                  <h1 className="text-3xl text-left">Daturians</h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {nfts.nftData.map((nft, index) => (
                       <div className="widget-wrapper" key={index}>
@@ -388,13 +460,13 @@ const MyNFTs = () => {
               )}
               {/* Signature Daturians */}
               {!loadingState && !signatureNfts.nftData.length ? (
-                <h2 className="daturians-alert py-10 text-xl">
-                  {"It seems you don't own any Signature Daturian..."}
-                </h2>
+                <h3 className="daturians-alert py-4 text-xl">
+                  {"It seems you don't own any Signature Daturians..."}
+                </h3>
               ) : (
                 <>
-                  <h1 className="text-3xl text-center">
-                    Your Signature Daturians
+                  <h1 className="text-3xl text-left">
+                    Signature Daturians
                   </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {signatureNfts.nftData.map((nft, index) => (
@@ -414,13 +486,13 @@ const MyNFTs = () => {
               )}
               {/* Cafe Daturians */}
               {!loadingState && !cafeNfts.nftData.length ? (
-                <h2 className="daturians-alert py-10 text-xl">
+                <h3 className="daturians-alert py-4 text-xl">
                   {`No coffee lover Daturians in your wallet :(`}
-                </h2>
+                </h3>
               ) : (
                 <>
-                  <h1 className="text-3xl text-center">
-                    Your Daturians Cafe NFTs
+                  <h1 className="text-3xl text-left">
+                    Collab pieces
                   </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {cafeNfts.nftData.map((nft, index) => (
@@ -440,13 +512,13 @@ const MyNFTs = () => {
               )}
               {/* Daturians4Ukraine */}
               {!loadingState && !uaNfts.nftData.length ? (
-                <h2 className="daturians-alert py-10 text-xl">
+                <h3 className="daturians-alert py-4 text-xl">
                   No Daturians4Ukraine NFT in your wallet...
-                </h2>
+                </h3>
               ) : (
                 <>
-                  <h1 className="text-3xl text-center">
-                    Your Ukrainian Daturians
+                  <h1 className="text-3xl text-left">
+                    Ukrainian Daturians
                   </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {uaNfts.nftData.map((nft, index) => (

@@ -33,7 +33,7 @@ const HeaderMenu = () => {
             <button
               type="button"
               onClick={toggleClass}
-              className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 burger header-burger"
+              className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg lg:hidden burger header-burger"
             >
               <div className={isToggled ? 'menu-icon toggled' : 'menu-icon'}>
                 <span></span>
@@ -78,13 +78,13 @@ const HeaderMenu = () => {
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                <Link href="/" className="inactive-link">
+                <Link href="/mint">
                   <a>
-                    <div className="hover column mobile-merch">
+                    <div className="hover column">
                       <div>
                         <figure>
                           <Button regular={false} hero={true}>
-                            Mint
+                            Claim
                           </Button>
                         </figure>
                       </div>
@@ -118,7 +118,7 @@ const HeaderMenu = () => {
                       <div>
                         <figure>
                           <Button regular={false} hero={true}>
-                            Seed Barrel V2
+                            Seed Barrel
                           </Button>
                         </figure>
                       </div>
@@ -133,25 +133,14 @@ const HeaderMenu = () => {
           <ul className="flex flex-col p-4 mt-4 rounded-lg  lg:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li className="body-li">
               <Link href="/">
-                <a
-                  href="#"
-                  className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                  aria-current="page"
-                >
-                  <div className="navigation-bar">
-                    <div>
-                      <div className="btn btn-hero">
-                        <img
-                          className="nav-icon"
-                          src={`${router.basePath}/assets/images/icons/about.svg`}
-                          alt="about"
-                        />
-                        Home
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </Link>
+              <a>
+                <img
+                  className="desktop-logo"
+                  src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
+                  alt="mobile-logo.png"
+                />
+              </a>
+            </Link>
             </li>
             <li className="body-li">
               <Link href="/" className="inactive-link">
@@ -172,12 +161,17 @@ const HeaderMenu = () => {
               </Link>
             </li>
             <li className="body-li">
-              <Link href="/" className="inactive-link">
+              <Link href="/mint">
                 <a>
                   <div className="navigation-bar">
                     <div>
-                      <div className="btn btn-hero merch">
-                        <div>Mint</div>
+                      <div className="btn btn-hero">
+                        <img
+                          className="nav-icon"
+                          src={`${router.basePath}/assets/images/icons/mint.svg`}
+                          alt="shop"
+                        />
+                        <div>Claim</div>
                       </div>
                     </div>
                   </div>
@@ -213,7 +207,7 @@ const HeaderMenu = () => {
                           src={`${router.basePath}/assets/images/icons/barrel.svg`}
                           alt="barrel"
                         />
-                        Seed Barrel V2
+                        Seed Barrel
                       </div>
                     </div>
                   </div>
