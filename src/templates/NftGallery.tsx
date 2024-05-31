@@ -31,9 +31,9 @@ const NftGallery = () => {
                         width="100%"
                         alt="Daturians"
                       />
-                <Button regular={false} hero={true}>
-                  {`My Daturians`}
-                </Button>
+                      <Button regular={false} hero={true}>
+                        {`My Daturians`}
+                      </Button>
                     </figure>
                   </div>
                 </div>
@@ -41,7 +41,7 @@ const NftGallery = () => {
             </Link>
           </div>
           <div className="my-daturians bg-primary-100 rounded-xl col-span-2 lg:col-span-1">
-            <Link href="/gallery/mynfts">
+            <Link href="/gallery/gen2">
               <a>
                 <div className="hover column">
                   <div className="collections">
@@ -53,9 +53,9 @@ const NftGallery = () => {
                         width="100%"
                         alt="Daturians"
                       />
-                <Button regular={false} hero={true}>
-                  {`Daturians Gen2`}
-                </Button>
+                      <Button regular={false} hero={true}>
+                        {`Daturians Gen2`}
+                      </Button>
                     </figure>
                   </div>
                 </div>

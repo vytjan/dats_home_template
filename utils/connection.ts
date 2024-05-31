@@ -10,6 +10,7 @@ const { DATABASE_NAME_META } = process.env;
 const { DATABASE_NAME_GREENHOUSE } = process.env;
 const { DATABASE_USERNAME } = process.env;
 const { DATABASE_NAME_GREENHOUSEMETA } = process.env;
+const { DATABASE_NAME_GEN2_META } = process.env;
 
 // connection function
 export const connection = async () => {
@@ -99,6 +100,53 @@ export const connectionMeta = async () => {
   const Meta = mongoose.models.Meta || mongoose.model('Meta', MetaSchema);
   console.log(Meta);
   return { conn, Meta };
+};
+
+// connection function meta
+export const connectionGen2Meta = async () => {
+  const conn = await mongoose
+    .connect(
+      `mongodb+srv://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_URL}${DATABASE_NAME_GEN2_META}?retryWrites=true&w=majority`
+    )
+    .catch((err) => console.log(err));
+  console.log('Mongoose Connection Established');
+
+  // OUR META SCHEMA
+  const Gen2MetaSchema = new mongoose.Schema(
+    {
+      tokenId: { type: Number, unique: true },
+      image: String,
+      name: String,
+      description: String,
+      data: {
+        id: Number,
+        name: String,
+        description: String,
+        image: String,
+        edition: Number,
+        attributes: [
+          {
+            trait_type: String,
+            value: String,
+            display_type: String,
+          },
+        ],
+        extras: [
+          {
+            trait_type: String,
+            value: String,
+          },
+        ],
+      },
+    },
+    { autoIndex: true }
+  );
+  // MetaSchema.index({ tokenId: 1 }, { unique: true });
+  // OUR META MODEL
+  const Gen2Meta =
+    mongoose.models.Gen2Meta || mongoose.model('Gen2Meta', Gen2MetaSchema);
+  console.log(Gen2Meta);
+  return { conn, Gen2Meta };
 };
 
 // connection function meta

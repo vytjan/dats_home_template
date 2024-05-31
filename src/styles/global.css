@@ -513,6 +513,12 @@ button:disabled .btn-road-percent-ongoing {
   float: right;
   width: 50px;
 }
+
+.about-title .me-icon {
+  float: right;
+  width: 100px;
+  height: 70px;
+}
 .row-content-text a {
   color: #FF4360;
 }
@@ -1648,4 +1654,9 @@ div .single-nft-placeholder {
 }
 .rank-number {
   color: #FF4360;
+}
+
+.me-icon {
+  width: 150px;
+  height: 50px; 
 }
