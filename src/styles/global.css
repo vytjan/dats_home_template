@@ -514,11 +514,11 @@ button:disabled .btn-road-percent-ongoing {
   width: 50px;
 }
 
-.about-title .me-icon {
+/* .about-title .me-icon {
   float: right;
   width: 100px;
   height: 70px;
-}
+} */
 .row-content-text a {
   color: #FF4360;
 }
@@ -1336,7 +1336,7 @@ div. responsive-wrapper @media (min-width: 767px) {
   width: 700px;
 }
 
-.inactiveLink {
+.inactive-link {
   pointer-events: none;
   cursor: default;
 }
@@ -1656,7 +1656,7 @@ div .single-nft-placeholder {
   color: #FF4360;
 }
 
-.me-icon {
+/* .me-icon {
   width: 150px;
   height: 50px; 
-}
+} */

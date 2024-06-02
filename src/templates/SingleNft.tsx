@@ -528,20 +528,20 @@ const SingleNft = () => {
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             <div className="sm:col-span-4 lg:col-span-1">
               <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 ">
-            {/* daturian name */}
-              <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-1">
-                <div className="p-4 ">
+                {/* daturian name */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-1">
+                  <div className="p-4 ">
                     <p className="text-2l font-semibold">{meta.name}</p>
+                  </div>
                 </div>
-              </div>
-            {/* greenhouse name */}
-            <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-1">
-                <div className="p-4 ">
+                {/* greenhouse name */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-1">
+                  <div className="p-4 ">
                     <p className="text-2l font-semibold">{meta.name}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
             <div className="sm:col-span-4 lg:col-span-2">
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-3 xl:grid-cols-3 gap-4 lg:pt-4 ">
                 {/* type */}
@@ -605,7 +605,7 @@ const SingleNft = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Character traits */}
                 <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-3">
                   <div className="p-4 inline-flex">
@@ -692,74 +692,74 @@ const SingleNft = () => {
             </div>
             <div className="sm:col-span-4 lg:col-span-2">
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-            {/* genetics */}
-            <div className="sm:col-span-4 lg:col-span-2">
-              <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
-                <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
-                  <div className="p-4 col-span-2">
-                    <h1>Genetics: {meta.data.genetics}</h1>
-                    <br />
-                    <p className="font-light">{meta.data.geneticsText}</p>
+                {/* genetics */}
+                <div className="sm:col-span-4 lg:col-span-2">
+                  <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
+                    <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
+                      <div className="p-4 col-span-2">
+                        <h1>Genetics: {meta.data.genetics}</h1>
+                        <br />
+                        <p className="font-light">{meta.data.geneticsText}</p>
+                      </div>
+                      <div className="p-4 col-span-2">
+                        <img
+                          className="object-cover content-center family-crest"
+                          src={`${
+                            router.basePath
+                          }/assets/images/gallery/families/${meta.data.genetics
+                            .split(' ')
+                            .join('-')}.png`}
+                          alt="family.png"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-4 col-span-2">
-                    <img
-                      className="object-cover content-center family-crest"
-                      src={`${
-                        router.basePath
-                      }/assets/images/gallery/families/${meta.data.genetics
-                        .split(' ')
-                        .join('-')}.png`}
-                      alt="family.png"
-                    />
+                </div>
+                {/* Occupation */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-2">
+                  <div className="p-4">
+                    <h1>
+                      {`${meta.data.attributes[4].trait_type}: `}
+                      {meta.data.attributes[4].value}
+                    </h1>
+                    <p>&nbsp;</p>
+                    <div>
+                      <p className="font-light">{meta.data.extras[2].value}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            {/* Occupation */}
-            <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-2">
-              <div className="p-4">
-                <h1>
-                  {`${meta.data.attributes[4].trait_type}: `}
-                  {meta.data.attributes[4].value}
-                </h1>
-                <p>&nbsp;</p>
-                <div>
-                  <p className="font-light">{meta.data.extras[2].value}</p>
+                {/* Special ability */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-2">
+                  <div className="p-4 ">
+                    <h1>{`${meta.data.extras[3].trait_type}: `}</h1>
+                    <p>&nbsp;</p>
+                    <div>
+                      <p className="font-light">{meta.data.extras[3].value}</p>
+                    </div>
+                  </div>
+                </div>
+                {/* flower */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-4">
+                  <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
+                    <div className="p-4 col-span-2">
+                      <h1>
+                        {meta.data.attributes[9].trait_type}:{' '}
+                        {meta.data.attributes[9].value}
+                      </h1>
+                      <br />
+                      <p className="font-light">{meta.data.extras[4].value}</p>
+                    </div>
+                  </div>
+                </div>
+                {/* the house */}
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 p-4 flex">
+                  <p>
+                    <b>What is {meta.name} doing:</b> {meta.data.activity}{' '}
+                  </p>
                 </div>
               </div>
             </div>
-            {/* Special ability */}
-            <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-2">
-              <div className="p-4 ">
-                <h1>{`${meta.data.extras[3].trait_type}: `}</h1>
-                <p>&nbsp;</p>
-                <div>
-                  <p className="font-light">{meta.data.extras[3].value}</p>
-                </div>
-              </div>
-            </div>
-            {/* flower */}
-            <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-4">
-              <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
-                <div className="p-4 col-span-2">
-                  <h1>
-                    {meta.data.attributes[9].trait_type}:{' '}
-                    {meta.data.attributes[9].value}
-                  </h1>
-                  <br />
-                  <p className="font-light">{meta.data.extras[4].value}</p>
-                </div>
-              </div>
-            </div>
-            {/* the house */}
-            <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 p-4 flex">
-              <p>
-                <b>What is {meta.name} doing:</b> {meta.data.activity}{' '}
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* Greenhouse */}
+            {/* Greenhouse */}
             <div className="grid grid-cols-1 sm:col-span-4 lg:col-span-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
               <div className="rounded-xl overflow-hidden">
                 <img

@@ -61,36 +61,36 @@ const HeaderMenu = () => {
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                <Link href="/" className="inactive-link">
-                  <a>
-                    <div className="hover column mobile-merch">
-                      <div>
-                        <figure>
-                          <Button regular={false} hero={true}>
-                            Merch
-                          </Button>
-                        </figure>
-                      </div>
+                {/* <Link href="/" className="inactive-link"> */}
+                <a href="" className="inactive-link">
+                  <div className="hover column mobile-merch">
+                    <div>
+                      <figure>
+                        <Button regular={false} hero={true}>
+                          Merch
+                        </Button>
+                      </figure>
                     </div>
-                  </a>
-                </Link>
+                  </div>
+                </a>
+                {/* </Link> */}
               </li>
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                <Link href="/mint">
-                  <a>
-                    <div className="hover column">
-                      <div>
-                        <figure>
-                          <Button regular={false} hero={true}>
-                            Claim
-                          </Button>
-                        </figure>
-                      </div>
+                {/* <Link href="/mint"> */}
+                <a href="" className="inactive-link">
+                  <div className="hover column">
+                    <div>
+                      <figure>
+                        <Button regular={false} hero={true}>
+                          Claim
+                        </Button>
+                      </figure>
                     </div>
-                  </a>
-                </Link>
+                  </div>
+                </a>
+                {/* </Link> */}
               </li>
             </Menu.Item>
             <Menu.Item>
@@ -133,50 +133,50 @@ const HeaderMenu = () => {
           <ul className="flex flex-col p-4 mt-4 rounded-lg  lg:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li className="body-li">
               <Link href="/">
-              <a>
-                <img
-                  className="desktop-logo"
-                  src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
-                  alt="mobile-logo.png"
-                />
+                <a>
+                  <img
+                    className="desktop-logo"
+                    src={`${router.basePath}/assets/images/icons/mobile-logo.png`}
+                    alt="mobile-logo.png"
+                  />
+                </a>
+              </Link>
+            </li>
+            <li className="body-li">
+              {/* <Link href="/" className="inactive-link"> */}
+              <a href="" className="inactive-link">
+                <div className="navigation-bar">
+                  <div>
+                    <div className="btn btn-hero merch">
+                      <img
+                        className="nav-icon"
+                        src={`${router.basePath}/assets/images/icons/shop.svg`}
+                        alt="shop"
+                      />
+                      Merch
+                    </div>
+                  </div>
+                </div>
               </a>
-            </Link>
+              {/* </Link> */}
             </li>
             <li className="body-li">
-              <Link href="/" className="inactive-link">
-                <a>
-                  <div className="navigation-bar">
-                    <div>
-                      <div className="btn btn-hero merch">
-                        <img
-                          className="nav-icon"
-                          src={`${router.basePath}/assets/images/icons/shop.svg`}
-                          alt="shop"
-                        />
-                        Merch
-                      </div>
+              {/* <Link href="/mint"> */}
+              <a href="" className="inactive-link">
+                <div className="navigation-bar">
+                  <div>
+                    <div className="btn btn-hero merch">
+                      <img
+                        className="nav-icon"
+                        src={`${router.basePath}/assets/images/icons/mint.svg`}
+                        alt="shop"
+                      />
+                      <div>Claim</div>
                     </div>
                   </div>
-                </a>
-              </Link>
-            </li>
-            <li className="body-li">
-              <Link href="/mint">
-                <a>
-                  <div className="navigation-bar">
-                    <div>
-                      <div className="btn btn-hero">
-                        <img
-                          className="nav-icon"
-                          src={`${router.basePath}/assets/images/icons/mint.svg`}
-                          alt="shop"
-                        />
-                        <div>Claim</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </Link>
+                </div>
+              </a>
+              {/* </Link> */}
             </li>
             <li className="body-li">
               <Link href="/gallery">

@@ -787,11 +787,11 @@ const SingleGen2Nft = () => {
             </div>
             <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
-                <h1>View on Magic Eden:</h1>
-                <a href={AppConfig.gen2MeUrl + meta.tokenId}>
+                <h1>Gen2 collection on Magic Eden:</h1>
+                <a href={`${AppConfig.gen2MeUrl}/`}>
                   <img
                     className="me-icon"
-                    src={`${router.basePath}/assets/images/icons/magic-eden.png`}
+                    src={`${router.basePath}/assets/images/icons/magic-eden.svg`}
                     alt="magic-eden.png"
                   />
                 </a>
