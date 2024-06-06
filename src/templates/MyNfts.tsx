@@ -204,6 +204,48 @@ const MyNFTs = () => {
     }
   }
 
+  function sortNfts(oldNfts: MetadataItems) {
+    // console.log(sort_type.type);
+    // const oldNfts = JSON.parse(JSON.stringify(nfts));
+    let newNfts: MetadataItems = [];
+    // const oldNfts = nfts.nftData;
+    // console.log(sort_type);
+    // if top rank
+    newNfts = oldNfts.sort((a, b) => (a.score.score > b.score.score ? -1 : 1));
+    return newNfts[0]?.tokenId;
+  }
+
+  function setRoles(
+    nfts1: { nftData: MetadataItems },
+    gen2Nfts2: { nftData: MetadataItems }
+  ) {
+    const nftCount = nfts1.nftData.length + gen2Nfts2.nftData.length;
+    if (nftCount === 0) {
+      setRole(roleDescriptions.none);
+    }
+    if (nftCount === 1) {
+      setRole(roleDescriptions.casual);
+    }
+    if (nftCount >= 2 && nftCount <= 4) {
+      setRole(roleDescriptions.fancy);
+    }
+    if (nftCount >= 5 && nftCount <= 9) {
+      setRole(roleDescriptions.legendary);
+    }
+    if (nftCount >= 10 && nftCount <= 19) {
+      setRole(roleDescriptions.artifact);
+    }
+    if (nftCount >= 20 && nftCount <= 29) {
+      setRole(roleDescriptions.magic_shroom);
+    }
+    if (nftCount >= 30 && nftCount <= 59) {
+      setRole(roleDescriptions.master);
+    }
+    if (nftCount >= 60) {
+      setRole(roleDescriptions.emperor);
+    }
+  }
+
   async function loadOtherNfts(
     userAddress: string,
     contractAddress: string,
@@ -360,10 +402,11 @@ const MyNFTs = () => {
 
               setCafeNfts({ nftData: newCafeData });
               // add the best ranked gen1 nft
-              // const rankedBest = sortNfts();
+              const rankedBest = sortNfts(newData2);
               // console.log(rankedBest);
-              // setRank(rankedBest || 0);
-              // setRoles();
+              setRank(rankedBest || 0);
+              setRoles({ nftData: newData2 }, { nftData: newGen2Data });
+              setCount(newData2.length + newGen2Data.length);
               setLoadingState(false);
             });
           });
@@ -373,54 +416,14 @@ const MyNFTs = () => {
     });
   }
 
-  useEffect(() => {
-    function sortNfts() {
-      // console.log(sort_type.type);
-      // const oldNfts = JSON.parse(JSON.stringify(nfts));
-      let newNfts: MetadataItems = [];
-      const oldNfts = nfts.nftData;
-      // console.log(sort_type);
-      // if top rank
-      newNfts = oldNfts.sort((a, b) =>
-        a.score.score > b.score.score ? -1 : 1
-      );
-      return newNfts[0]?.tokenId;
-    }
-
-    function setRoles() {
-      const nftCount = nfts.nftData.length + gen2Nfts.nftData.length;
-      if (nftCount === 0) {
-        setRole(roleDescriptions.none);
-      }
-      if (nftCount === 1) {
-        setRole(roleDescriptions.casual);
-      }
-      if (nftCount >= 2 && nftCount <= 4) {
-        setRole(roleDescriptions.fancy);
-      }
-      if (nftCount >= 5 && nftCount <= 9) {
-        setRole(roleDescriptions.legendary);
-      }
-      if (nftCount >= 10 && nftCount <= 19) {
-        setRole(roleDescriptions.artifact);
-      }
-      if (nftCount >= 20 && nftCount <= 29) {
-        setRole(roleDescriptions.magic_shroom);
-      }
-      if (nftCount >= 30 && nftCount <= 59) {
-        setRole(roleDescriptions.master);
-      }
-      if (nftCount >= 60) {
-        setRole(roleDescriptions.emperor);
-      }
-    }
-    const rankedBest = sortNfts();
-    console.log(rankedBest);
-    setRank(rankedBest || 0);
-    setRoles();
-    setCount(nfts.nftData.length + gen2Nfts.nftData.length);
-    setLoadingState(false);
-  }, [nfts.nftData.length, gen2Nfts.nftData.length, nfts.nftData]);
+  // useEffect(() => {
+  //   const rankedBest = sortNfts();
+  //   console.log(rankedBest);
+  //   setRank(rankedBest || 0);
+  //   setRoles();
+  //   setCount(nfts.nftData.length + gen2Nfts.nftData.length);
+  //   setLoadingState(false);
+  // }, [nfts.nftData.length, gen2Nfts.nftData.length, nfts.nftData]);
 
   // check if there is an address connected
   useEffect(() => {
@@ -503,10 +506,14 @@ const MyNFTs = () => {
 
                           setCafeNfts({ nftData: newCafeData });
                           // add the best ranked gen1 nft
-                          // const rankedBest = sortNfts();
+                          const rankedBest = sortNfts(newData2);
                           // console.log(rankedBest);
-                          // setRank(rankedBest || 0);
-                          // setRoles();
+                          setRank(rankedBest || 0);
+                          setRoles(
+                            { nftData: newData2 },
+                            { nftData: newGen2Data }
+                          );
+                          setCount(newData2.length + newGen2Data.length);
                           setLoadingState(false);
                         });
                       });
@@ -560,24 +567,13 @@ const MyNFTs = () => {
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 pb-4">
                 {loadingState ? (
                   <>
-                    <h3>Loading...</h3>
+                    <h1>Loading...</h1>
                   </>
                 ) : (
                   <></>
                 )}
-                {loadingState &&
-                role.name.length < 1 &&
-                !nfts.nftData.length &&
-                !gen2Nfts.nftData.length ? (
-                  <div className="bg-primary-100 rounded-xl grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
-                    <div className="rounded-xl overflow-hidden">
-                      <img
-                        className="object-cover content-center home-logo"
-                        src={`${`${router.basePath}/assets/images/icons/mobile-logo.png`}`}
-                        alt="mobile-logo.png"
-                      />
-                    </div>
-                  </div>
+                {loadingState ? (
+                  <></>
                 ) : (
                   <>
                     {/* role image */}
@@ -594,12 +590,9 @@ const MyNFTs = () => {
                 )}
                 <div className="col-span-2">
                   <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 pt-4 ">
-                    {loadingState &&
-                    role.name.length < 1 &&
-                    !nfts.nftData.length &&
-                    !gen2Nfts.nftData.length ? (
+                    {loadingState ? (
                       <>
-                        {/* Role name */}
+                        {/* Role name
                         <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
                           <div className="p-4 inline-flex">
                             <p className="text-2l font-semibold">Role name:</p>
@@ -609,7 +602,7 @@ const MyNFTs = () => {
                               </p>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </>
                     ) : (
                       <>
@@ -626,9 +619,7 @@ const MyNFTs = () => {
                         </div>
                       </>
                     )}
-                    {loadingState &&
-                    !nfts.nftData.length &&
-                    !gen2Nfts.nftData.length ? (
+                    {loadingState ? (
                       <></>
                     ) : (
                       <>
@@ -636,33 +627,35 @@ const MyNFTs = () => {
                         <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-1">
                           <div className="p-4 inline-flex">
                             <p className="text-2l font-semibold">
-                              {'You own: '}
+                              {`You own: `}
                             </p>
                             <div>
                               <p className="font-light">
-                                {count}
-                                Daturians
+                                {`${count} Daturians`}
                               </p>
                             </div>
                           </div>
                         </div>
                       </>
                     )}
-                    {/* location */}
-                    <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-3">
-                      <div className="p-4 inline-flex">
-                        <p className="text-2l font-semibold">
-                          Most of your Daturians live in:
-                        </p>
-                        <div>
-                          <p className="font-light">Pending...</p>
+                    {loadingState ? (
+                      <></>
+                    ) : (
+                      <>
+                        {/* location */}
+                        <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-3">
+                          <div className="p-4 inline-flex">
+                            <p className="text-2l font-semibold">
+                              {`Most of your Daturians live in: `}
+                            </p>
+                            <div>
+                              <p className="font-light">{` Nobody knows...`}</p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    {loadingState &&
-                    !nfts.nftData.length &&
-                    !gen2Nfts.nftData.length &&
-                    rank < 1 ? (
+                      </>
+                    )}
+                    {loadingState ? (
                       <></>
                     ) : (
                       <>
@@ -685,7 +678,7 @@ const MyNFTs = () => {
                 </div>
               </div>
               {/* gen2 daturians */}
-              {loadingState && !gen2Nfts.nftData.length ? (
+              {loadingState || !gen2Nfts.nftData.length ? (
                 <></>
               ) : (
                 <>
@@ -705,7 +698,7 @@ const MyNFTs = () => {
                   </div>
                 </>
               )}
-              {loadingState && !nfts.nftData.length ? (
+              {loadingState || !nfts.nftData.length ? (
                 <></>
               ) : (
                 <>
@@ -728,7 +721,7 @@ const MyNFTs = () => {
                 </>
               )}
               {/* Signature Daturians */}
-              {loadingState && !signatureNfts.nftData.length ? (
+              {loadingState || !signatureNfts.nftData.length ? (
                 <></>
               ) : (
                 <>
@@ -750,7 +743,7 @@ const MyNFTs = () => {
                 </>
               )}
               {/* Cafe Daturians */}
-              {loadingState && !cafeNfts.nftData.length ? (
+              {loadingState || !cafeNfts.nftData.length ? (
                 <></>
               ) : (
                 <>
@@ -772,7 +765,7 @@ const MyNFTs = () => {
                 </>
               )}
               {/* Daturians4Ukraine */}
-              {loadingState && !uaNfts.nftData.length ? (
+              {loadingState || !uaNfts.nftData.length ? (
                 <></>
               ) : (
                 <>
