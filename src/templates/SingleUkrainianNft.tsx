@@ -83,12 +83,9 @@ const SingleSignatureNft = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             {/* home */}
-            <div>
-            </div>
+            <div></div>
             <div className="col-span-2">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 ">
-
-              </div>
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-4 "></div>
             </div>
 
             {/* image */}
@@ -191,7 +188,7 @@ const SingleSignatureNft = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
                 <h1>View on Opensea:</h1>

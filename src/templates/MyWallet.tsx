@@ -141,7 +141,6 @@ const MyWallet = (props: MyWalletProps) => {
     return (
       <div className="grid grid-cols-1 gap-5 max-auto px-3 mywallet">
         <div className="flex flex-col pb-12">
-          
           <button
             onClick={connectToWallet}
             className="font-bold mt-4 bg-dark text-white rounded p-4 shadow-lg connect-button"
