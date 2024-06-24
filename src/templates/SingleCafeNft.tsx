@@ -107,7 +107,7 @@ const SingleCafeNft = () => {
                     <p className="font-light">
                       0.1919<sup>caffeine</sup>
                     </p>
-                    <div className="relative pt-2 w-full rounded pl-5">
+                    <div className="relative pt-2 w-full rounded pl-5 health">
                       <div className="h-2 text-xs flex rounded bg-white">
                         <div
                           style={{ width: `66%` }}

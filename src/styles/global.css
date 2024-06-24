@@ -1649,3 +1649,6 @@ div .single-nft-placeholder {
 .rank-number {
   color: #FF4360;
 }
+.object-cover {
+  align-self: flex-start;
+}

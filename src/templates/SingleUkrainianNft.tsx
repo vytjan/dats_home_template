@@ -112,10 +112,10 @@ const SingleSignatureNft = () => {
                 {/* health */}
                 <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
                   <div className="p-4 w-full inline-flex">
-                    <p className="text-2l font-semibold w-3/12">Health: </p>
+                    <p className="text-2l font-semibold w-3/10">Health: </p>
 
                     <p className="font-light w-1/5">100</p>
-                    <div className="relative pt-2 w-full rounded">
+                    <div className="relative pt-2 w-full rounded health">
                       <div className="h-2 text-xs flex rounded bg-white">
                         <div
                           style={{ width: `100%` }}
@@ -141,7 +141,7 @@ const SingleSignatureNft = () => {
                   </div>
                 </div>
                 {/* location */}
-                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 col-span-1">
                       <img
@@ -163,7 +163,7 @@ const SingleSignatureNft = () => {
                   </div>
                 </div>
                 {/* flower */}
-                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div className="p-4 col-span-1">
                       <h1>
