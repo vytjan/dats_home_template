@@ -32,7 +32,7 @@ const Footer = () => {
             >
               <img
                 className="twitter-icon"
-                src={`${router.basePath}/assets/images/icons/twitter.svg`}
+                src={`${router.basePath}/assets/images/icons/x.svg`}
                 alt="twitter-icon"
               />
             </a>
@@ -69,11 +69,14 @@ const Footer = () => {
                 alt="opensea-icon"
               />
             </a>
-            <a
-              target="_blank"
-              href="https://twitter.com/DaturiansNFT"
-              rel="noreferrer"
-            >
+            <a target="_blank" href="https://magiceden.io/collections/polygon/0x64526de598200d3c48e752377057adbc74ec9492">
+              <img
+                className="opensea-icon"
+                src={`${router.basePath}/assets/images/icons/magic_eden.svg`}
+                alt="magic-eden"
+              />
+            </a>
+            <a target="_blank" href="https://twitter.com/DaturiansNFT">
               <img
                 className="roadmap-icon"
                 src={`${router.basePath}/assets/images/icons/snapshot.svg`}

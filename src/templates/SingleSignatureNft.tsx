@@ -207,7 +207,7 @@ const SingleSignatureNft = () => {
                   </div>
                 </div>
                 {/* Character traits */}
-                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2 sm:col-span-1">
                   <div className="p-4 inline-flex">
                     <p className="text-2l font-semibold">
                       {`${meta.data.extras[6].trait_type}: `}
@@ -235,7 +235,7 @@ const SingleSignatureNft = () => {
                 {/* family */}
                 <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 col-span-1">
+                    <div className="p-4 col-span-2">
                       <h1>
                         {meta.data.attributes[3].trait_type}:{' '}
                         {meta.data.attributes[3].value.split(' x ')[0]}
@@ -243,7 +243,7 @@ const SingleSignatureNft = () => {
                       <br />
                       <p className="font-light">{meta.data.extras[1].value}</p>
                     </div>
-                    <div className="p-4 col-span-1">
+                    <div className="p-4 col-span-2">
                       <img
                         className="object-cover content-center family-crest"
                         alt="family.png"
@@ -260,7 +260,7 @@ const SingleSignatureNft = () => {
                 {/* location */}
                 <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 col-span-1">
+                    <div className="p-4 col-span-2">
                       <img
                         className="object-cover content-center family-crest"
                         src={`${
@@ -271,7 +271,7 @@ const SingleSignatureNft = () => {
                         alt="location.png"
                       />
                     </div>
-                    <div className="p-4 col-span-1">
+                    <div className="p-4 col-span-2">
                       <h1>
                         {meta.data.attributes[2].trait_type}:{' '}
                         {meta.data.attributes[2].value}

@@ -693,7 +693,7 @@ const SingleNft = () => {
             <div className="sm:col-span-4 lg:col-span-2">
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 {/* genetics */}
-                <div className="sm:col-span-4 lg:col-span-2">
+                <div className="col-span-4 bg-primary-100 rounded-xl overflow-hidden">
                   <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
                     <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
                       <div className="p-4 col-span-2">
@@ -716,7 +716,7 @@ const SingleNft = () => {
                   </div>
                 </div>
                 {/* Occupation */}
-                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-2">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-4 sm:col-span-2">
                   <div className="p-4">
                     <h1>
                       {`${meta.data.attributes[4].trait_type}: `}
@@ -729,7 +729,7 @@ const SingleNft = () => {
                   </div>
                 </div>
                 {/* Special ability */}
-                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-1 sm:col-span-2">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-4 sm:col-span-2">
                   <div className="p-4 ">
                     <h1>{`${meta.data.extras[3].trait_type}: `}</h1>
                     <p>&nbsp;</p>
@@ -739,7 +739,7 @@ const SingleNft = () => {
                   </div>
                 </div>
                 {/* flower */}
-                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-2 sm:col-span-4">
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-4">
                   <div className="grid sm:grid-cols-2 xs:grid-cols-1 gap-4">
                     <div className="p-4 col-span-2">
                       <h1>
@@ -752,10 +752,12 @@ const SingleNft = () => {
                   </div>
                 </div>
                 {/* the house */}
-                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3 p-4 flex">
-                  <p>
-                    <b>What is {meta.name} doing:</b> {meta.data.activity}{' '}
-                  </p>
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-4">
+                  <div className="p-4">
+                    <p>
+                      <b>What is {meta.name} doing:</b> {meta.data.activity}{' '}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
