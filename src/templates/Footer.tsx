@@ -14,8 +14,8 @@ const Footer = () => {
         <div className="col-span-5 p-6 footer">
           <CenteredFooter>
             <li className="footer-whitepaper">
-              <Link href="https://daturiansuploads.s3.amazonaws.com/uploads/Daturians_whitepaper.pdf">
-                <a target="_blank" >Whitepaper</a>
+              <Link href="https://drive.google.com/file/d/1-AfYOxLpnVqKMI3AaXfaDsWj6Bnmdnya/view?usp=drive_link">
+                <a target="_blank">Whitepaper</a>
               </Link>
             </li>
             <li className="footer-linktree">
@@ -25,28 +25,44 @@ const Footer = () => {
             </li>
           </CenteredFooter>
           <div className="some-icons">
-            <a target="_blank" href="https://twitter.com/DaturiansNFT">
+            <a
+              target="_blank"
+              href="https://twitter.com/DaturiansNFT"
+              rel="noreferrer"
+            >
               <img
                 className="twitter-icon"
                 src={`${router.basePath}/assets/images/icons/x.svg`}
                 alt="twitter-icon"
               />
             </a>
-            <a target="_blank" href="https://discord.gg/xmdURtj2WT">
+            <a
+              target="_blank"
+              href="https://discord.gg/xmdURtj2WT"
+              rel="noreferrer"
+            >
               <img
                 className="discord-icon"
                 src={`${router.basePath}/assets/images/icons/discord.svg`}
                 alt="discord-icon"
               />
             </a>
-            <a target="_blank" href="https://medium.com/@daturians_nft">
+            <a
+              target="_blank"
+              href="https://medium.com/@daturians_nft"
+              rel="noreferrer"
+            >
               <img
                 className="medium-icon"
                 src={`${router.basePath}/assets/images/icons/medium.svg`}
                 alt="medium-icon"
               />
             </a>
-            <a target="_blank" href="https://opensea.io/collection/daturiansnft">
+            <a
+              target="_blank"
+              href="https://opensea.io/collection/daturiansnft"
+              rel="noreferrer"
+            >
               <img
                 className="opensea-icon"
                 src={`${router.basePath}/assets/images/icons/opensea.svg`}
@@ -67,7 +83,11 @@ const Footer = () => {
                 alt="snapshot-icon"
               />
             </a>
-            <a target="_blank" href="https://www.instagram.com/daturiansnft/">
+            <a
+              target="_blank"
+              href="https://www.instagram.com/daturiansnft/"
+              rel="noreferrer"
+            >
               <img
                 className="instagram-icon"
                 src={`${router.basePath}/assets/images/icons/instagram.svg`}

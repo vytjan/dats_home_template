@@ -241,13 +241,20 @@ const uploadCurrentMeta = async (
 ) => {
   try {
     const tokenUri = await contract.tokenURI(currId);
+    console.log(tokenUri);
 
     const ipfsGateway = 'https://daturians.mypinata.cloud/ipfs/';
 
     const newUri = tokenUri.replace('ipfs://', ipfsGateway);
     return await axios.get(newUri).then(async (response2) => {
-      // console.log(meta.data);
-      const imgUri = response2.data.image.replace('ipfs://', ipfsGateway);
+      console.log('ssssssssssssssssssssssssssssssssssssssssssssssss');
+      console.log(response2.data);
+      let imgUri = response2.data.image.replace('ipfs://', ipfsGateway);
+
+      // if gen2:
+      if (collection === 'gen2') {
+        imgUri = response2.data.image;
+      }
 
       const item = {
         tokenId: currId,

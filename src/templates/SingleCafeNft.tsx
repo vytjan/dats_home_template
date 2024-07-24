@@ -133,14 +133,14 @@ const SingleCafeNft = () => {
                   </div>
                 </div>
                 {/* ID */}
-              <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
-              <div className="p-4">
-                <p className="text-2l font-semibold">
-                  {`${meta.data.attributes[2].trait_type}: `}
-                  {meta.data.attributes[2].value}
-                </p>
-              </div>
-            </div>
+                <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-2">
+                  <div className="p-4">
+                    <p className="text-2l font-semibold">
+                      {`${meta.data.attributes[2].trait_type}: `}
+                      {meta.data.attributes[2].value}
+                    </p>
+                  </div>
+                </div>
                 {/* type */}
                 <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-1">
                   <div className="p-4 inline-flex">
