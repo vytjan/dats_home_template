@@ -69,14 +69,22 @@ const Footer = () => {
                 alt="opensea-icon"
               />
             </a>
-            <a target="_blank" href="https://magiceden.io/collections/polygon/0x64526de598200d3c48e752377057adbc74ec9492">
+            <a
+              target="_blank"
+              href="https://magiceden.io/collections/polygon/0x64526de598200d3c48e752377057adbc74ec9492"
+              rel="noreferrer"
+            >
               <img
                 className="opensea-icon"
                 src={`${router.basePath}/assets/images/icons/magic_eden.svg`}
                 alt="magic-eden"
               />
             </a>
-            <a target="_blank" href="https://twitter.com/DaturiansNFT">
+            <a
+              target="_blank"
+              href="https://twitter.com/DaturiansNFT"
+              rel="noreferrer"
+            >
               <img
                 className="roadmap-icon"
                 src={`${router.basePath}/assets/images/icons/snapshot.svg`}
