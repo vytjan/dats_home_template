@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-// import { ethers } from 'ethers';
+import { ethers } from 'ethers';
 // import { Dropdown } from 'flowbite-react';
 import dynamic from 'next/dynamic';
 import LazyLoad from 'react-lazyload';
@@ -8,14 +8,17 @@ import LazyLoad from 'react-lazyload';
 import { GreenhouseCoords } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
-import { getAllMeta } from '../pages/api/nftApi';
-import { AppConfig } from '../utils/AppConfig';
-// import Daturians4Ukraine from '../utils/artifacts/Daturians4Ukraine.json';
+import {
+  getAllMeta,
+  uploadCurrentGreenhouseMeta,
+  uploadGreenhouseCoordinates,
+} from '../pages/api/nftApi';
+import { GreenhouseContractAddress, AppConfig } from '../utils/AppConfig';
+import Greenhouses from '../utils/artifacts/Greenhouses.json';
 import { HeaderMenu } from './HeaderMenu';
 import SignatureNFT from './SignatureNft';
 import SortFilter from './SortField';
 
-// import { uploadMockCoordinates } from '../pages/api/nftApi';
 // import { match } from 'assert';
 // import e from 'express';
 // import image from 'next/image';
@@ -27,8 +30,6 @@ type MetadataItems = {
   image: string;
   name: string;
   description: string;
-  // data: string;
-  // coords: { tokenId: number; name: string; coordinates: {x: number, y: number} };
 }[];
 
 type SortStateTypes =
@@ -39,16 +40,14 @@ type SortStateTypes =
     }
   | undefined;
 
-// const initialItems: MetadataItems = [
-//   {
-//     tokenId: 0,
-//     image: '0.jpg',
-//     name: 'Daturian',
-//     description: 'Daturian description',
-//     // data: '',
-//     // score: { score: 0, rank: 0, tokenId: '0' },
-//   },
-// ];
+const initialItems: MetadataItems = [
+  {
+    tokenId: 0,
+    image: '0.jpg',
+    name: 'Greenhouse',
+    description: 'Description',
+  },
+];
 
 const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
   ssr: false,
@@ -85,83 +84,126 @@ const GreenhousesCollection = () => {
   };
 
   useEffect(() => {
+    async function updateGreenhousesAndSetTotalNfts(dataArray: any[]) {
+      await Promise.all(
+        dataArray.map(async (item) => {
+          await uploadCurrentGreenhouseMeta(item, 'gh');
+          await uploadGreenhouseCoordinates(item);
+        })
+      );
+    }
+
     async function loadNfts() {
-      // /* create a generic provider and query for unsold market items */
-      // const provider = new ethers.providers.JsonRpcProvider(
-      //   'https://polygon-rpc.com/'
-      // );
-      // // const provider = new ethers.providers.JsonRpcProvider(node_url)
-      // const contract = new ethers.Contract(
-      //   UkraineContractAddress,
-      //   Daturians4Ukraine.abi,
-      //   provider
-      // );
-      // // get minted number
-      // try {
-      //   const minted = await contract.totalMinted.call();
-      const ipfsUrl =
-        'https://daturians.mypinata.cloud/ipfs/QmXvkY7vQPJki59k5oyueQTNxG9bCb1HCSt2GZkwx3MiEz/';
+      /* create a generic provider and query for unsold market items */
+      const provider = new ethers.providers.JsonRpcProvider(
+        'https://polygon-rpc.com/'
+      );
+      // const provider = new ethers.providers.JsonRpcProvider(node_url)
+      const contract = new ethers.Contract(
+        GreenhouseContractAddress,
+        Greenhouses,
+        provider
+      );
+      // get minted greenhouses number
+      try {
+        const minted = await contract.totalSupply.call();
+        console.log(minted.toNumber());
 
-      //   const tempDataArray = Array.from({ length: minted }, (_x, i) => i + 1);
-      //   const items = tempDataArray.map((i: any) => {
-      //     const item = {
-      //       tokenId: i,
-      //       image: `${ipfsUrl + String(i)}.png`,
-      //       name: `Greenhouse #${i.toString()}`,
-      //       description: '',
-      //     };
+        // here get the total number of metadata in the DB:
+        // get the IDs o minted NFTs:  // Assuming the contract is ERC-721 and emits a Transfer event for minting
+        const fromBlock = 58321322; // You might want to specify a more recent block to start from
+        const toBlock = 'latest';
+        const transferEventSignature = ethers.utils.id(
+          'Transfer(address,address,uint256)'
+        );
+        const mintEvents = await contract.queryFilter(
+          {
+            topics: [
+              transferEventSignature,
+              ethers.utils.hexZeroPad(ethers.constants.AddressZero, 32), // Filter for transfers from 0x0 (minting)
+            ],
+          },
+          fromBlock,
+          toBlock
+        );
 
-      //     return item;
-      //   });
-      //   return items;
-      // } catch (err) {
-      //   // eslint-disable-next-line no-console
-      //   console.log(err);
-      //   return initialItems;
-      // }
-      const tempDataArray = Array.from({ length: 100 }, (_x, i) => i + 1);
-      const items = tempDataArray.map((i: any) => {
-        const item = {
-          tokenId: i,
-          image: `${ipfsUrl + String(i)}.png`,
-          name: `Greenhouse #${i.toString()}`,
-          description: '',
-        };
-        return item;
-      });
-      return items;
+        const mintedTokenIds = mintEvents.map((event) =>
+          event.args!.tokenId.toNumber()
+        );
+        console.log(mintedTokenIds);
+
+        const ipfsUrl =
+          'https://daturians.mypinata.cloud/ipfs/QmQrV8HRGwJorcNaEFKrKmmdVtsDaKPVV1aZRAEfuXY9iz/';
+
+        const items = mintedTokenIds.map((tokenId: number) => {
+          const item = {
+            tokenId,
+            image: `${ipfsUrl}${tokenId}.png`,
+            name: `Greenhouse #${tokenId}`,
+            description: '',
+          };
+          return item;
+        });
+        return items;
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log(err);
+        return initialItems;
+      }
     }
-    // load the coordinates from the db/upload them
-    async function loadCoords() {
-      const coords = await getAllMeta('ghcoords');
-      return coords;
-    }
+
+    // get all tokenIds of already minted NFTs
     const promise = loadNfts();
     promise.then((data) => {
       // TODO only for the initial coordinates uploads once there will be a normal smart contract deployed
-      // data.forEach(item => {
-      //   uploadMockCoordinates(item.tokenId);
-      // });
-      // const newData = addScores(data);
+      // before loading metadata, check what's already in the metadata
+      const promise00 = getAllMeta('gh');
+      promise00.then((data00) => {
+        console.log(data00.data);
+        // if there is nothing in the DB:
+        if (data00.data.length < 1) {
+          const allMetadataTokenIds = data.map((item: any) => item.tokenId);
+          const promise33 =
+            updateGreenhousesAndSetTotalNfts(allMetadataTokenIds);
+          promise33.then(() => {
+            setTotalNfts(data);
+            setNfts({ nftData: data, sortType: sortStates[0] });
+            const promise2 = getAllMeta('ghcoords');
+            promise2.then((data2) => {
+              console.log(data2.data);
+              setCoords(data2.data);
+            });
+          });
+          // data.forEach((item) => {
+          //   uploadCurrentGreenhouseMeta(item.tokenId, 'gh');
+          //   uploadGreenhouseCoordinates(item.tokenId);
+          // });
+        } else {
+          // const currentGhMetadata = await getAllMeta('gh');
+          // Step 1: Extract Token IDs from currentGhMetadata
+          const currentGhMetadataTokenIds = data00.data.map(
+            (item: any) => item.tokenId
+          );
 
-      setTotalNfts(data);
-      setNfts({ nftData: data, sortType: sortStates[0] });
-      const promise2 = loadCoords();
-      promise2.then((data2) => {
-        console.log(data2.data);
-        setCoords(data2.data);
+          // Step 2: Filter data to find tokenIds not in currentGhMetadataTokenIds
+          const tokenIdsNotInCurrentGhMetadata = data
+            .filter((item) => !currentGhMetadataTokenIds.includes(item.tokenId))
+            .map((item) => item.tokenId); // Extracting just the tokenId for the final result
+          console.log(tokenIdsNotInCurrentGhMetadata);
+          const promise44 = updateGreenhousesAndSetTotalNfts(
+            tokenIdsNotInCurrentGhMetadata
+          );
+          promise44.then(() => {
+            setTotalNfts(data);
+            setNfts({ nftData: data, sortType: sortStates[0] });
+            const promise2 = getAllMeta('ghcoords');
+            promise2.then((data2) => {
+              console.log(data2.data);
+              setCoords(data2.data);
+            });
+          });
+        }
       });
-      // setCurrDispNumber(nfts.nftData.length);
-
-      // only load if there are not uploaded jsons:
-      // if (data[0].length < data[2]) {
-      // const promise2 = loadNewMeta();
-      // promise2.then((data2) => {
-      //   setTotalNfts(data2.data);
-      //   setNfts(data2.data);
-      //   // console.log('load new metadata happened');
-      // });
-      // }
     });
   }, []);
 

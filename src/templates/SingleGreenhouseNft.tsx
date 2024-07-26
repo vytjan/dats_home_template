@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { GreenhouseCoords, SingleCoordinates } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
-import { getAllMeta, getMockMetadataById } from '../pages/api/nftApi';
+import { getAllMeta, getGreenhouseMetadataById } from '../pages/api/nftApi';
 import { AppConfig } from '../utils/AppConfig';
 import { HeaderMenu } from './HeaderMenu';
 
@@ -55,7 +55,7 @@ const SingleGreenhouseNft = () => {
 
       try {
         // const minted = await contract.totalMinted.call();
-        const myMeta = await getMockMetadataById(
+        const myMeta = await getGreenhouseMetadataById(
           newId,
           collection
           // contract,
