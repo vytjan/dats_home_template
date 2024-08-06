@@ -126,7 +126,7 @@ const GreenhousesCollection = () => {
           fromBlock,
           toBlock
         );
-
+        console.log(mintEvents);
         const mintedTokenIds = mintEvents.map((event) =>
           event.args!.tokenId.toNumber()
         );
