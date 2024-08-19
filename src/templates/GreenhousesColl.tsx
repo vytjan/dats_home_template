@@ -299,7 +299,9 @@ const GreenhousesCollection = () => {
       <HeaderMenu></HeaderMenu>
       <div className="flex justify-center">
         <div className="grid-cols-1 gap-5 max-auto px-3">
-          {!greenhousesCoords.length ? (
+          {!totalNfts.length ||
+          loadingScreen ||
+          greenhousesCoords.length < 1 ? (
             <h1 className="px-20 py-10 text-2l font-semibold text-center">
               Loading
             </h1>

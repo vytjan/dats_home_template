@@ -159,7 +159,7 @@ const DaturiansGen2Collection = () => {
 
         const tempDataArray = Array.from(
           { length: minted.toNumber() },
-          (_x, i) => i + 1
+          (_x, i) => i
         );
         const items = tempDataArray.map((i: any) => {
           const item = {

@@ -171,6 +171,7 @@ const MyNFTs = () => {
     nftData: [],
   });
   const [address, setAddress] = useState('');
+  const [accountsFetched, setAccountsFetched] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
   const [rank, setRank] = useState(0);
   const [role, setRole] = useState({ name: '', image: '' });
@@ -196,6 +197,7 @@ const MyNFTs = () => {
   }
 
   async function loadNfts(userAddress: string) {
+    console.log('!!!!!!!!!!1', userAddress);
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider(
       // 'https://polygon-rpc.com/'
@@ -309,6 +311,7 @@ const MyNFTs = () => {
     abi: any,
     ipfs: string
   ) {
+    console.log('!!!!!!!!!!2', userAddress);
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider(
       'https://polygon-mainnet.infura.io/v3/9c7953f2d4f54354b2538c0a40ed2539'
@@ -317,6 +320,7 @@ const MyNFTs = () => {
     const contract = new ethers.Contract(contractAddress, abi, provider);
     // get minted number
     try {
+      console.log(userAddress, contractAddress);
       const userTokensList = await contract.walletOfOwner(userAddress);
       // console.log(userTokensList);
       const userTokensList2 = userTokensList.map((x: BigNumber) =>
@@ -341,9 +345,13 @@ const MyNFTs = () => {
         return item;
       });
       return [items, userTokensList2];
-    } catch (err) {
+    } catch (err: any) {
       // eslint-disable-next-line no-console
-      console.log(err);
+      if (err.code === 'UNCONFIGURED_NAME') {
+        console.error('ENS name is not configured:', err.message);
+      } else {
+        console.error('An error occurred:', err.message);
+      }
       return initialItems;
     }
   }
@@ -404,6 +412,7 @@ const MyNFTs = () => {
   // ir jeigu turesi jegu/laiko/noro tai yra tiem kurie tik Ukrainiecius turi (Ukraine_supporter.png)
 
   async function connectToWallet() {
+    console.log('EXECUTING CONNECT TO WALLET');
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     // console.log(connection);
@@ -481,6 +490,32 @@ const MyNFTs = () => {
       // setLoadingState(false);
     });
   }
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      let web3;
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+      } else if (window.web3) {
+        web3 = new Web3(window.web3.currentProvider);
+      }
+
+      if (web3) {
+        try {
+          const addr = await web3.eth.getAccounts();
+          console.log(addr);
+          if (addr && addr.length > 0) {
+            setAddress(addr[0]!);
+            setAccountsFetched(true);
+          }
+        } catch (err: any) {
+          console.error('Error getting accounts:', err.message);
+        }
+      }
+    };
+
+    fetchAccounts();
+  }, []);
 
   useEffect(() => {
     async function getOwnedNFTs() {
@@ -574,56 +609,62 @@ const MyNFTs = () => {
         });
         return items;
       } catch (err) {
+        const error = err as Error;
         // eslint-disable-next-line no-console
-        console.log(err);
+        console.error('An error occurred:', error.message);
         return initialItems;
       }
     }
 
     const checkConnection = async () => {
       // Check if browser is running Metamask
-      let web3;
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-      } else if (window.web3) {
-        web3 = new Web3(window.web3.currentProvider);
-      }
+      // let web3;
+      // if (window.ethereum) {
+      //   web3 = new Web3(window.ethereum);
+      // } else if (window.web3) {
+      //   web3 = new Web3(window.web3.currentProvider);
+      // }
 
-      if (web3) {
-        // Check if User is already connected by retrieving the accounts
-        web3.eth
-          .getAccounts()
-          .then(async (addr) => {
-            // console.log(addr);
-            if (addr && addr.length > 0) {
-              if (addr[0]!.length > 0) {
-                setAddress(addr[0]!);
-                // get all tokenIds of already minted NFTs
-                const promise = loadGreenhouseNfts();
-                promise.then((data) => {
-                  // TODO only for the initial coordinates uploads once there will be a normal smart contract deployed
-                  // before loading metadata, check what's already in the metadata
-                  const promise000 = getOwnedNFTs();
-                  promise000.then((myTokenData) => {
-                    console.log(myTokenData);
-                    const promise00 = getAllMeta('gh');
-                    promise00.then((data00) => {
-                      console.log(data00.data);
-                      // if there is nothing in the DB:
-                      if (data00.data.length < 1) {
-                        const allMetadataTokenIds = data.map(
-                          (item: any) => item.tokenId
-                        );
-                        const promise33 =
-                          updateGreenhousesAndSetTotalNfts(allMetadataTokenIds);
-                        promise33.then(() => {
-                          // setTotalNfts(data);
-                          // setGreenhouseNfts({
-                          //   nftData: data,
-                          //   sortType: sortStates[0],
-                          // });
-                          const promise2 = getAllMeta('ghcoords');
-                          promise2.then((data2) => {
+      // if (web3) {
+      //   // Check if User is already connected by retrieving the accounts
+      //   web3.eth
+      //     .getAccounts()
+      //     .then(async (addr) => {
+      //       console.log(addr);
+      //       if (addr && addr.length > 0) {
+      //         if (addr[0]!.length > 0) {
+      //           setAddress(addr[0]!);
+      // get all tokenIds of already minted NFTs
+      if (accountsFetched) {
+        const promise = loadGreenhouseNfts();
+        promise
+          .then((data) => {
+            // TODO only for the initial coordinates uploads once there will be a normal smart contract deployed
+            // before loading metadata, check what's already in the metadata
+            const promise000 = getOwnedNFTs();
+            promise000.then((myTokenData) => {
+              console.log(myTokenData);
+              const promise00 = getAllMeta('gh');
+              promise00
+                .then((data00) => {
+                  console.log(data00.data);
+                  // if there is nothing in the DB:
+                  if (data00.data.length < 1) {
+                    const allMetadataTokenIds = data.map(
+                      (item: any) => item.tokenId
+                    );
+                    const promise33 =
+                      updateGreenhousesAndSetTotalNfts(allMetadataTokenIds);
+                    promise33
+                      .then(() => {
+                        // setTotalNfts(data);
+                        // setGreenhouseNfts({
+                        //   nftData: data,
+                        //   sortType: sortStates[0],
+                        // });
+                        const promise2 = getAllMeta('ghcoords');
+                        promise2
+                          .then((data2) => {
                             console.log(data2.data);
                             // Filter data2.data to include only items with a tokenId present in myTokenIds
                             const filteredData = data2.data.filter(
@@ -631,59 +672,93 @@ const MyNFTs = () => {
                                 myTokenData.includes(item.tokenId)
                             );
                             setCoords(filteredData);
+                          })
+                          .catch((err) => {
+                            console.error(
+                              'Error fetching gh coordinates:',
+                              err.message
+                            );
                           });
-                        });
-                      } else {
-                        // Step 1: Extract Token IDs from currentGhMetadata
-                        const currentGhMetadataTokenIds = data00.data.map(
-                          (item: any) => item.tokenId
+                      })
+                      .catch((err) => {
+                        console.error(
+                          'Error fetching updateGreenhousesAndSetTotalNfts:',
+                          err.message
                         );
+                      });
+                  } else {
+                    // Step 1: Extract Token IDs from currentGhMetadata
+                    const currentGhMetadataTokenIds = data00.data.map(
+                      (item: any) => item.tokenId
+                    );
 
-                        // Step 2: Filter data to find tokenIds not in currentGhMetadataTokenIds
-                        const tokenIdsNotInCurrentGhMetadata = data
-                          .filter(
-                            (item) =>
-                              !currentGhMetadataTokenIds.includes(item.tokenId)
-                          )
-                          .map((item) => item.tokenId); // Extracting just the tokenId for the final result
-                        console.log(tokenIdsNotInCurrentGhMetadata);
-                        const promise44 = updateGreenhousesAndSetTotalNfts(
-                          tokenIdsNotInCurrentGhMetadata
-                        );
-                        promise44.then(() => {
-                          // setTotalNfts(data);
-                          // setGreenhouseNfts({
-                          //   nftData: data,
-                          //   sortType: sortStates[0],
-                          // });
-                          const promise2 = getAllMeta('ghcoords');
-                          promise2.then((data2) => {
+                    // Step 2: Filter data to find tokenIds not in currentGhMetadataTokenIds
+                    const tokenIdsNotInCurrentGhMetadata = data
+                      .filter(
+                        (item) =>
+                          !currentGhMetadataTokenIds.includes(item.tokenId)
+                      )
+                      .map((item) => item.tokenId); // Extracting just the tokenId for the final result
+                    console.log(tokenIdsNotInCurrentGhMetadata);
+                    const promise44 = updateGreenhousesAndSetTotalNfts(
+                      tokenIdsNotInCurrentGhMetadata
+                    );
+                    promise44
+                      .then(() => {
+                        // setTotalNfts(data);
+                        // setGreenhouseNfts({
+                        //   nftData: data,
+                        //   sortType: sortStates[0],
+                        // });
+                        const promise2 = getAllMeta('ghcoords');
+                        promise2
+                          .then((data2) => {
                             console.log(data2.data);
                             const filteredData = data2.data.filter(
                               (item: { tokenId: any }) =>
                                 myTokenData.includes(item.tokenId)
                             );
                             setCoords(filteredData);
+                          })
+                          .catch((err) => {
+                            console.error(
+                              'Error fetching gh coordinates 222:',
+                              err.message
+                            );
                           });
-                        });
-                      }
-                    });
-                  });
+                      })
+                      .catch((err) => {
+                        console.error(
+                          'Error fetching updateGreenhousesAndSetTotalNfts 222:',
+                          err.message
+                        );
+                      });
+                  }
+                })
+                .catch((err) => {
+                  console.error('Error fetching owned NFTs:', err.message);
                 });
-              }
-              // console.log(addr)
-            } else {
-              setAddress('');
-            }
-            // Set User account into state
+            });
           })
-          .catch(async (err) => {
-            console.log(err);
+          .catch((err) => {
+            console.error(err.message);
           });
       }
+      //           }
+      //           // console.log(addr)
+      //         } else {
+      //           console.log('no address set');
+      //           setAddress('');
+      //         }
+      //         // Set User account into state
+      //       })
+      //       .catch((err) => {
+      //         console.error(err);
+      //       });
+      //   }
     };
     checkConnection();
-  }, []);
+  }, [accountsFetched, address]);
 
   // useEffect(() => {
   //   const rankedBest = sortNfts();
@@ -710,10 +785,11 @@ const MyNFTs = () => {
         web3.eth
           .getAccounts()
           .then(async (addr) => {
-            // console.log(addr);
+            console.log(addr);
             if (addr && addr.length > 0) {
               if (addr[0]!.length > 0) {
                 setAddress(addr[0]!);
+                console.log('Address is: ', addr[0]!);
                 const promise = loadNfts(addr[0]!);
                 promise.then((data) => {
                   // console.log(data);
@@ -804,6 +880,7 @@ const MyNFTs = () => {
     };
     checkConnection();
   }, []);
+
   const router = useRouter();
   return (
     <Section>
@@ -834,12 +911,15 @@ const MyNFTs = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 pb-4">
-                {!greenhousesCoords.length ? (
+                {greenhousesCoords.length < 1 ||
+                loadingState ||
+                gen2Nfts.nftData.length < 1 ||
+                nfts.nftData.length < 1 ? (
                   <h1 className="px-20 py-10 text-2l font-semibold text-center">
-                    Loading
+                    Loading...
                   </h1>
                 ) : (
-                  <div className=" content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
+                  <div className=" content-gallery rounded-xl overflow-hidden col-span-1 sm:col-span-1 lg:col-span-3 xl:col-span-3 datura-map">
                     <DaturaMapContainer
                       greenhouses={greenhousesCoords}
                       currentGreenhouse={null}
@@ -850,11 +930,6 @@ const MyNFTs = () => {
                   <>
                     <h1>Loading...</h1>
                   </>
-                ) : (
-                  <></>
-                )}
-                {loadingState ? (
-                  <></>
                 ) : (
                   <>
                     {/* role image */}

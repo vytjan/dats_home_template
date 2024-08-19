@@ -2,18 +2,20 @@ import { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
 // import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import { GreenhouseCoords, SingleCoordinates } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
-import { getMetadataById } from '../pages/api/nftApi';
+import { getAllMeta, getMetadataById } from '../pages/api/nftApi';
 import { AppConfig, NftContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
 import { HeaderMenu } from './HeaderMenu';
 
-// const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
-//   ssr: false,
-// });
+const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
+  ssr: false,
+});
 
 const occupations = [
   {
@@ -419,6 +421,49 @@ const SingleNft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
   const [meta, setMeta] = useState<any>([]);
+  const [ghImagePath, setGhImagePath] = useState<string>(
+    `${router.basePath}/assets/images/greenhouse.png`
+  );
+  // const [greenhouseMeta, setGreenhouseMeta] = useState<any>([]);
+  const [greenhousesCoords, setCoords] = useState<GreenhouseCoords>([]);
+  const [currentGreenhouseCoords, setCurrentCoords] =
+    useState<SingleCoordinates>(null);
+
+  useEffect(() => {
+    async function loadCoords() {
+      const coords = await getAllMeta('ghcoords');
+      return coords;
+    }
+
+    if (!router.isReady) return;
+    // const { id } = router.query;
+
+    // get all the coordinates of greenhouses
+    const promise2 = loadCoords();
+    promise2.then((data2) => {
+      console.log(data2.data);
+      setCoords(data2.data);
+      const index = data2.data.findIndex(
+        (element: { tokenId: number | undefined }) =>
+          element.tokenId === Number(currId)
+      );
+      console.log(index);
+      if (index !== -1) {
+        const selectedElement = data2.data.splice(index, 1)[0];
+        console.log(selectedElement);
+        if (selectedElement) {
+          setCurrentCoords(selectedElement);
+          setGhImagePath(
+            `https://daturians.mypinata.cloud/ipfs/QmQrV8HRGwJorcNaEFKrKmmdVtsDaKPVV1aZRAEfuXY9iz/${currId}.png`
+          );
+        }
+      }
+    });
+
+    // console.log(meta);
+    // }
+    // });
+  }, [router.isReady, currId, router.query]);
 
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -766,21 +811,25 @@ const SingleNft = () => {
               <div className="rounded-xl overflow-hidden">
                 <img
                   className="object-cover rounded-xl content-center daturian"
-                  src={meta.image}
-                  alt={meta.image}
+                  src={ghImagePath}
+                  alt={ghImagePath}
                 />
               </div>
             </div>
-            <div className=" content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
-              <img
-                className="content-center"
-                src={`${router.basePath}/assets/images/datura_map.png`}
-                alt="datura_map.png"
-              />
-              {/* <DaturaMapContainer
-                svgUrl={`${router.basePath}/assets/images/datura_map.svg`}
-              /> */}
-            </div>
+
+            {greenhousesCoords.length < 1 ? (
+              <h1 className="px-20 py-10 text-2l font-semibold text-center">
+                Loading...
+              </h1>
+            ) : (
+              <div className=" content-gallery rounded-xl overflow-hidden col-span-1 sm:col-span-1 lg:col-span-3 xl:col-span-3 datura-map">
+                <DaturaMapContainer
+                  greenhouses={greenhousesCoords}
+                  currentGreenhouse={currentGreenhouseCoords}
+                />
+              </div>
+            )}
+
             <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
                 <h1>View on Opensea:</h1>
