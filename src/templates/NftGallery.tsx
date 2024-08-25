@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { HeaderMenu } from './HeaderMenu';
 import { Button } from '../button/Button';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { AppConfig } from '../utils/AppConfig';
-import { HeaderMenu } from './HeaderMenu';
 
 const NftGallery = () => {
   const router = useRouter();

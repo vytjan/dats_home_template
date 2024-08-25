@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 
+import { HeaderMenu } from './HeaderMenu';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { getMetadataById } from '../pages/api/nftApi';
 import { AppConfig, SignatureContractAddress } from '../utils/AppConfig';
 import DaturiansGreenhouse from '../utils/artifacts/DaturiansGreenhouse.json';
-import { HeaderMenu } from './HeaderMenu';
 
 const locationImages = {
   1: 'Fanghorn',

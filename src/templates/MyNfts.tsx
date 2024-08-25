@@ -7,6 +7,10 @@ import LazyLoad from 'react-lazyload';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
+import { HeaderMenu } from './HeaderMenu';
+import NFT from './Nft';
+import NFTGen2 from './NftGen2';
+import SignatureNFT from './SignatureNft';
 import { GreenhouseCoords } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
@@ -31,10 +35,6 @@ import DaturiansCafe from '../utils/artifacts/DaturiansCafe.json';
 import DaturiansGen2Abi from '../utils/artifacts/DaturiansGen2.json';
 import DaturiansGreenhouse from '../utils/artifacts/DaturiansGreenhouse.json';
 import Greenhouses from '../utils/artifacts/Greenhouses.json';
-import { HeaderMenu } from './HeaderMenu';
-import NFT from './Nft';
-import NFTGen2 from './NftGen2';
-import SignatureNFT from './SignatureNft';
 
 let scores = [{ score: 0, tokenId: 0, rank: 0 }];
 

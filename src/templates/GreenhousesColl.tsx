@@ -5,6 +5,9 @@ import { ethers } from 'ethers';
 import dynamic from 'next/dynamic';
 import LazyLoad from 'react-lazyload';
 
+import { HeaderMenu } from './HeaderMenu';
+import SignatureNFT from './SignatureNft';
+import SortFilter from './SortField';
 import { GreenhouseCoords } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
@@ -15,9 +18,6 @@ import {
 } from '../pages/api/nftApi';
 import { GreenhouseContractAddress, AppConfig } from '../utils/AppConfig';
 import Greenhouses from '../utils/artifacts/Greenhouses.json';
-import { HeaderMenu } from './HeaderMenu';
-import SignatureNFT from './SignatureNft';
-import SortFilter from './SortField';
 
 // import { match } from 'assert';
 // import e from 'express';

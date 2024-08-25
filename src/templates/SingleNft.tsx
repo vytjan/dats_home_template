@@ -5,13 +5,13 @@ import { ethers } from 'ethers';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import { HeaderMenu } from './HeaderMenu';
 import { GreenhouseCoords, SingleCoordinates } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { getAllMeta, getMetadataById } from '../pages/api/nftApi';
 import { AppConfig, NftContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
-import { HeaderMenu } from './HeaderMenu';
 
 const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
   ssr: false,

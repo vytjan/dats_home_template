@@ -1,9 +1,9 @@
-import { store } from '../store';
 import {
   CHECK_DATA_REQUEST,
   CHECK_DATA_SUCCESS,
   CHECK_DATA_FAILED,
 } from './dataReducer';
+import { store } from '../store';
 
 const fetchDataRequest = () => {
   return {

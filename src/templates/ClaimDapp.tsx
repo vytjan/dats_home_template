@@ -7,23 +7,22 @@ import Popup from 'reactjs-popup';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
+import { HeaderMenu } from './HeaderMenu';
 import { useAppSelector } from '../hooks';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { connect } from '../redux/blockchain/blockchainActions';
-import { fetchData } from '../redux/data/dataActions';
 import { useAppDispatch } from '../redux/store';
 import {
   AppConfig,
   ClaimConfig,
   NftContractAddress,
   Gen2ContractAddress,
+  GreenhouseContractAddress,
 } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
 import DaturiansGen2Abi from '../utils/artifacts/DaturiansGen2.json';
-import { HeaderMenu } from './HeaderMenu';
-// import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
-// import WalletLink from 'walletlink';
+import Greenhouses from '../utils/artifacts/Greenhouses.json';
 
 const truncate = (input: any, len: any) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -58,10 +57,7 @@ const ClaimDapp = () => {
   const data = useAppSelector((state: any) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
   const [connectedState, setConnectedState] = useState(false);
-  const [feedback, setFeedback] = useState(`Claim your greenhouses here:`);
-  // const [address, setAddress] = useState('');
-  // const [accountsFetched, setAccountsFetched] = useState(false);
-  const [mintAmount, setMintAmount] = useState(1);
+  const [feedback, setFeedback] = useState(``);
   const [isHovering, setIsHovered] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [nfts, setNfts] = useState<{
@@ -77,8 +73,16 @@ const ClaimDapp = () => {
 
   const [selectedNfts, setSelectedNfts] = useState<number[]>([]);
   const [selectedGen2Nfts, setSelectedGen2Nfts] = useState<number[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState('');
+  const [listOfTokenIds, setListOfTokenIds] = useState<number[]>([]);
+  const [loadingState, setLoadingState] = useState(true);
 
   const handleSelectNft = (item: number) => {
+    if (selectedGen2Nfts.length > 0) {
+      // eslint-disable-next-line no-alert
+      alert('You cannot select Gen1 NFTs when Gen2 NFTs are already selected.');
+      return;
+    }
     if (selectedNfts.length + selectedGen2Nfts.length < 10) {
       setNfts((prevState) => ({
         nftData: prevState.nftData.filter((nft) => nft !== item),
@@ -98,6 +102,11 @@ const ClaimDapp = () => {
   };
 
   const handleSelect = (item: number) => {
+    if (selectedNfts.length > 0) {
+      // eslint-disable-next-line no-alert
+      alert('You cannot select Gen2 NFTs when Gen1 NFTs are already selected.');
+      return;
+    }
     if (selectedNfts.length + selectedGen2Nfts.length < 10) {
       setGen2Nfts((prevState) => ({
         nftData: prevState.nftData.filter((nft) => nft !== item),
@@ -126,7 +135,6 @@ const ClaimDapp = () => {
     const abi = DaturiansGen2Abi;
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider(
-      // 'https://polygon-rpc.com/'
       'https://polygon-mainnet.infura.io/v3/9c7953f2d4f54354b2538c0a40ed2539'
     );
     // const provider = new ethers.providers.JsonRpcProvider(node_url)
@@ -141,10 +149,6 @@ const ClaimDapp = () => {
       console.log(userTokensList2);
       const minted = await contract.totalSupply.call();
       const mintedNumber = minted.toNumber();
-      // const tempDataArray = Array.from(
-      //   { length: mintedNumber },
-      //   (_x, i) => i + 1
-      // );
       return [userTokensList2, mintedNumber];
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -153,41 +157,47 @@ const ClaimDapp = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const fetchAccounts = async () => {
-  //     let web3;
-  //     if (window.ethereum) {
-  //       web3 = new Web3(window.ethereum);
-  //     } else if (window.web3) {
-  //       web3 = new Web3(window.web3.currentProvider);
-  //     }
-
-  //     if (web3) {
-  //       try {
-  //         const addr = await web3.eth.getAccounts();
-  //         console.log(addr);
-  //         if (addr && addr.length > 0) {
-  //           setAddress(addr[0]!);
-  //           setAccountsFetched(true);
-  //         }
-  //       } catch (err: any) {
-  //         console.error('Error getting accounts:', err.message);
-  //       }
-  //     }
-  //   };
-
-  //   fetchAccounts();
-  // }, []);
-
   // const closeModalSuccess = () => setErrorMessage(false);
+  async function getMintedGreenhouses() {
+    const provider = new ethers.providers.JsonRpcProvider(
+      'https://polygon-mainnet.infura.io/v3/9c7953f2d4f54354b2538c0a40ed2539'
+    );
+    const contract = new ethers.Contract(
+      GreenhouseContractAddress,
+      Greenhouses,
+      provider
+    );
+    // here get the total number of metadata in the DB:
+    // get the IDs o minted NFTs:  // Assuming the contract is ERC-721 and emits a Transfer event for minting
+    const fromBlock = 58321322; // You might want to specify a more recent block to start from
+    const toBlock = 'latest';
+    const transferEventSignature = ethers.utils.id(
+      'Transfer(address,address,uint256)'
+    );
+    const mintEvents = await contract.queryFilter(
+      {
+        topics: [
+          transferEventSignature,
+          ethers.utils.hexZeroPad(ethers.constants.AddressZero, 32), // Filter for transfers from 0x0 (minting)
+        ],
+      },
+      fromBlock,
+      toBlock
+    );
+    console.log(mintEvents);
+    const mintedTokenIds = mintEvents.map((event) =>
+      event.args!.tokenId.toNumber()
+    );
+    console.log(mintedTokenIds);
+    return mintedTokenIds;
+  }
+
   async function loadNfts(userAddress: string) {
     console.log('!!!!!!!!!!1', userAddress);
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider(
-      // 'https://polygon-rpc.com/'
       'https://polygon-mainnet.infura.io/v3/9c7953f2d4f54354b2538c0a40ed2539'
     );
-    // const provider = new ethers.providers.JsonRpcProvider(node_url)
     const contract = new ethers.Contract(
       NftContractAddress,
       DaturiansNFT.abi,
@@ -214,42 +224,41 @@ const ClaimDapp = () => {
     }
   }
 
-  const getData = () => {
-    if (blockchain.account !== '' && blockchain.smartContract !== null) {
-      // eslint-disable-next-line no-console
-      console.log('account connected: ', blockchain.account);
-      // console.log(blockchain.smartContract);
-      dispatch(fetchData(blockchain.account));
-      // console.log(data);
-      // console.log(blockchain.g);
-    } else {
-      // eslint-disable-next-line no-console
-      // console.log('account not set');
-    }
-  };
-
   const connectToWallet = useCallback(async () => {
     // web3Modal.clearCachedProvider();
     web3Modal
       .connect()
       .then((connectedProvider) => {
-        // console.log(connectedProvider);
+        console.log(connectedProvider);
         dispatch(connect(connectedProvider));
-        getData();
-        setConnectedState(true);
-        // load my nfts
-        const promise = loadNfts(blockchain.account);
-        promise.then((nftData) => {
-          // console.log(data);
+        // Retrieve the account from connectedProvider
+        const account =
+          connectedProvider.selectedAddress || connectedProvider.accounts[0];
 
-          setNfts({ nftData: nftData[0] });
-          // load gen2 nfts
-          const promise1 = loadGen2Nfts(blockchain.account);
-          promise1.then((data1) => {
-            console.log(data1);
-
-            setGen2Nfts({ nftData: data1[0] });
-            setConnectedState(true);
+        const promise0 = getMintedGreenhouses();
+        promise0.then((mintedGh) => {
+          // load my nfts
+          const promise = loadNfts(account);
+          promise.then((nftData) => {
+            const filteredNftData = nftData[0].filter(
+              (nft: number) => !mintedGh.includes(nft)
+            );
+            setNfts({ nftData: filteredNftData });
+            // load gen2 nfts
+            const promise1 = loadGen2Nfts(account);
+            promise1.then((data1) => {
+              console.log(data1);
+              const adjustedMintedGh = mintedGh.map(
+                (nft: number) => nft - 4011
+              );
+              const filteredGen2NftData = data1[0].filter(
+                (nft: number) => !adjustedMintedGh.includes(nft)
+              );
+              setGen2Nfts({ nftData: filteredGen2NftData });
+              setConnectedState(true);
+              setLoadingState(false);
+              setFeedback('Claim your greenhouses here:');
+            });
           });
         });
       })
@@ -264,89 +273,12 @@ const ClaimDapp = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const connectToWallet = useCallback(async () => {
-  //   console.log('EXECUTING CONNECT TO WALLET');
-  //   const connection = await web3Modal.connect();
-  //   // console.log(connection);
-  //   const provider = new ethers.providers.Web3Provider(connection);
-  //   const signer = provider.getSigner();
-  //   const userAddress = await signer.getAddress();
-  //   setAddress(userAddress);
-  //   //       dispatch(connect(connectedProvider));
-
-  //   // load my nfts
-  //   const promise = loadNfts(userAddress);
-  //   promise.then((nftData) => {
-  //     // console.log(data);
-
-  //     setNfts({ nftData: nftData[0] });
-  //     // load gen2 nfts
-  //     const promise1 = loadGen2Nfts(userAddress);
-  //     promise1.then((data1) => {
-  //       console.log(data1);
-
-  //       setGen2Nfts({ nftData: data1[0] });
-  //       setConnectedState(true);
-  //     });
-  //   });
-  //   // setLoadingState(false);
-  // }, []);
-
-  // check if there is an address connected
-  // useEffect(() => {
-  //   const checkConnection = async () => {
-  //     // Check if browser is running Metamask
-  //     let web3;
-  //     if (window.ethereum) {
-  //       web3 = new Web3(window.ethereum);
-  //     } else if (window.web3) {
-  //       web3 = new Web3(window.web3.currentProvider);
-  //     }
-
-  //     if (web3) {
-  //       // Check if User is already connected by retrieving the accounts
-  //       web3.eth
-  //         .getAccounts()
-  //         .then(async (addr) => {
-  //           console.log(addr);
-  //           if (addr && addr.length > 0) {
-  //             if (addr[0]!.length > 0) {
-  //               setAddress(addr[0]!);
-  //               console.log('Address is: ', addr[0]!);
-  //               const promise = loadNfts(addr[0]!);
-  //               promise.then((nftData) => {
-  //                 console.log(nftData);
-
-  //                 setNfts({ nftData: nftData[0] });
-  //                 // load Gen2 nfts
-  //                 const promise1 = loadGen2Nfts(addr[0]!);
-  //                 promise1.then((data1) => {
-  //                   // console.log(data1);
-
-  //                   setGen2Nfts({ nftData: data1[0] });
-  //                   setConnectedState(true);
-  //                   // setLoadingState(false);
-  //                 });
-  //               });
-  //             }
-  //             // console.log(addr)
-  //           } else {
-  //             setAddress('');
-  //           }
-  //           // Set User account into state
-  //         })
-  //         .catch(async (err) => {
-  //           // eslint-disable-next-line no-console
-  //           console.log(err);
-  //           setFeedback('It seems you closed the WalletConnect pop-up.');
-  //           setIsHovered(false);
-  //           setConnectedState(false);
-  //           setClaimingNft(false);
-  //         });
-  //     }
-  //   };
-  //   checkConnection();
-  // }, []);
+  useEffect(() => {
+    console.log('listOfTokenIds updated:', listOfTokenIds);
+    console.log('selectedCollection updated:', selectedCollection);
+    console.log('selectedNfts updated:', selectedNfts);
+    console.log('selectedGen2Nfts updated:', selectedGen2Nfts);
+  }, [listOfTokenIds, selectedCollection, selectedNfts, selectedGen2Nfts]);
 
   useEffect(() => {
     if (
@@ -369,14 +301,32 @@ const ClaimDapp = () => {
   }, [blockchain, blockchain.errorMsg]);
 
   const claimNFTs = async () => {
-    // const cost = ClaimConfig.WEI_COST;
+    let currentSelectedNfts: React.SetStateAction<number[]> = [];
+    let currentSelectedCollection = '';
     const gasLimit = ClaimConfig.GAS_LIMIT;
-    // const totalCostWei = String(cost * mintAmount);
-    const totalGasLimit = String(gasLimit * mintAmount);
     const maxPriorityFee = String(ClaimConfig.MAX_PRIORITY_FEE);
 
-    setFeedback(`Minting ${ClaimConfig.NFT_NAME}...`);
+    // select the relevant collection
+    if (selectedNfts.length < 1 && selectedGen2Nfts.length < 1) {
+      setFeedback('Please select at least one NFT.');
+      return;
+    }
+    if (selectedNfts.length > 0) {
+      currentSelectedNfts = selectedNfts;
+      currentSelectedCollection = NftContractAddress;
+      setSelectedCollection(currentSelectedCollection);
+      setListOfTokenIds(currentSelectedNfts);
+    }
+    if (selectedGen2Nfts.length > 0) {
+      currentSelectedNfts = selectedGen2Nfts;
+      currentSelectedCollection = Gen2ContractAddress;
+      setSelectedCollection(currentSelectedCollection);
+      setListOfTokenIds(currentSelectedNfts);
+    }
+    setFeedback(`Claiming ${ClaimConfig.NFT_NAME}...`);
     setClaimingNft(true);
+
+    const totalGasLimit = String(gasLimit * setListOfTokenIds.length);
 
     const web3 = new Web3(
       new Web3.providers.HttpProvider(
@@ -385,17 +335,18 @@ const ClaimDapp = () => {
     );
 
     const gasPrice = await web3.eth.getGasPrice();
-    const newGasPrice = Math.round(Number(gasPrice) * 1.4);
+    const newGasPrice =
+      Math.round(Number(gasPrice) * 1.4) + ClaimConfig.MAX_PRIORITY_FEE;
+    console.log(listOfTokenIds);
+    console.log(selectedCollection);
     blockchain.smartContract.methods
-      .claim(mintAmount)
-      // .whitelistedMint(mintAmount)
+      .claim(currentSelectedNfts, currentSelectedCollection)
       .send({
         gas: String(totalGasLimit),
         maxPriorityFeePerGas: String(maxPriorityFee),
         maxFeePerGas: String(newGasPrice),
         to: ClaimConfig.CONTRACT_ADDRESS,
         from: blockchain.account,
-        // value: totalCostWei,
       })
       .once('error', (_err: any) => {
         setFeedback('Something went wrong, please try again.');
@@ -405,10 +356,13 @@ const ClaimDapp = () => {
         // eslint-disable-next-line no-console
         console.log(receipt);
         setFeedback(
-          `Congrats, the ${ClaimConfig.NFT_NAME} are yours! Visit the Gallery to explore their story.`
+          `Congrats, the ${ClaimConfig.NFT_NAME} are yours! Visit the Gallery to explore them.`
         );
+        setSelectedGen2Nfts([]);
+        setSelectedNfts([]);
+        setListOfTokenIds([]);
+        setSelectedCollection('');
         setClaimingNft(false);
-        dispatch(fetchData(blockchain.account));
       })
       .catch((e: any) => {
         // eslint-disable-next-line no-console
@@ -418,33 +372,14 @@ const ClaimDapp = () => {
       });
   };
 
-  const decrementMintAmount = () => {
-    let newMintAmount = mintAmount - 1;
-    if (newMintAmount < 1) {
-      newMintAmount = 1;
-    }
-    setMintAmount(newMintAmount);
-  };
-
-  const incrementMintAmount = () => {
-    let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 20) {
-      newMintAmount = 20;
-    }
-    setMintAmount(newMintAmount);
-  };
-
   useEffect(() => {
-    if (blockchain.account !== '' && blockchain.smartContract !== null) {
+    if (blockchain.account !== undefined && blockchain.smartContract !== null) {
       // eslint-disable-next-line no-console
       console.log('account connected: ', blockchain.account);
-      // console.log(blockchain.smartContract);
-      dispatch(fetchData(blockchain.account));
-      // console.log(data);
-      // console.log(blockchain.g);
+      console.log(blockchain.smartContract);
     } else {
       // eslint-disable-next-line no-console
-      // console.log('blockchain not set');
+      console.log('blockchain not set');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockchain.account]);
@@ -465,31 +400,48 @@ const ClaimDapp = () => {
         web3.eth
           .getAccounts()
           .then(async (addr) => {
-            // console.log(addr);
+            console.log(addr);
+            dispatch(connect(window.web3.currentProvider));
+            // const address = addr[0];
             if (addr && addr.length > 0) {
               if (addr[0]!.length > 0) {
-                const promise = loadNfts(addr[0]!);
-                promise.then((nftData) => {
-                  console.log(nftData);
+                const promise0 = getMintedGreenhouses();
+                promise0.then((mintedGh) => {
+                  console.log(mintedGh);
+                  // setMintedGreenhouses(mintedGh);
+                  // load my nfts
+                  const promise = loadNfts(addr[0]!);
+                  promise.then((nftData) => {
+                    // console.log(data);
 
-                  setNfts({ nftData: nftData[0] });
-                  // load Gen2 nfts
-                  const promise1 = loadGen2Nfts(addr[0]!);
-                  promise1.then((data1) => {
-                    // console.log(data1);
-
-                    setGen2Nfts({ nftData: data1[0] });
-                    setConnectedState(true);
-                    // setLoadingState(false);
+                    // setNfts({ nftData: nftData[0] });
+                    const filteredNftData = nftData[0].filter(
+                      (nft: number) => !mintedGh.includes(nft)
+                    );
+                    setNfts({ nftData: filteredNftData });
+                    // load gen2 nfts
+                    const promise1 = loadGen2Nfts(addr[0]!);
+                    promise1.then((data1) => {
+                      console.log(data1);
+                      const adjustedMintedGh = mintedGh.map(
+                        (nft: number) => nft - 4011
+                      );
+                      const filteredGen2NftData = data1[0].filter(
+                        (nft2: number) => !adjustedMintedGh.includes(nft2)
+                      );
+                      setGen2Nfts({ nftData: filteredGen2NftData });
+                      // getData();
+                      setLoadingState(false);
+                      setConnectedState(true);
+                      setFeedback('Claim your greenhouses here:');
+                    });
                   });
                 });
-                dispatch(connect(window.web3.currentProvider));
-                getData();
-                setConnectedState(true);
               }
-              // console.log(addr)
             } else {
-              // setAddress('');
+              setIsHovered(false);
+              setConnectedState(false);
+              console.log('no address');
             }
             // Set User account into state
           })
@@ -501,41 +453,14 @@ const ClaimDapp = () => {
             setConnectedState(false);
             setClaimingNft(false);
           });
+      } else {
+        setConnectedState(false);
       }
     };
     checkConnection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const connectToWallet = useCallback(async () => {
-  //   // web3Modal.clearCachedProvider();
-  //   web3Modal
-  //     .connect()
-  //     .then((connectedProvider) => {
-  //       // console.log(connectedProvider);
-  //       dispatch(connect(connectedProvider));
-  //       getData();
-  //       setConnectedState(true);
-  //     })
-  //     .catch((err: any) => {
-  //       // eslint-disable-next-line no-console
-  //       console.log(err);
-  //       setFeedback('It seems you closed the WalletConnect pop-up.');
-  //       setIsHovered(false);
-  //       setConnectedState(false);
-  //       setClaimingNft(false);
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // Auto connect to the cached provider
-  // useEffect(() => {
-  //   if (web3Modal.cachedProvider) {
-  //     connectToWallet();
-  //   }
-  // }, [connect]);
-
-  // console.log(web3Modal);
   return (
     <Section yPadding="py-2">
       <Meta
@@ -552,112 +477,102 @@ const ClaimDapp = () => {
           </div>
         </Popup>
         <div className="grid-cols-3 gap-5 max-auto px-3">
-          {/* <div className="flex flex-col pb-12 mint-container"> */}
-          <div className="justify-center">
-            <h3 className="text-title">{`Claim your ${ClaimConfig.NFT_NAME}`}</h3>
-            <h4>In one go, you select up to 10 in total:</h4>
-            <div className="col-span-3">
-              <p className="">
-                From Gen1 you can claim:
-                {nfts.nftData.map((nftData, index) => (
-                  <span
-                    key={index}
-                    onClick={() => handleSelectNft(nftData)}
-                    style={{ cursor: 'pointer', marginRight: '5px' }}
-                  >
-                    {nftData}
-                  </span>
-                ))}
-              </p>
-            </div>
-            <div className="col-span-3">
-              <p className="">
-                Selected Gen1 NFTs:
-                {selectedNfts.map((nftData, index) => (
-                  <span
-                    key={index}
-                    onClick={() => handleDeselectNft(nftData)}
-                    style={{ cursor: 'pointer', marginRight: '5px' }}
-                  >
-                    {nftData}
-                  </span>
-                ))}
-              </p>
-            </div>
-            <div className="col-span-3">
-              <p className="">
-                From Gen2 you can claim:
-                {gen2Nfts.nftData.map((nftData, index) => (
-                  <span
-                    key={index}
-                    onClick={() => handleSelect(nftData)}
-                    style={{ cursor: 'pointer', marginRight: '5px' }}
-                  >
-                    {nftData}
-                  </span>
-                ))}
-              </p>
-            </div>
-            <div className="col-span-3">
-              <p className="">
-                Selected Gen2 NFTs:
-                {selectedGen2Nfts.map((nftData, index) => (
-                  <span
-                    key={index}
-                    onClick={() => handleDeselect(nftData)}
-                    style={{ cursor: 'pointer', marginRight: '5px' }}
-                  >
-                    {nftData}
-                  </span>
-                ))}
-              </p>
-            </div>
-          </div>
-          <p className="mint-description flex justify-center">
-            <a
-              className="contract-address"
-              target="_blank"
-              href={ClaimConfig.SCAN_LINK}
-              rel="noreferrer"
-            >
-              Greenhouses contract address on PolygonScan:
-              <br />
-              {truncate(ClaimConfig.CONTRACT_ADDRESS, 42)}
-            </a>
-          </p>
-          <div>
-            <img
-              src={isHovering ? logImages[1] : logImages[0]}
-              alt="book"
-              className="pt-4"
-            />
-            <a href="">
-              {!connectedState ? (
-                <div className="flex justify-center mint-state">
-                  <button
-                    className="font-bold mt-4 bg-dark text-white rounded shadow-lg mint-button"
-                    onClick={(e) => {
-                      if (connectedState === false) {
-                        e.preventDefault();
-                        connectToWallet();
-                        setIsHovered(true);
-                      } else {
-                        e.preventDefault();
-                        // eslint-disable-next-line no-console
-                        console.log('already connected');
-                      }
-                    }}
-                  >
-                    {`Connect wallet`}
-                  </button>
+          {!connectedState ? (
+            <>
+              <img
+                src={isHovering ? logImages[1] : logImages[0]}
+                alt="book"
+                className="pt-4"
+              />
+              <div className="flex justify-center mint-state">
+                <button
+                  className="font-bold mt-4 bg-dark text-white rounded shadow-lg mint-button"
+                  onClick={(e) => {
+                    if (connectedState === false) {
+                      e.preventDefault();
+                      connectToWallet();
+                      setIsHovered(true);
+                    } else {
+                      e.preventDefault();
+                      // eslint-disable-next-line no-console
+                      console.log('already connected');
+                    }
+                  }}
+                >
+                  {`Connect wallet`}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              {loadingState ||
+              nfts.nftData.length > 0 ||
+              gen2Nfts.nftData.length > 0 ? (
+                <div className="justify-center">
+                  <h3 className="text-title">{`Claim your ${ClaimConfig.NFT_NAME}`}</h3>
+                  <h4>In one go, you select up to 10 in total:</h4>
+                  <div className="col-span-3">
+                    <p className="">
+                      From Gen1 you can claim:
+                      {nfts.nftData.map((nftData, index) => (
+                        <span
+                          key={index}
+                          onClick={() => handleSelectNft(nftData)}
+                          style={{ cursor: 'pointer', marginRight: '5px' }}
+                        >
+                          {nftData}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                  <div className="col-span-3">
+                    <p className="">
+                      Selected Gen1 NFTs:
+                      {selectedNfts.map((nftData, index) => (
+                        <span
+                          key={index}
+                          onClick={() => handleDeselectNft(nftData)}
+                          style={{ cursor: 'pointer', marginRight: '5px' }}
+                        >
+                          {nftData}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                  <div className="col-span-3">
+                    <p className="">
+                      From Gen2 you can claim:
+                      {gen2Nfts.nftData.map((nftData, index) => (
+                        <span
+                          key={index}
+                          onClick={() => handleSelect(nftData)}
+                          style={{ cursor: 'pointer', marginRight: '5px' }}
+                        >
+                          {nftData}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                  <div className="col-span-3">
+                    <p className="">
+                      Selected Gen2 NFTs:
+                      {selectedGen2Nfts.map((nftData, index) => (
+                        <span
+                          key={index}
+                          onClick={() => handleDeselect(nftData)}
+                          style={{ cursor: 'pointer', marginRight: '5px' }}
+                        >
+                          {nftData}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
                 </div>
               ) : (
-                <div className="flex justify-center dingles">
-                  <button></button>
-                </div>
+                <></>
               )}
-            </a>
-          </div>
+            </>
+          )}
           <div className="responsive-wrapper">
             <div>
               {Number(data.totalSupply) >= ClaimConfig.MAX_SUPPLY ? (
@@ -692,55 +607,59 @@ const ClaimDapp = () => {
                     <div className="justify-center">
                       <div className="flex justify-center">
                         <p className="mint-description">{feedback}</p>
-                        <div className="mint-numbers">
-                          <button
-                            className="btn btn-regular mint-styled-button-round"
-                            disabled={!!claimingNft}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              decrementMintAmount();
-                            }}
-                          >
-                            -
-                          </button>
-                          <p className="mint-description">{mintAmount}</p>
-                          <button
-                            className="btn btn-regular mint-styled-button-round"
-                            disabled={!!claimingNft}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              incrementMintAmount();
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
                       </div>
-                      <div className="main-mint-btn">
-                        <button
-                          className="btn btn-regular mint-styled-button"
-                          disabled={!!claimingNft}
-                          onClick={(e: any) => {
-                            e.preventDefault();
-                            claimNFTs();
-                            // getData();
-                          }}
-                        >
-                          {claimingNft ? 'MINTING' : 'MINT'}
-                        </button>
-                      </div>
+                      {!loadingState && connectedState ? (
+                        <>
+                          {gen2Nfts.nftData.length > 0 ||
+                          nfts.nftData.length > 0 ? (
+                            <>
+                              <div className="main-mint-btn">
+                                <button
+                                  className="btn btn-regular mint-styled-button"
+                                  disabled={!!claimingNft}
+                                  onClick={(e: any) => {
+                                    e.preventDefault();
+                                    claimNFTs();
+                                  }}
+                                >
+                                  {claimingNft ? 'CLAIMING' : 'CLAIM'}
+                                </button>
+                              </div>
+                              <div className="flex justify-center">
+                                <p className="disclaimer">
+                                  {`We recommend that you don't lower the gas limit. If you do, go for automatic 'high' option on MetaMask.`}
+                                </p>
+                              </div>
+                              <p className="mint-description flex justify-center">
+                                <a
+                                  className="contract-address"
+                                  target="_blank"
+                                  href={ClaimConfig.SCAN_LINK}
+                                  rel="noreferrer"
+                                >
+                                  Greenhouses contract address on PolygonScan:
+                                  <br />
+                                  {truncate(ClaimConfig.CONTRACT_ADDRESS, 42)}
+                                </a>
+                              </p>
+                            </>
+                          ) : (
+                            <div className="flex justify-center">
+                              <p className="mint-description">
+                                {`You do not have any ${ClaimConfig.NFT_NAME} to claim :( `}
+                              </p>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   )}
                 </>
               )}
             </div>
           </div>
-          <div className="flex justify-center">
-            <p className="disclaimer">
-              {`We recommend that you don't lower the gas limit. If you do, go for automatic 'high' option on MetaMask.`}
-            </p>
-          </div>
-          {/* </div> */}
         </div>
       </div>
     </Section>

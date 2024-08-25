@@ -6,6 +6,7 @@ import Popup from 'reactjs-popup';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
+import { HeaderMenu } from './HeaderMenu';
 import { useAppSelector } from '../hooks';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
@@ -13,7 +14,6 @@ import { connect } from '../redux/blockchain/blockchainActions';
 import { fetchData } from '../redux/data/dataActions';
 import { useAppDispatch } from '../redux/store';
 import { AppConfig, MintConfig } from '../utils/AppConfig';
-import { HeaderMenu } from './HeaderMenu';
 // import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 // import WalletLink from 'walletlink';
 

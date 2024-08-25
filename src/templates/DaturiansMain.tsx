@@ -4,14 +4,14 @@ import { ethers } from 'ethers';
 // import { Dropdown } from 'flowbite-react';
 import LazyLoad from 'react-lazyload';
 
+import { HeaderMenu } from './HeaderMenu';
+import NFT from './Nft';
+import SortFilter from './SortField';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { getFilteredMeta } from '../pages/api/filterApi';
 import { AppConfig, NftContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/Daturians.json';
-import { HeaderMenu } from './HeaderMenu';
-import NFT from './Nft';
-import SortFilter from './SortField';
 
 type MetadataItems = {
   tokenId: number;

@@ -1,16 +1,23 @@
 // constants
 import Router from 'next/router';
+// import { useRouter } from 'next/router';
 import Web3 from 'web3';
 
+// import type {Contract} from 'web3-eth-contract';
+// Import the AbiItem and AbiFragment types from the 'web3-utils' module
+
+// import Abi from '../config/Greenhouses.json';
 // log
-import { MintConfig } from '../../utils/AppConfig';
-import { fetchData } from '../data/dataActions';
 import {
   CONNECTION_REQUEST,
   CONNECTION_SUCCESS,
   CONNECTION_FAILED,
   UPDATE_ACCOUNT,
 } from './blockchainReducer';
+import { ClaimConfig } from '../../utils/AppConfig';
+import { MyAbi } from '../config/GreenhousesABI';
+
+// const abi: AbiItem[] = Abi.abi as unknown as AbiItem[];
 
 const connectRequest = () => {
   return {
@@ -42,7 +49,7 @@ const updateAccountRequest = (payload: any) => {
 export const updateAccount = (account: any) => {
   return async (dispatch: any) => {
     dispatch(updateAccountRequest({ account }));
-    dispatch(fetchData(account));
+    // dispatch(fetchData(account));
     // console.log(dispatch(fetchData(account)));
     // dispatch(fetchData());
   };
@@ -50,16 +57,20 @@ export const updateAccount = (account: any) => {
 
 export const connect = (connectedProvider: any) => {
   const router = Router;
-  // console.log(router.basePath);
+  console.log(router.basePath);
   return async (dispatch: any) => {
     dispatch(connectRequest());
-    const abiResponse = await fetch(`${router.basePath}/config/abi.json`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
-    const abi = await abiResponse.json();
+    // const abiResponse = await fetch(
+    //   `${router.basePath}/src/utils/artifacts/Greenhouses.json`,
+    //   {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Accept: 'application/json',
+    //     },
+    //   }
+    // );
+    // const abi = await abiResponse.json();
+    // const abi = Greenhouses;
     // const configResponse = await fetch('./config/config.json', {
     //   headers: {
     //     'Content-Type': 'application/json',
@@ -67,9 +78,9 @@ export const connect = (connectedProvider: any) => {
     //   },
     // });
     // const CONFIG = await configResponse.json();
-    const CONFIG = MintConfig;
+    const CONFIG = ClaimConfig;
     // console.log('got config');
-    // console.log(CONFIG);
+    console.log(CONFIG);
     // const web3Contract = new Contract(abi, CONFIG.CONTRACT_ADDRESS, undefined);
 
     // web3Contract.setProvider(connectedProvider);
@@ -87,7 +98,8 @@ export const connect = (connectedProvider: any) => {
 
       if (networkId === CONFIG.NETWORK.ID) {
         const SmartContractObj = new web3.eth.Contract(
-          abi,
+          // @ts-ignore: Type error on line 101
+          MyAbi,
           CONFIG.CONTRACT_ADDRESS,
           undefined
         );
