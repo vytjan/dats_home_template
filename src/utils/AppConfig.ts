@@ -77,3 +77,24 @@ export const MintConfig = {
   MARKETPLACE_LINK: 'https://opensea.io/collection/daturiansnft',
   SHOW_BACKGROUND: true,
 };
+
+export const ClaimConfig = {
+  CONTRACT_ADDRESS: '0xf0E17EA18bD72C036E86d8f8b3A251bb61aA908E',
+  SCAN_LINK:
+    'https://polygonscan.com/address/0xf0E17EA18bD72C036E86d8f8b3A251bb61aA908E',
+  NETWORK: {
+    NAME: 'Polygon',
+    SYMBOL: 'Matic',
+    ID: 137,
+  },
+  NFT_NAME: 'Greenhouses',
+  SYMBOL: 'GH',
+  MAX_SUPPLY: 8020,
+  GAS_PRICE: 10000000,
+  GAS_LIMIT: 3000000,
+  MAX_PRIORITY_FEE: 55000000000,
+  MAX_FEE_PER_GAS: 600000000000,
+  MARKETPLACE: 'Opensea',
+  MARKETPLACE_LINK: 'https://opensea.io/collection/greenhouses-1',
+  SHOW_BACKGROUND: true,
+};

@@ -78,19 +78,19 @@ const HeaderMenu = () => {
             </Menu.Item>
             <Menu.Item>
               <li className="">
-                {/* <Link href="/mint"> */}
-                <a href="" className="inactive-link">
-                  <div className="hover column">
-                    <div>
-                      <figure>
-                        <Button regular={false} hero={true}>
-                          Claim
-                        </Button>
-                      </figure>
+                <Link href="/claim">
+                  <a href="">
+                    <div className="hover column">
+                      <div>
+                        <figure>
+                          <Button regular={false} hero={true}>
+                            Claim
+                          </Button>
+                        </figure>
+                      </div>
                     </div>
-                  </div>
-                </a>
-                {/* </Link> */}
+                  </a>
+                </Link>
               </li>
             </Menu.Item>
             <Menu.Item>
@@ -161,22 +161,22 @@ const HeaderMenu = () => {
               {/* </Link> */}
             </li>
             <li className="body-li">
-              {/* <Link href="/mint"> */}
-              <a href="" className="inactive-link">
-                <div className="navigation-bar">
-                  <div>
-                    <div className="btn btn-hero merch">
-                      <img
-                        className="nav-icon"
-                        src={`${router.basePath}/assets/images/icons/mint.svg`}
-                        alt="shop"
-                      />
-                      <div>Claim</div>
+              <Link href="/claim">
+                <a href="">
+                  <div className="navigation-bar">
+                    <div>
+                      <div className="btn btn-hero">
+                        <img
+                          className="nav-icon"
+                          src={`${router.basePath}/assets/images/icons/mint.svg`}
+                          alt="shop"
+                        />
+                        <div>Claim</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </a>
-              {/* </Link> */}
+                </a>
+              </Link>
             </li>
             <li className="body-li">
               <Link href="/gallery">
