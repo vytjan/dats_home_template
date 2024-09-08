@@ -365,7 +365,6 @@ button:disabled .btn-road-percent-ongoing {
 }
 .btn-hero:hover {
   color: #4147D5;
-  box-shadow: 2px 2px 8px #4147D5;
   -webkit-transition: .3s ease-in-out;
   transition: .3s ease-in-out;
 }
@@ -630,10 +629,18 @@ button:disabled .btn-road-percent-ongoing {
 .attributes-filter {
   margin-top: 20px;
 }
-
+.daturian {
+  height: 100%;
+}
 @media only screen and (max-width: 1023px) {
   div[id^='headlessui-menu-items-'] .btn-hero {
     font-size: 20px !important;
+  }
+  .daturian {
+    height: auto;
+  }
+  .family-crest {
+    height: auto;
   }
   .single-nft-logo {
     display: none;
@@ -824,6 +831,12 @@ button:disabled .btn-road-percent-ongoing {
       display: block;
       max-width: 450px;
       margin: auto;
+    }
+    .footer-art img {
+      height: 500px !important;
+    }
+    .some-icons {
+      visibility: hidden;
     }
     .team-member-description {
       display: none;
@@ -1438,6 +1451,7 @@ div. responsive-wrapper @media (min-width: 767px) {
 
 .family-crest {
   height: 100%;
+  width: auto;
   overflow: hidden;
   border-radius: 1rem;
 }
@@ -1557,10 +1571,6 @@ div. responsive-wrapper @media (min-width: 767px) {
 .chakra-button {
 	background-color: #F9F9F9 !important;
 	color: #000072 !important;
-}
-
-.daturian {
-	height: 100%;
 }
 
 .content-gallery {

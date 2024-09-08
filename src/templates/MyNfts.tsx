@@ -910,7 +910,7 @@ const MyNFTs = () => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 pb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 pb-4">
                 {greenhousesCoords.length < 1 ||
                 loadingState ||
                 gen2Nfts.nftData.length < 1 ||
@@ -933,8 +933,8 @@ const MyNFTs = () => {
                 ) : (
                   <>
                     {/* role image */}
-                    <div className="bg-primary-100 rounded-xl grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 pt-4 mt-4">
-                      <div className="rounded-xl overflow-hidden">
+                    <div className="bg-primary-100 rounded-xl grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 mt-4">
+                      <div className="overflow-hidden">
                         <img
                           className="object-cover content-center"
                           src={`${router.basePath + role.image}`}
@@ -1038,7 +1038,7 @@ const MyNFTs = () => {
                 <></>
               ) : (
                 <>
-                  <h1 className="text-3xl text-left">Gen2 Daturians</h1>
+                  <h1 className="text-3xl py-5 text-left">Gen2 Daturians</h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {gen2Nfts.nftData.map((nft, index) => (
                       <div className="widget-wrapper" key={index}>
@@ -1058,7 +1058,7 @@ const MyNFTs = () => {
                 <></>
               ) : (
                 <>
-                  <h1 className="text-3xl text-left">Gen1 Daturians</h1>
+                  <h1 className="text-3xl py-5 text-left">Gen1 Daturians</h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {nfts.nftData.map((nft, index) => (
                       <div className="widget-wrapper" key={index}>
@@ -1081,7 +1081,9 @@ const MyNFTs = () => {
                 <></>
               ) : (
                 <>
-                  <h1 className="text-3xl text-left">Signature Daturians</h1>
+                  <h1 className="text-3xl py-5 text-left">
+                    Signature Daturians
+                  </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {signatureNfts.nftData.map((nft, index) => (
                       <div className="widget-wrapper" key={index}>
@@ -1103,7 +1105,7 @@ const MyNFTs = () => {
                 <></>
               ) : (
                 <>
-                  <h1 className="text-3xl text-left">Collab pieces</h1>
+                  <h1 className="text-3xl py-5 text-left">Collab pieces</h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {cafeNfts.nftData.map((nft, index) => (
                       <div className="widget-wrapper" key={index}>
@@ -1125,7 +1127,9 @@ const MyNFTs = () => {
                 <></>
               ) : (
                 <>
-                  <h1 className="text-3xl text-left">Ukrainian Daturians</h1>
+                  <h1 className="text-3xl py-5 text-left">
+                    Ukrainian Daturians
+                  </h1>
                   <div className="grid col-span-5 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {uaNfts.nftData.map((nft, index) => (
                       <div className="widget-wrapper" key={index}>

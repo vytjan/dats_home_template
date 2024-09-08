@@ -833,7 +833,7 @@ const SingleGen2Nft = () => {
             )}
             <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
-                <h1>Gen2 collection on Magic Eden:</h1>
+                <h1>Magic Eden:</h1>
                 <a href={`${AppConfig.gen2MeUrl}/`}>
                   <img
                     className="me-icon"
