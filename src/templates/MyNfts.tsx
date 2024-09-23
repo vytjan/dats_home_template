@@ -173,6 +173,7 @@ const MyNFTs = () => {
   const [address, setAddress] = useState('');
   const [accountsFetched, setAccountsFetched] = useState(false);
   const [loadingState, setLoadingState] = useState(true);
+  const [loadingStateGreenhouses, setLoadingStateGreenhouses] = useState(true);
   const [rank, setRank] = useState(0);
   const [role, setRole] = useState({ name: '', image: '' });
   const [count, setCount] = useState(0);
@@ -672,6 +673,7 @@ const MyNFTs = () => {
                                 myTokenData.includes(item.tokenId)
                             );
                             setCoords(filteredData);
+                            setLoadingStateGreenhouses(false);
                           })
                           .catch((err) => {
                             console.error(
@@ -719,6 +721,7 @@ const MyNFTs = () => {
                                 myTokenData.includes(item.tokenId)
                             );
                             setCoords(filteredData);
+                            setLoadingStateGreenhouses(false);
                           })
                           .catch((err) => {
                             console.error(
@@ -911,10 +914,7 @@ const MyNFTs = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 pb-4">
-                {greenhousesCoords.length < 1 ||
-                loadingState ||
-                gen2Nfts.nftData.length < 1 ||
-                nfts.nftData.length < 1 ? (
+                {loadingStateGreenhouses ? (
                   <h1 className="px-20 py-10 text-2l font-semibold text-center">
                     Loading...
                   </h1>
