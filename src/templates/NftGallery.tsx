@@ -84,9 +84,9 @@ const NftGallery = () => {
               </a>
             </Link>
           </div>
-          <div className="bg-primary-100 rounded-xl col-span-2 lg:col-span-1">
+          {/* <div className="bg-primary-100 rounded-xl col-span-2 lg:col-span-1">
             <Link href="/gallery/greenhouses">
-              {/* <Link href="/" className="inactive-link"> */}
+               <Link href="/" className="inactive-link"> 
               <a href="">
                 <div className="hover column">
                   <div className="collections">
@@ -106,7 +106,7 @@ const NftGallery = () => {
                 </div>
               </a>
             </Link>
-          </div>
+          </div> */}
           <div className="bg-primary-100 rounded-xl col-span-2 lg:col-span-1">
             <Link href="/gallery/signatures">
               <a>

@@ -817,7 +817,9 @@ const SingleNft = () => {
               </div>
             </div>
 
-            {greenhousesCoords.length < 1 ? (
+            {greenhousesCoords.length < 1 &&
+            (!currentGreenhouseCoords ||
+              currentGreenhouseCoords.tokenId.length < 1) ? (
               <h1 className="px-20 py-10 text-2l font-semibold text-center">
                 Loading...
               </h1>

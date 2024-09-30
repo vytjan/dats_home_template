@@ -532,17 +532,23 @@ const MyNFTs = () => {
         provider
       );
       // Get the number of NFTs owned by the user
-      const balance = await nftContract.balanceOf(address);
-      const balanceNumber = balance.toNumber();
+      const tokenIds = await nftContract.tokensOfOwner(address);
+      // const balance = await nftContract.balanceOf(address);
+      // const balanceNumber = balance.toNumber();
+      // console.log('balance is:');
+      // console.log(balanceNumber);
 
-      // Create an array of promises for getting each NFT's token ID
-      const tokenIdPromises = Array.from({ length: balanceNumber }, (_, i) =>
-        nftContract.tokenOfOwnerByIndex(address, i)
+      // // Create an array of promises for getting each NFT's token ID
+      // const tokenIdPromises = Array.from({ length: balanceNumber }, (_, i) =>
+      //   nftContract.tokenOfOwnerByIndex(address, i)
+      // );
+
+      // // Resolve all promises to get token IDs
+      // const tokenIds = await Promise.all(tokenIdPromises);
+      const tokenIdsNumbers = tokenIds.map((tokenId: BigNumber) =>
+        tokenId.toNumber()
       );
-
-      // Resolve all promises to get token IDs
-      const tokenIds = await Promise.all(tokenIdPromises);
-      const tokenIdsNumbers = tokenIds.map((tokenId) => tokenId.toNumber());
+      // console.log('token id numbers are:');
       console.log(tokenIdsNumbers);
       return tokenIdsNumbers;
     }
@@ -570,30 +576,29 @@ const MyNFTs = () => {
       );
       // get minted greenhouses number
       try {
-        const minted = await contract.totalSupply.call();
-        console.log(minted.toNumber());
+        const minted = await contract.tokensOfOwner(address);
+        // const minted = await contract.totalSupply.call();
+        console.log(minted);
 
         // here get the total number of metadata in the DB:
         // get the IDs o minted NFTs:  // Assuming the contract is ERC-721 and emits a Transfer event for minting
-        const fromBlock = 58321322; // You might want to specify a more recent block to start from
-        const toBlock = 'latest';
-        const transferEventSignature = ethers.utils.id(
-          'Transfer(address,address,uint256)'
-        );
-        const mintEvents = await contract.queryFilter(
-          {
-            topics: [
-              transferEventSignature,
-              ethers.utils.hexZeroPad(ethers.constants.AddressZero, 32), // Filter for transfers from 0x0 (minting)
-            ],
-          },
-          fromBlock,
-          toBlock
-        );
-        console.log(mintEvents);
-        const mintedTokenIds = mintEvents.map((event) =>
-          event.args!.tokenId.toNumber()
-        );
+        // const fromBlock = 58321322; // You might want to specify a more recent block to start from
+        // const toBlock = 'latest';
+        // const transferEventSignature = ethers.utils.id(
+        //   'Transfer(address,address,uint256)'
+        // );
+        // const mintEvents = await contract.queryFilter(
+        //   {
+        //     topics: [
+        //       transferEventSignature,
+        //       ethers.utils.hexZeroPad(ethers.constants.AddressZero, 32), // Filter for transfers from 0x0 (minting)
+        //     ],
+        //   },
+        //   fromBlock,
+        //   toBlock
+        // );
+        // console.log(mintEvents);
+        const mintedTokenIds = minted.map((event: any) => event.toNumber());
         console.log(mintedTokenIds);
 
         const ipfsUrl =
@@ -697,10 +702,10 @@ const MyNFTs = () => {
                     // Step 2: Filter data to find tokenIds not in currentGhMetadataTokenIds
                     const tokenIdsNotInCurrentGhMetadata = data
                       .filter(
-                        (item) =>
+                        (item: { tokenId: any }) =>
                           !currentGhMetadataTokenIds.includes(item.tokenId)
                       )
-                      .map((item) => item.tokenId); // Extracting just the tokenId for the final result
+                      .map((item: { tokenId: any }) => item.tokenId); // Extracting just the tokenId for the final result
                     console.log(tokenIdsNotInCurrentGhMetadata);
                     const promise44 = updateGreenhousesAndSetTotalNfts(
                       tokenIdsNotInCurrentGhMetadata
@@ -914,7 +919,7 @@ const MyNFTs = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 pb-4">
-                {loadingStateGreenhouses ? (
+                {loadingStateGreenhouses || loadingState ? (
                   <h1 className="px-20 py-10 text-2l font-semibold text-center">
                     Loading...
                   </h1>

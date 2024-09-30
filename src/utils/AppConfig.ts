@@ -53,7 +53,7 @@ export const CafeContractAddress = '0xd8D3F17dbB0adCA18586603aD7dc36a36f6116b0';
 export const Gen2ContractAddress = '0x64526de598200d3c48e752377057adbc74ec9492';
 
 export const GreenhouseContractAddress =
-  '0xf0E17EA18bD72C036E86d8f8b3A251bb61aA908E';
+  '0x7a1CB5d49aa5F83ba30b9AE56A4944A4E5Cf89E6';
 
 export const MintConfig = {
   CONTRACT_ADDRESS: '0x1AC9c10A6164FDBc64107a1eE50D8270cE569e8e',
@@ -79,9 +79,9 @@ export const MintConfig = {
 };
 
 export const ClaimConfig = {
-  CONTRACT_ADDRESS: '0xf0E17EA18bD72C036E86d8f8b3A251bb61aA908E',
+  CONTRACT_ADDRESS: '0x7a1CB5d49aa5F83ba30b9AE56A4944A4E5Cf89E6',
   SCAN_LINK:
-    'https://polygonscan.com/address/0xf0E17EA18bD72C036E86d8f8b3A251bb61aA908E',
+    'https://polygonscan.com/address/0xf0E170x7a1CB5d49aa5F83ba30b9AE56A4944A4E5Cf89E6',
   NETWORK: {
     NAME: 'Polygon',
     SYMBOL: 'Matic',
