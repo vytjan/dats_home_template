@@ -920,11 +920,9 @@ const MyNFTs = () => {
             <>
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 pb-4">
                 {loadingStateGreenhouses || loadingState ? (
-                  <h1 className="px-20 py-10 text-2l font-semibold text-center">
-                    Loading...
-                  </h1>
+                  <h1 className="px-20 py-10 text-2l font-semibold text-center"></h1>
                 ) : (
-                  <div className=" content-gallery rounded-xl overflow-hidden col-span-1 sm:col-span-1 lg:col-span-3 xl:col-span-3 datura-map">
+                  <div className=" content-gallery rounded-xl overflow-hidden col-span-2 sm:col-span-2 lg:col-span-3 xl:col-span-3 datura-map">
                     <DaturaMapContainer
                       greenhouses={greenhousesCoords}
                       currentGreenhouse={null}

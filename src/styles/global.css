@@ -639,9 +639,6 @@ button:disabled .btn-road-percent-ongoing {
   .daturian {
     height: auto;
   }
-  .family-crest {
-    height: auto;
-  }
   .single-nft-logo {
     display: none;
   }
@@ -1667,4 +1664,7 @@ div .single-nft-placeholder {
 }
 .object-cover {
   align-self: flex-start;
+}
+.full-height {
+  height: 100%;
 }

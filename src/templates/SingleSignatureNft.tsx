@@ -221,8 +221,8 @@ const SingleSignatureNft = () => {
             </div>
 
             {/* image */}
-            <div className="grid grid-cols-1 grid-cols-1 gap-4">
-              <div className="rounded-xl overflow-hidden">
+            <div className="col-span-3 gap-4 lg:col-span-1">
+              <div className="rounded-xl overflow-hidden full-height">
                 <img
                   className="object-cover rounded-xl content-center daturian "
                   src={meta.image}
@@ -230,8 +230,8 @@ const SingleSignatureNft = () => {
                 />
               </div>
             </div>
-            <div className="col-span-2">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+            <div className="col-span-3 lg:col-span-2">
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-2 lg:col-span-2 xl:grid-cols-3 gap-4">
                 {/* family */}
                 <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden col-span-3">
                   <div className="grid grid-cols-2 gap-4">

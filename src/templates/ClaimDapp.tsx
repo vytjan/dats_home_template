@@ -565,7 +565,9 @@ const ClaimDapp = () => {
                     </>
                   ) : (
                     <>
-                      <h4>{`It looks like you don't have any gen1 Daturians`}</h4>
+                      <div className="px-20 pb-10 col-span-3 gap-4 p-4">
+                        <h4>{`It looks like you don't have any gen1 Daturians`}</h4>
+                      </div>
                     </>
                   )}
                   <div className="justify-center">
@@ -619,7 +621,9 @@ const ClaimDapp = () => {
                       </>
                     ) : (
                       <>
-                        <h4>{`It looks like you don't have any gen2 Daturians`}</h4>
+                        <div className="px-20 pb-10 col-span-3 gap-4 p-4">
+                          <h3>{`It looks like you don't have any Gen2 Daturians`}</h3>
+                        </div>
                       </>
                     )}
                   </div>
