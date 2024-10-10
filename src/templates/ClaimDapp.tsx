@@ -510,36 +510,40 @@ const ClaimDapp = () => {
                   {nfts.nftData.length > 0 || selectedNfts.length > 0 ? (
                     <>
                       <h1 className="px-20 pt-10 text-2l font-semibold text-center">{`Claim your ${ClaimConfig.NFT_NAME}`}</h1>
-                      <h3 className="px-40 pb-10 text-2l text-center">
+                      <h3 className="px-20 pb-10 text-2l text-center">
                         {`Click on ID numbers of the Daturians you own. You can
                          select up to 10 NFTs at a time. In case you hold
                         repeat the process.`}
                       </h3>
-                      <div className="px-20 pb-5 col-span-3 gap-4 p-2">
-                        <p className="">
+                      <div className="px-20 pb-5 sm:flex flex-col col-span-3 gap-4 p-2">
+                        <p className="text-center">
                           From Gen1 you can claim:
                           <br />
-                          {nfts.nftData.map((nftData, index) => (
-                            <span
-                              key={index}
-                              onClick={() => handleSelectNft(nftData)}
-                              style={{
-                                cursor: 'cell',
-                                marginRight: '10px',
-                                borderRadius: '10px',
-                                paddingRight: '5px',
-                                paddingTop: '5px',
-                                paddingBottom: '5px',
-                                backgroundColor: '#D8DFFC',
-                              }}
-                            >
-                              {nftData}
-                            </span>
-                          ))}
+                          <div className="flex flex-wrap justify-center mt-2">
+                            {nfts.nftData.map((nftData, index) => (
+                              <span
+                                key={index}
+                                onClick={() => handleSelectNft(nftData)}
+                                style={{
+                                  cursor: 'cell',
+                                  margin: '5px',
+                                  borderRadius: '10px',
+                                  paddingRight: '10px',
+                                  paddingLeft: '10px',
+                                  paddingTop: '5px',
+                                  paddingBottom: '5px',
+                                  backgroundColor: '#D8DFFC',
+                                  textAlign: 'center',
+                                }}
+                              >
+                                {nftData}
+                              </span>
+                            ))}
+                          </div>
                         </p>
                       </div>
-                      <div className="px-20 pb-5 col-span-3 gap-4 p-4">
-                        <p className="">
+                      <div className="px-20 pb-5 col-span-3 gap-4 p-4 flex flex-wrap justify-center">
+                        <p className="text-center">
                           Selected Gen1 NFTs:
                           <br />
                           {selectedNfts.map((nftData, index) => (
@@ -548,15 +552,13 @@ const ClaimDapp = () => {
                               onClick={() => handleDeselectNft(nftData)}
                               style={{
                                 cursor: 'cell',
-                                marginRight: '10px',
+                                margin: '10px',
                                 borderRadius: '10px',
-                                paddingRight: '5px',
-                                paddingTop: '5px',
-                                paddingBottom: '5px',
+                                padding: '5px',
                                 backgroundColor: '#AAFC0D',
+                                display: 'inline-block',
                               }}
                             >
-                              {' '}
                               {nftData}
                             </span>
                           ))}
@@ -565,7 +567,7 @@ const ClaimDapp = () => {
                     </>
                   ) : (
                     <>
-                      <div className="px-20 pb-10 col-span-3 gap-4 p-4">
+                      <div className="px-20 pb-10 col-span-3 gap-4 p-4 text-center">
                         <h4>{`It looks like you don't have any gen1 Daturians`}</h4>
                       </div>
                     </>
@@ -574,8 +576,8 @@ const ClaimDapp = () => {
                     {gen2Nfts.nftData.length > 0 ||
                     selectedGen2Nfts.length > 0 ? (
                       <>
-                        <div className="col-span-3">
-                          <p className="">
+                        <div className="col-span-3 flex flex-wrap justify-center">
+                          <p className="text-center">
                             From Gen2 you can claim:
                             {gen2Nfts.nftData.map((nftData, index) => (
                               <span
@@ -583,12 +585,11 @@ const ClaimDapp = () => {
                                 onClick={() => handleSelect(nftData)}
                                 style={{
                                   cursor: 'cell',
-                                  marginRight: '10px',
+                                  margin: '10px',
                                   borderRadius: '10px',
-                                  paddingRight: '5px',
-                                  paddingTop: '5px',
-                                  paddingBottom: '5px',
+                                  padding: '5px',
                                   backgroundColor: '#D8DFFC',
+                                  display: 'inline-block',
                                 }}
                               >
                                 {nftData}
@@ -596,8 +597,8 @@ const ClaimDapp = () => {
                             ))}
                           </p>
                         </div>
-                        <div className="px-20 pb-10 col-span-3 gap-4 p-4">
-                          <p className="">
+                        <div className="px-20 pb-10 col-span-3 flex flex-wrap justify-center p-4">
+                          <p className="text-center">
                             Selected Gen2 NFTs:
                             {selectedGen2Nfts.map((nftData, index) => (
                               <span
@@ -605,12 +606,11 @@ const ClaimDapp = () => {
                                 onClick={() => handleDeselect(nftData)}
                                 style={{
                                   cursor: 'cell',
-                                  marginRight: '10px',
+                                  margin: '10px',
                                   borderRadius: '10px',
-                                  paddingRight: '5px',
-                                  paddingTop: '5px',
-                                  paddingBottom: '5px',
+                                  padding: '5px',
                                   backgroundColor: '#AAFC0D',
+                                  display: 'inline-block',
                                 }}
                               >
                                 {nftData}
@@ -621,7 +621,7 @@ const ClaimDapp = () => {
                       </>
                     ) : (
                       <>
-                        <div className="px-20 pb-10 col-span-3 gap-4 p-4">
+                        <div className="px-20 pb-10 col-span-3 gap-4 p-4 text-center">
                           <h3>{`It looks like you don't have any Gen2 Daturians`}</h3>
                         </div>
                       </>
