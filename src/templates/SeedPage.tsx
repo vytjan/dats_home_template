@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 import Popup from 'reactjs-popup';
 
-import { Meta } from '../layout/Meta';
-import { Section } from '../layout/Section';
-import { AppConfig } from '../utils/AppConfig';
 import { HeaderMenu } from './HeaderMenu';
 import MyWallet from './MyWallet';
 import SubmissionGallery from './SubmissionGallery';
+import { Meta } from '../layout/Meta';
+import { Section } from '../layout/Section';
+import { AppConfig } from '../utils/AppConfig';
 
 // const popMessages = [
 //   'Something went wrong with the upload, please try again.',

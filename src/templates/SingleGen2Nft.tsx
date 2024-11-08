@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import { HeaderMenu } from './HeaderMenu';
+import { GreenhouseCoords, SingleCoordinates } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
-import { getMetadataById } from '../pages/api/nftApi';
+import { getAllMeta, getMetadataById } from '../pages/api/nftApi';
 import { AppConfig, Gen2ContractAddress } from '../utils/AppConfig';
 import DaturiansGen2NFT from '../utils/artifacts/DaturiansGen2.json';
-import { HeaderMenu } from './HeaderMenu';
 
-// const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
-//   ssr: false,
-// });
+const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
+  ssr: false,
+});
 
 const occupations = [
   {
@@ -419,6 +420,49 @@ const SingleGen2Nft = () => {
   const router = useRouter();
   const [currId, setId] = useState<string>('');
   const [meta, setMeta] = useState<any>([]);
+  const [ghImagePath, setGhImagePath] = useState<string>(
+    `${router.basePath}/assets/images/greenhouse.png`
+  );
+
+  const [greenhousesCoords, setCoords] = useState<GreenhouseCoords>([]);
+  const [currentGreenhouseCoords, setCurrentCoords] =
+    useState<SingleCoordinates>(null);
+
+  useEffect(() => {
+    async function loadCoords() {
+      const coords = await getAllMeta('ghcoords');
+      return coords;
+    }
+
+    if (!router.isReady) return;
+    // const { id } = router.query;
+
+    // get all the coordinates of greenhouses
+    const promise2 = loadCoords();
+    promise2.then((data2) => {
+      console.log(data2.data);
+      setCoords(data2.data);
+      const index = data2.data.findIndex(
+        (element: { tokenId: number | undefined }) =>
+          element.tokenId === Number(currId) + 4011
+      );
+      console.log(index);
+      if (index !== -1) {
+        const selectedElement = data2.data.splice(index, 1)[0];
+        console.log(selectedElement);
+        if (selectedElement) {
+          setCurrentCoords(selectedElement);
+          const imgId = (Number(currId) + 4011).toString();
+          setGhImagePath(
+            `https://daturians.mypinata.cloud/ipfs/QmQrV8HRGwJorcNaEFKrKmmdVtsDaKPVV1aZRAEfuXY9iz/${imgId}.png`
+          );
+        }
+      }
+    });
+    // console.log(meta);
+    // }
+    // });
+  }, [router.isReady, currId, router.query]);
 
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -499,11 +543,11 @@ const SingleGen2Nft = () => {
     }
 
     if (!router.isReady) return;
-    // console.log(router.query);
+    console.log(router.query);
     const { id } = router.query;
     const promise = getId(id);
     promise.then((meta2) => {
-      // console.log(meta2);
+      console.log(meta2);
       if (meta2.data.length > 0 && meta2.status === 200) {
         const updateMeta = setGenetics(meta2.data[0]);
         const updateMeta2 = setActivity(updateMeta);
@@ -770,26 +814,26 @@ const SingleGen2Nft = () => {
               <div className="rounded-xl overflow-hidden">
                 <img
                   className="object-cover rounded-xl content-center daturian"
-                  // src={meta.image}
-                  // alt={meta.image}
-                  src={`${router.basePath}/assets/images/greenhouse.png`}
-                  alt={'greenhouse.png'}
+                  src={ghImagePath}
+                  alt={ghImagePath}
                 />
               </div>
             </div>
-            <div className=" content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 datura-map">
-              <img
-                className="content-center"
-                src={`${router.basePath}/assets/images/datura_map.png`}
-                alt="datura_map.png"
-              />
-              {/* <DaturaMapContainer
-                svgUrl={`${router.basePath}/assets/images/datura_map.svg`}
-              /> */}
-            </div>
+            {greenhousesCoords.length < 1 ? (
+              <h1 className="px-20 py-10 text-2l font-semibold text-center">
+                Loading...
+              </h1>
+            ) : (
+              <div className=" content-gallery rounded-xl overflow-hidden col-span-1 sm:col-span-1 lg:col-span-3 xl:col-span-3 datura-map">
+                <DaturaMapContainer
+                  greenhouses={greenhousesCoords}
+                  currentGreenhouse={currentGreenhouseCoords}
+                />
+              </div>
+            )}
             <div className="bg-primary-100 content-gallery rounded-xl overflow-hidden lg:col-span-3 sm:col-span-4 opensea-box gap-4 p-4">
               <div className="about-title single-opensea">
-                <h1>Gen2 collection on Magic Eden:</h1>
+                <h1>Magic Eden:</h1>
                 <a href={`${AppConfig.gen2MeUrl}/`}>
                   <img
                     className="me-icon"

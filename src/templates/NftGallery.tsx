@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { HeaderMenu } from './HeaderMenu';
 import { Button } from '../button/Button';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { AppConfig } from '../utils/AppConfig';
-import { HeaderMenu } from './HeaderMenu';
 
 const NftGallery = () => {
   const router = useRouter();
@@ -84,29 +84,29 @@ const NftGallery = () => {
               </a>
             </Link>
           </div>
-          <div className="bg-primary-100 rounded-xl col-span-2 lg:col-span-1">
-            {/* <Link href="/gallery/greenhouses"> */}
-            {/* <Link href="/" className="inactive-link"> */}
-            <a href="" className="inactive-link">
-              <div className="hover column">
-                <div className="collections">
-                  <figure>
-                    <img
-                      className="gallery_home_img sm:text-left sm:items-center sm:justify-between"
-                      src={`${router.basePath}/assets/images/gallery/greenhouses_featured.png`}
-                      height="100%"
-                      width="100%"
-                      alt="collabs"
-                    />
-                    <Button regular={true} hero={false}>
-                      {`Greenhouses`}
-                    </Button>
-                  </figure>
+          {/* <div className="bg-primary-100 rounded-xl col-span-2 lg:col-span-1">
+            <Link href="/gallery/greenhouses">
+               <Link href="/" className="inactive-link"> 
+              <a href="">
+                <div className="hover column">
+                  <div className="collections">
+                    <figure>
+                      <img
+                        className="gallery_home_img sm:text-left sm:items-center sm:justify-between"
+                        src={`${router.basePath}/assets/images/gallery/greenhouses_featured.png`}
+                        height="100%"
+                        width="100%"
+                        alt="collabs"
+                      />
+                      <Button regular={true} hero={false}>
+                        {`Greenhouses`}
+                      </Button>
+                    </figure>
+                  </div>
                 </div>
-              </div>
-            </a>
-            {/* </Link> */}
-          </div>
+              </a>
+            </Link>
+          </div> */}
           <div className="bg-primary-100 rounded-xl col-span-2 lg:col-span-1">
             <Link href="/gallery/signatures">
               <a>

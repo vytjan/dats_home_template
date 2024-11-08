@@ -320,10 +320,10 @@ export const getMetadataById = async (
 };
 
 // upload mock coordinates of the greenhouses
-export const uploadMockCoordinates = async (currId: number) => {
+export const uploadGreenhouseCoordinates = async (currId: number) => {
   try {
     // const tokenUri = await contract.tokenURI(currId);
-    const tokenUri = `ipfs://QmaCQkjq8PDwFXWDNTnPwscwzZXGSxcrUAXbDno2Fi5QW4/${currId}.json`;
+    const tokenUri = `ipfs://QmVooAWQLYcP2Ehzy6179cQSzYooL3ShmAsyT4AK1uASsC/${currId}.json`;
 
     const ipfsGateway = 'https://daturians.mypinata.cloud/ipfs/';
 
@@ -366,10 +366,13 @@ export const uploadMockCoordinates = async (currId: number) => {
 };
 
 // upload mock metadata of the greenhouses
-const uploadMockCurrentMeta = async (currId: number, collection: String) => {
+export const uploadCurrentGreenhouseMeta = async (
+  currId: number,
+  collection: String
+) => {
   try {
     // const tokenUri = await contract.tokenURI(currId);
-    const tokenUri = `ipfs://QmaCQkjq8PDwFXWDNTnPwscwzZXGSxcrUAXbDno2Fi5QW4/${currId}.json`;
+    const tokenUri = `ipfs://QmVooAWQLYcP2Ehzy6179cQSzYooL3ShmAsyT4AK1uASsC/${currId}.json`;
 
     const ipfsGateway = 'https://daturians.mypinata.cloud/ipfs/';
 
@@ -411,7 +414,7 @@ const uploadMockCurrentMeta = async (currId: number, collection: String) => {
 };
 
 // get mock metadata of the greenhouses
-export const getMockMetadataById = async (
+export const getGreenhouseMetadataById = async (
   id: String,
   collection: String
   // contract: any,
@@ -425,7 +428,7 @@ export const getMockMetadataById = async (
     const result2 = await axios.get(`/api/${collection}/${currId}`);
 
     if (result2.data.length === 0) {
-      const res3 = await uploadMockCurrentMeta(currId, collection);
+      const res3 = await uploadCurrentGreenhouseMeta(currId, collection);
 
       if (res3.status === 200) {
         const res4 = await axios.get(`/api/${collection}/${currId}`);

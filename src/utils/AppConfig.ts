@@ -16,6 +16,7 @@ export const AppConfig = {
   greenhouseCollTitle: 'Daturians Greenhouses',
   gen2Title: 'Daturians Gen2',
   cafeCollTitle: 'Daturians Cafe',
+  greenhousesTitle: 'Greenhouses for Daturians',
   collectionDescription: 'Daturians NFT OG collection of 8020 unique NFTs.',
   signatureCollDescription:
     'Daturians NFT the most famous 1/1 Daturians from around the planet.',
@@ -25,6 +26,7 @@ export const AppConfig = {
     'The most famous cafe in Datura capital city is the Collab-o-Cafe.',
   greenhousesCollDescription: 'Daturians NFT Greenhouses collection.',
   gen2CollDescription: 'Daturians Gen2 Collection.',
+  greenhousesDescription: 'Greenhouses for Daturians',
   locale: 'en',
   openseaCollectionUrl:
     'https://opensea.io/assets/matic/0x1ac9c10a6164fdbc64107a1ee50d8270ce569e8e/',
@@ -36,6 +38,8 @@ export const AppConfig = {
     'https://opensea.io/assets/matic/0xd8d3f17dbb0adca18586603ad7dc36a36f6116b0/',
   gen2MeUrl:
     'https://magiceden.io/collections/polygon/0x64526de598200d3c48e752377057adbc74ec9492',
+  greenhousesMeUrl:
+    'https://magiceden.io/collections/polygon/0x1ac9c10a6164fdbc64107a1ee50d8270ce569e8e',
 };
 
 export const NftContractAddress = '0x1AC9c10A6164FDBc64107a1eE50D8270cE569e8e';
@@ -47,6 +51,9 @@ export const UkraineContractAddress =
 export const CafeContractAddress = '0xd8D3F17dbB0adCA18586603aD7dc36a36f6116b0';
 
 export const Gen2ContractAddress = '0x64526de598200d3c48e752377057adbc74ec9492';
+
+export const GreenhouseContractAddress =
+  '0x7a1CB5d49aa5F83ba30b9AE56A4944A4E5Cf89E6';
 
 export const MintConfig = {
   CONTRACT_ADDRESS: '0x1AC9c10A6164FDBc64107a1eE50D8270cE569e8e',
@@ -68,5 +75,26 @@ export const MintConfig = {
   MAX_FEE_PER_GAS: 600000000000,
   MARKETPLACE: 'Opensea',
   MARKETPLACE_LINK: 'https://opensea.io/collection/daturiansnft',
+  SHOW_BACKGROUND: true,
+};
+
+export const ClaimConfig = {
+  CONTRACT_ADDRESS: '0x7a1CB5d49aa5F83ba30b9AE56A4944A4E5Cf89E6',
+  SCAN_LINK:
+    'https://polygonscan.com/address/0xf0E170x7a1CB5d49aa5F83ba30b9AE56A4944A4E5Cf89E6',
+  NETWORK: {
+    NAME: 'Polygon',
+    SYMBOL: 'Matic',
+    ID: 137,
+  },
+  NFT_NAME: 'Greenhouses',
+  SYMBOL: 'GH',
+  MAX_SUPPLY: 8020,
+  GAS_PRICE: 10000000,
+  GAS_LIMIT: 3000000,
+  MAX_PRIORITY_FEE: 75000000000,
+  MAX_FEE_PER_GAS: 600000000000,
+  MARKETPLACE: 'Opensea',
+  MARKETPLACE_LINK: 'https://opensea.io/collection/greenhouses-1',
   SHOW_BACKGROUND: true,
 };

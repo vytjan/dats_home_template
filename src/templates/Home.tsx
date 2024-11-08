@@ -1,8 +1,8 @@
-import { Meta } from '../layout/Meta';
-import { AppConfig } from '../utils/AppConfig';
 import { Footer } from './Footer';
 import { HeadTitle } from './HeadTitle';
 import { Hero } from './Hero';
+import { Meta } from '../layout/Meta';
+import { AppConfig } from '../utils/AppConfig';
 
 const Home = () => (
   <div className="antialiased">

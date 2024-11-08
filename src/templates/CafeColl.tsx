@@ -4,13 +4,13 @@ import { ethers } from 'ethers';
 // import { Dropdown } from 'flowbite-react';
 import LazyLoad from 'react-lazyload';
 
+import { HeaderMenu } from './HeaderMenu';
+import SignatureNFT from './SignatureNft';
+import SortFilter from './SortField';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
 import { AppConfig, CafeContractAddress } from '../utils/AppConfig';
 import DaturiansNFT from '../utils/artifacts/DaturiansCafe.json';
-import { HeaderMenu } from './HeaderMenu';
-import SignatureNFT from './SignatureNft';
-import SortFilter from './SortField';
 
 type MetadataItems = {
   tokenId: number;

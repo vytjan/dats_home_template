@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import { HeaderMenu } from './HeaderMenu';
 import { GreenhouseCoords, SingleCoordinates } from '../../utils/types';
 import { Meta } from '../layout/Meta';
 import { Section } from '../layout/Section';
-import { getAllMeta, getMockMetadataById } from '../pages/api/nftApi';
+import { getAllMeta, getGreenhouseMetadataById } from '../pages/api/nftApi';
 import { AppConfig } from '../utils/AppConfig';
-import { HeaderMenu } from './HeaderMenu';
 
 const DaturaMapContainer = dynamic(() => import('./DaturaMapContainer'), {
   ssr: false,
@@ -25,15 +25,6 @@ const SingleGreenhouseNft = () => {
     useState<SingleCoordinates>(null);
 
   useEffect(() => {
-    // const provider = new ethers.providers.JsonRpcProvider(
-    //   'https://polygon-rpc.com/'
-    // );
-    // const provider = new ethers.providers.JsonRpcProvider(node_url)
-    // const contract = new ethers.Contract(
-    //   NftContractAddress,
-    //   DaturiansNFT.abi,
-    //   provider
-    // );
     async function loadCoords() {
       const coords = await getAllMeta('ghcoords');
       return coords;
@@ -55,58 +46,12 @@ const SingleGreenhouseNft = () => {
 
       try {
         // const minted = await contract.totalMinted.call();
-        const myMeta = await getMockMetadataById(
-          newId,
-          collection
-          // contract,
-          // minted
-        );
-        // console.log(myMeta);
+        const myMeta = await getGreenhouseMetadataById(newId, collection);
         return myMeta;
       } catch (err: any) {
         return null;
       }
     }
-
-    // map occupation to activity
-    // function setActivity(metaObj: any) {
-    //   const occupation = metaObj.data.attributes[4].value;
-    //   const activity = occupations.find((obj) => obj.occ === occupation);
-    //   // console.log(activity);
-    //   if (activity) {
-    //     const randomElement =
-    //       activity.body[Math.floor(Math.random() * activity.body.length)];
-    //     metaObj.data.activity = randomElement;
-    //   } else {
-    //     metaObj.data.activity = 'This daturian is doing nothing good.';
-    //   }
-    //   return metaObj;
-    // }
-    // // map genetics of the daturian
-    // function setGenetics(metaObj: any) {
-    //   const fam = metaObj.data.attributes[3].value.split(' x ');
-    //   if (fam.length === 1) {
-    //     const newEarsFam = earsFamilies.find(
-    //       (obj) => obj.title === metaObj.data.attributes[5].value
-    //     );
-    //     // if body === ears
-    //     if (newEarsFam?.family === fam[0]) {
-    //       // else pure blood
-    //       metaObj.data.genetics = 'Pure Blood';
-    //       metaObj.data.geneticsText = geneticsMapReg.pure;
-    //     } else {
-    //       metaObj.data.genetics = 'Mixed Blood';
-    //       metaObj.data.geneticsText = `The parents of this Daturian belong to ${fam[0]} and ${newEarsFam?.family} and are forming new genetic variations.`;
-    //     }
-    //   } else {
-    //     const newMetaGen = geneticsMapSpecial.find(
-    //       (obj) => obj.name === fam[1]
-    //     );
-    //     metaObj.data.genetics = newMetaGen?.name;
-    //     metaObj.data.geneticsText = newMetaGen?.text;
-    //   }
-    //   return metaObj;
-    // }
 
     if (!router.isReady) return;
     // console.log(router.query);
@@ -115,10 +60,6 @@ const SingleGreenhouseNft = () => {
     promise.then((meta2) => {
       // console.log(meta2);
       if (meta2.data.length > 0 && meta2.status === 200) {
-        // console.log(meta2.data[0]);
-        // const updateMeta = setGenetics(meta2.data[0]);
-        // const updateMeta2 = setActivity(updateMeta);
-        // setMeta(updateMeta2);
         setMeta(meta2.data[0]);
 
         // get all the coordinates of greenhouses
@@ -135,8 +76,6 @@ const SingleGreenhouseNft = () => {
           console.log(selectedElement);
           setCurrentCoords(selectedElement);
         });
-
-        // console.log(meta);
       }
     });
   }, [router.isReady, currId, router.query]);

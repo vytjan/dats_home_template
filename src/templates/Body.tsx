@@ -1,25 +1,6 @@
-import { Section } from '../layout/Section';
-// import { About } from './About';
-// import { Additional } from './Additional';
-// import { Attributes } from './Attributes';
-// import { Box } from './Box';
-// import { Calendar } from './Calendar';
-// import { ContactForm } from './ContactForm';
-// import { Events } from './Events';
-// import { FaqCont } from './Faq';
-// import { FloraWeek } from './FloraWeek';
-// import { FooterArt } from './FooterArt';
 import { HeaderArt } from './HeaderArt';
 import { HeaderMenu } from './HeaderMenu';
-// import { HallOfFame } from './HallOfFame';
-// import { InstaEmbed } from './InstaEmbed';
-// import { Logo } from './Logo';
-// import { MediumWidget } from './MediumWidget';
-// import { Profiles } from './Profiles';
-// import { Roadmap } from './Roadmap';
-// import { SeenOn } from './SeenOn';
-// import { Stats } from './Stats';
-// import { Update } from './Update';
+import { Section } from '../layout/Section';
 
 const Body = () => {
   // const router = useRouter();
